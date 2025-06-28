@@ -4,7 +4,13 @@ export default {
     "./public/index.html",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+      poppins: ['Poppins', 'sans-serif'],
+      inter: ['Inter', 'sans-serif'],
+      rubik: ['Rubik', 'sans-serif'],
+  }
+    },
   },
   plugins: [],
 };
