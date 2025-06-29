@@ -8,7 +8,18 @@ export default function InfiniteScroll({
   width = "30rem",
   maxHeight = "100%",
   negativeMargin = "-0.5em",
-  items = [],
+  items = [{ content: "카드 뒤집기 게임" },
+    { content: <p>Game Balik Kartu</p> },
+    { content: "그리고 단어를 맞춰보세요" },
+    { content: <p>Dan Tebak Kata</p> },
+    { content: "지금 플레이" },
+    { content: <p>Mainkan Sekarang</p> },
+    { content: "카드 뒤집기 게임" },
+    { content: <p>Game Balik Kartu</p> },
+    { content: "그리고 단어를 맞춰보세요" },
+    { content: <p>Dan Tebak Kata</p> },
+    { content: "지금 플레이" },
+    { content: <p>Mainkan Sekarang</p> },],
   itemMinHeight = 150,
   isTilted = false,
   tiltDirection = "left",
@@ -19,6 +30,7 @@ export default function InfiniteScroll({
 }) {
   const wrapperRef = useRef(null);
   const containerRef = useRef(null);
+
 
   const getTiltTransform = () => {
     if (!isTilted) return "none";

@@ -7,6 +7,7 @@ import Threads from "../../components/ui/Threads/Threads";
 import { FadeContent } from "../../components/ui/FadeContent";
 import { CircularText } from "../../components/ui/CircularText";
 import { InfiniteScroll } from "../../components/ui/InfiniteScroll";
+import ProductCard from "../../components/ProductCard/ProductCard";
 
 const Home = () => {
   const items = [
@@ -41,7 +42,7 @@ const Home = () => {
               <Button children={"Coba Sekarang"} width={'400px'} height={'50px'}/>
             </NavLink>
           </div>
-          <p className="mt-24 max-w-4xl mx-auto text-md font-medium font-inter">
+          <p className="mt-12 lg:mt-24 max-w-4xl mx-auto text-md font-medium font-inter">
             Berlatih dengan soal-soal nyata, dapatkan skor instan, dan pahami kesalahan Anda dengan penjelasan rinci. Bergabunglah dengan kami dan capai tujuan bahasa Anda.
           </p>
         </section>
@@ -72,7 +73,7 @@ const Home = () => {
                 <p className="text-md mt-1">Dapatkan umpan balik instan tentang kinerja Anda dengan skor real-time dan pelacakan kemajuan.</p>
               </div>
             </div>
-            <div className="bg-gradient-to-bl from-orange-200 via-white to-orange-400 p-[5px] rounded-lg max-w-72 mb-5 ms-32">
+            <div className="bg-gradient-to-bl from-orange-200 via-white to-orange-400 p-[5px] rounded-lg max-w-72 mb-5 lg:ms-32 md:ms-32">
               <div className="bg-white rounded-lg p-2 text-center">
                 <h3 className="font-bold text-xl">Penjelasan Jawaban</h3>
                 <p className="text-md mt-1">Pahami kesalahan Anda dengan penjelasan rinci untuk setiap jawaban, membantu Anda belajar secara efektif.</p>
@@ -85,7 +86,7 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="me-20">
+          <div className="me-20 hidden lg:block">
             <CircularText
               text="TE-KOR*TEST*KOREA*BERSAMA*"
               onHover="speedUp"
@@ -99,27 +100,22 @@ const Home = () => {
       {/* Products Section */}
       <section className="px-16 pb-10 bg-gradient-to-t from-orange-400 pt-5 via-orange-100  to-white">
         <p className="text-center p-16 font-inter font-bold text-3xl">Coba Sekarang</p>
-        <div className="flex flex-wrap justify-around bg-white/10 backdrop-blur-xl border border-white/20 text-black rounded shadow">
-          <div className="flex items-center gap-5">
-            <div className="py-10">
-              <h3 className="text-2xl font-bold font-poppins pb-2 mb-5">Permainan Flip-Card</h3>
-              <p className="text-base w-80 font-inter mb-5">Tebak kata dan balikkkan kartunya Permainan yang seru dan membuat kamu menghafal kosa kata satu persatu</p>
-              <Button children={"Mulai"} width={"200px"} height={"35px"}/>
-            </div>
-            <div style={{height: '250px', position: 'relative', width: '50em',}} className="md:none">
-              <InfiniteScroll
-                items={items}
-                isTilted={true}
-                tiltDirection='left'
-                autoplay={true}
-                autoplaySpeed={0.1}
-                autoplayDirection="down"
-                pauseOnHover={true}
-              />
-            </div>
-
-          </div>
-        </div>
+        <ProductCard
+          title="Permainan Flip-Card"
+          subtitle="Tebak kata dan balikkkan kartunya. Permainan yang seru dan membuat kamu menghafal kosa kata satu persatu"
+          buttonText="Mulai"
+          onButtonClick={() => console.log("Mulai diklik")}
+        >
+          <InfiniteScroll
+            items={items}
+            isTilted={true}
+            tiltDirection="left"
+            autoplay={true}
+            autoplaySpeed={0.1}
+            autoplayDirection="down"
+            pauseOnHover={true}
+          />
+        </ProductCard>
       </section>
 
       <Footer />
