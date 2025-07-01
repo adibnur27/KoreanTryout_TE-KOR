@@ -41,37 +41,41 @@ const Navbar = () => {
 
   const navItemStyle = ({ isActive }) =>
     isActive
-      ? "text-orange-500 font-semibold"
-      : "text-black hover:text-orange-500";
+      ? "text-kr-red font-semibold"
+      : "text-gray-900  hover:text-kr-red";
 
   return (
-    <div className="relative z-10 font-poppins">
+    <div className="relative z-10 font-montserrat rounded">
       <nav
-        className={`fixed top-3 right-14 left-14 flex justify-between items-center px-10 py-2 bg-white/10 backdrop-blur-md border border-white/20 shadow-lg rounded-xl transition-transform duration-700 ease-in-out ${
+        className={`fixed top-0 right-14 left-14 flex justify-between items-center px-10 py-5 bg-white shadow-lg transition-transform duration-700 ease-in-out ${
           showNavbar ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="text-2xl font-bold text-black">
-          <span className="text-orange-500">TE</span>-KOR
+        <div className="text-2xl font-bold text-kr-red">
+          <span className="text-kr-blue">TE</span>-KOR
         </div>
-        <div className="flex gap-16 items-center">
+        <div className="flex gap-6 items-center font-opensans font-semibold">
           <NavLink to="/" className={navItemStyle}>
-            <p className="text-black font-medium hover:text-orange-500">HOME</p>
+            <p className="">HOME</p>
           </NavLink>
-          <NavLink to="/products" className={navItemStyle}>
-            <p className="text-black font-medium hover:text-orange-500">PRODUCTS</p>
+            <span>|</span>
+          <NavLink to="/tryouts" className={navItemStyle}>
+            <p className="">TRYOUT</p>
+          </NavLink>
+          <span>|</span>
+          <NavLink to="/games" className={navItemStyle}>
+            <p className="">GAMES</p>
           </NavLink>
 
           {isLoggedIn ? (
             <Button
               onClick={handleLogout}
               children={"Logout"}
-              width={"100px"}
-              height={"40px"}
+              paddingBottom={"5px"}
             />
           ) : (
             <NavLink to="/login">
-              <Button children={"Login"} width={"100px"} height={"40px"} />
+              <Button children={"Login"} width={"100px"} paddingBottom={"5px"}/>
             </NavLink>
           )}
         </div>

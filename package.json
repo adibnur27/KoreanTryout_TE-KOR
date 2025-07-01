@@ -13,6 +13,7 @@
     "@reduxjs/toolkit": "^2.8.2",
     "autoprefixer": "^10.4.21",
     "axios": "^1.10.0",
+    "clsx": "^2.1.1",
     "framer-motion": "^12.19.2",
     "gsap": "^3.13.0",
     "ogl": "^1.0.11",

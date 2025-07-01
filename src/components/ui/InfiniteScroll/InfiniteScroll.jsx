@@ -145,7 +145,7 @@ export default function InfiniteScroll({
 
   return (
     <div
-      className="relative flex items-center justify-center w-full overflow-hidden overscroll-none border-t-2 border-b-2 border-t-dotted border-b-dotted border-transparent"
+      className="relative flex items-center justify-center w-full overflow-hidden overscroll-none border-2 border-b-2 border-t-dotted border-b-dotted border-black"
       ref={wrapperRef}
       style={{ maxHeight }}
     >
@@ -162,7 +162,7 @@ export default function InfiniteScroll({
       >
         {items.map((item, i) => (
           <div
-            className="flex items-center justify-center text-xl font-semibold text-center border-4 border-white rounded-[15px] select-none box-border relative"
+            className="flex items-center justify-center text-xl font-semibold text-center border-4 border-black rounded-[15px] select-none box-border relative"
             key={i}
             style={{
               height: `${itemMinHeight}px`,

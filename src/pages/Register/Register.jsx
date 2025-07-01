@@ -5,7 +5,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { register } from "../../services/authService";
 import { PixelTransition } from "../../components/ui/PixelTransition";
 import imgLogin from "../../assets/LoginRegisterBg.jpeg";
-import { saveToken } from "../../utils/token";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -27,6 +26,7 @@ const Register = () => {
   };
 
   const handleSubmit = async (e) => {
+    console.log(formData);
     e.preventDefault();
     setError("");
     setLoading(true);
@@ -38,12 +38,9 @@ const Register = () => {
 
     try {
       const { fullName, username, email, password } = formData;
-      console.log({ fullName, username, email, password });
-      const res = await register({ fullName, username, email, password });
+      const Register = await register({ fullName, username, email, password });
 
-      // ✅ simpan token kalau dikembalikan
-      saveToken(res.token);
-
+      alert("Registrasi berhasil! Silakan cek email kamu untuk verifikasi sebelum login.");
       navigate("/login"); // redirect setelah berhasil
     } catch (err) {
       setError(err.message || "Registrasi gagal");

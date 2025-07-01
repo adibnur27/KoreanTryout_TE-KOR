@@ -39,3 +39,25 @@ export const register = async (data) => {
     throw error.response?.data || { message: 'Registrasi gagal.' };
   }
 };
+
+export const forgotPassword = async ({ email }) => {
+  try {
+    const res = await axiosInstance.post("/forgot-password", { email });
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { message: "Gagal kirim link reset" };
+  }
+};
+
+export const resetPassword = async ({ token, newPassword, confirmPassword }) => {
+  try {
+    const res = await axiosInstance.post("/reset-password", {
+      token,
+      newPassword,
+      confirmPassword,
+    });
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { message: "Gagal reset password" };
+  }
+};

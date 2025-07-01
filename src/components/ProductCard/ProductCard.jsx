@@ -11,7 +11,7 @@ const ProductCard = ({
   children,
 }) => {
   return (
-    <div className="w-full max-w-screen-xl mx-auto bg-white/10 backdrop-blur-xl border border-white/20 text-black rounded shadow lg:px-10 mt-5">
+    <div className="w-full max-w-screen-xl mx-auto bg-white text-black rounded shadow lg:px-10 mt-5">
       <div className="flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-20">
         {/* Kiri */}
         <div className="text-center lg:text-left flex-1 my-5">
@@ -29,7 +29,7 @@ const ProductCard = ({
 
         {/* Kanan */}
         <div
-          className="hidden lg:block border-white border-2 shadow-sm shadow-white my-5 max-w-[320px] w-full h-[250px] relative"
+          className="hidden lg:block border-white border-2 shadow-sm shadow-white my-5 max-w-[420px] w-full h-[250px] relative"
         >
           {children}
         </div>

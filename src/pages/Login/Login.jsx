@@ -24,6 +24,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData);
     setError("");
     try {
       await login(formData);
@@ -31,7 +32,11 @@ const Login = () => {
       navigate("/products");
       // Redirect or update UI
     } catch (err) {
-      setError(err.message);
+      if (err.message?.includes("not verified") || err.message?.includes("belum terverifikasi")) {
+        setError("Email kamu belum diverifikasi. Cek email kamu untuk aktivasi.");
+      } else {
+        setError(err.message || "Username atau Password salah.");
+      }
     }
   };
 
@@ -88,6 +93,14 @@ const Login = () => {
             Belum punya akun?{" "}
             <NavLink to={"/register"}>
               <span className="font-bold cursor-pointer hover:underline">Daftar</span>
+            </NavLink>
+          </p>
+          <p className="mt-4 text-sm text-right">
+            <NavLink
+              to="/forgot-password"
+              className="text-orange-500 hover:underline cursor-pointer"
+            >
+              Lupa Password?
             </NavLink>
           </p>
         </div>
