@@ -1,23 +1,23 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Button } from "../Button";
 import { NavLink, useNavigate } from "react-router-dom";
-import { removeToken } from "../../utils/token"; // 🔑 fungsi logout dari utilitas
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [showNavbar, setShowNavbar] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const lastScrollY = useRef(0); // Gunakan useRef agar tidak memicu re-render
+  const lastScrollY = useRef(0);
 
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
       if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
-        setShowNavbar(false); // Scroll ke bawah
+        setShowNavbar(false); // Scroll down
       } else {
-        setShowNavbar(true); // Scroll ke atas
+        setShowNavbar(true); // Scroll up
       }
 
       lastScrollY.current = currentScrollY;
@@ -27,22 +27,38 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Mengecek token saat pertama kali komponen dimount
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token); // jika token ada, berarti login
-  }, []);
-
-  const handleLogout = () => {
-    removeToken(); // 🔥 hapus semua token & user dari localStorage
-    setIsLoggedIn(false); // update state
-    navigate("/"); // redirect ke halaman home
-  };
-
   const navItemStyle = ({ isActive }) =>
     isActive
       ? "text-kr-red font-semibold"
       : "text-gray-900  hover:text-kr-red";
+
+  const handleProfileClick = () => {
+    navigate("/profile");
+  };
+
+  const renderProfileIcon = () => {
+    if (user?.photoUrl) {
+      return (
+        <img
+          src={user.photoUrl}
+          alt="Profile"
+          onClick={handleProfileClick}
+          className="w-10 h-10 rounded-full object-cover cursor-pointer"
+        />
+      );
+    } else if (user?.username) {
+      const initial = user.username.charAt(0).toUpperCase();
+      return (
+        <div
+          onClick={handleProfileClick}
+          className="w-10 h-10 rounded-full bg-kr-red text-white flex items-center justify-center font-bold cursor-pointer"
+        >
+          {initial}
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
     <div className="relative z-10 font-montserrat rounded">
@@ -58,7 +74,7 @@ const Navbar = () => {
           <NavLink to="/" className={navItemStyle}>
             <p className="">HOME</p>
           </NavLink>
-            <span>|</span>
+          <span>|</span>
           <NavLink to="/tryouts" className={navItemStyle}>
             <p className="">TRYOUT</p>
           </NavLink>
@@ -67,15 +83,12 @@ const Navbar = () => {
             <p className="">GAMES</p>
           </NavLink>
 
-          {isLoggedIn ? (
-            <Button
-              onClick={handleLogout}
-              children={"Logout"}
-              paddingBottom={"5px"}
-            />
+          {/* 👇 Bagian login / profile */}
+          {user ? (
+            renderProfileIcon()
           ) : (
             <NavLink to="/login">
-              <Button children={"Login"} width={"100px"} paddingBottom={"5px"}/>
+              <Button children={"Login"} width={"100px"} paddingBottom={"5px"} />
             </NavLink>
           )}
         </div>

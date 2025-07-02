@@ -8,6 +8,7 @@ import { ResetPassword } from "../pages/ResetPassword";
 import { NotFound } from "../pages/NotFound";
 import Game from "../pages/Games/Games";
 import Tryouts from "../pages/Tryouts/Tryouts";
+import ProfilePage from "../pages/Profile/Profile";
 
 const AppRouter = () => {
   return (
@@ -18,6 +19,7 @@ const AppRouter = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/tryouts" element={<Tryouts />} />
         <Route path="/games" element={<Game />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="*" element={<NotFound />} />

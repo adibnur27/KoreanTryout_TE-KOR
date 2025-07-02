@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Button } from "../../components/Button";
-import { NavLink, useNavigate } from "react-router-dom"; // ✅ tambahkan useNavigate
+import { NavLink, useNavigate } from "react-router-dom";
 import { PixelTransition } from "../../components/ui/PixelTransition";
 import imgLogin from "../../assets/LoginRegisterBg.jpeg";
 import { login } from "../../services/authService";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../features/auth/authSlice";
 
 const Login = () => {
-  const navigate = useNavigate(); // ✅ inisialisasi navigate
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
@@ -26,11 +29,24 @@ const Login = () => {
     e.preventDefault();
     console.log(formData);
     setError("");
+
     try {
-      await login(formData);
-      // console.log("Login successful:", data);
-      navigate("/products");
-      // Redirect or update UI
+      const loginData = await login(formData); // menyimpan token & mendapatkan data user
+      const apiUser = loginData.user;
+
+      // Transformasi data API agar sesuai dengan struktur frontend
+      const userProfile = {
+        ...apiUser,
+        username: apiUser.fullName, // Menggunakan fullName sebagai username
+      };
+
+      // Simpan data user ke Redux
+      dispatch(setUser(userProfile));
+
+      // Simpan data user ke localStorage untuk persistensi
+      localStorage.setItem("user", JSON.stringify(userProfile));
+
+      navigate("/tryouts");
     } catch (err) {
       if (err.message?.includes("not verified") || err.message?.includes("belum terverifikasi")) {
         setError("Email kamu belum diverifikasi. Cek email kamu untuk aktivasi.");
@@ -43,7 +59,6 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center ">
       <div className="flex w-4/5 md:w-3/4 lg:w-2/3 bg-white shadow-lg shadow-orange-500 rounded-lg overflow-hidden ">
-        {/* Gambar */}
         <div className="w-1/2 hidden md:block">
           <PixelTransition
             firstContent={<img src={imgLogin} alt="city of Korea" style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
@@ -56,7 +71,7 @@ const Login = () => {
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
-                  gap: "0", // ubah jarak antar teks di sini
+                  gap: "0",
                   backgroundColor: "#fff",
                 }}
               >
@@ -76,7 +91,6 @@ const Login = () => {
           />
         </div>
 
-        {/* Form */}
         <div className="w-full md:w-1/2 p-8 text-center pt-20">
           <h1 className="text-4xl font-bold mb-8">
             <span className="text-orange-500">TE</span>
@@ -96,10 +110,7 @@ const Login = () => {
             </NavLink>
           </p>
           <p className="mt-4 text-sm text-right">
-            <NavLink
-              to="/forgot-password"
-              className="text-orange-500 hover:underline cursor-pointer"
-            >
+            <NavLink to="/forgot-password" className="text-orange-500 hover:underline cursor-pointer">
               Lupa Password?
             </NavLink>
           </p>
