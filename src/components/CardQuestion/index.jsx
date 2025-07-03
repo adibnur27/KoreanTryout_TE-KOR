@@ -1,0 +1,1 @@
+export {default as CardQuestion} from "./CardQuestion"

@@ -8,7 +8,7 @@ import { saveToken } from "../utils/token";
  */
 export const login = async (credentials) => {
   try {
-    const response = await axiosInstance.post("/login", credentials);
+    const response = await axiosInstance.post("/auth/login", credentials);
 
     const tokenData = response.data.data?.token;
     const userData = response.data.data?.user;
@@ -17,7 +17,6 @@ export const login = async (credentials) => {
       saveToken(tokenData.accessToken);
       // Optional: Simpan refreshToken dan user ke localStorage
       localStorage.setItem("refreshToken", tokenData.refreshToken);
-      localStorage.setItem("user", JSON.stringify(userData));
     }
 
     return response.data.data; // return hanya bagian data (user dan token)
@@ -33,9 +32,40 @@ export const login = async (credentials) => {
  */
 export const register = async (data) => {
   try {
-    const response = await axiosInstance.post('/register', data);
+    const response = await axiosInstance.post('/auth/register', data);
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Registrasi gagal.' };
+  }
+};
+
+export const forgotPassword = async ({ email }) => {
+  try {
+    const res = await axiosInstance.post("/auth/forgot-password", { email });
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { message: "Gagal kirim link reset" };
+  }
+};
+
+export const resetPassword = async ({ token, newPassword, confirmPassword }) => {
+  try {
+    const res = await axiosInstance.post("/auth/reset-password", {
+      token,
+      newPassword,
+      confirmPassword,
+    });
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { message: "Gagal reset password" };
+  }
+};
+
+export const refreshToken = async (refreshToken) => {
+  try {
+    const response = await axiosInstance.post("/auth/refresh", { refreshToken });
+    return response.data.data; // Mengembalikan data token baru
+  } catch (error) {
+    throw error.response?.data || { message: "Gagal refresh token." };
   }
 };

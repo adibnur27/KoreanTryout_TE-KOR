@@ -1,23 +1,23 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Button } from "../Button";
 import { NavLink, useNavigate } from "react-router-dom";
-import { removeToken } from "../../utils/token"; // 🔑 fungsi logout dari utilitas
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [showNavbar, setShowNavbar] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const lastScrollY = useRef(0); // Gunakan useRef agar tidak memicu re-render
+  const lastScrollY = useRef(0);
 
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
       if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
-        setShowNavbar(false); // Scroll ke bawah
+        setShowNavbar(false); // Scroll down
       } else {
-        setShowNavbar(true); // Scroll ke atas
+        setShowNavbar(true); // Scroll up
       }
 
       lastScrollY.current = currentScrollY;
@@ -27,51 +27,68 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Mengecek token saat pertama kali komponen dimount
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token); // jika token ada, berarti login
-  }, []);
-
-  const handleLogout = () => {
-    removeToken(); // 🔥 hapus semua token & user dari localStorage
-    setIsLoggedIn(false); // update state
-    navigate("/"); // redirect ke halaman home
-  };
-
   const navItemStyle = ({ isActive }) =>
     isActive
-      ? "text-orange-500 font-semibold"
-      : "text-black hover:text-orange-500";
+      ? "text-kr-red font-semibold"
+      : "text-gray-900  hover:text-kr-blue";
+
+  const handleProfileClick = () => {
+    navigate("/profile");
+  };
+
+  const renderProfileIcon = () => {
+    if (user?.photoUrl) {
+      return (
+        <img
+          src={user.photoUrl}
+          alt="Profile"
+          onClick={handleProfileClick}
+          className="w-10 h-10 rounded-full object-cover cursor-pointer"
+        />
+      );
+    } else if (user?.username) {
+      const initial = user.username.charAt(0).toUpperCase();
+      return (
+        <div
+          onClick={handleProfileClick}
+          className="w-10 h-10 rounded-full bg-kr-red text-white flex items-center justify-center font-bold cursor-pointer"
+        >
+          {initial}
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
-    <div className="relative z-10 font-poppins">
+    <div className="relative z-10 font-montserrat rounded">
       <nav
-        className={`fixed top-3 right-14 left-14 flex justify-between items-center px-10 py-2 bg-white/10 backdrop-blur-md border border-white/20 shadow-lg rounded-xl transition-transform duration-700 ease-in-out ${
+        className={`fixed top-0 right-0 left-0 flex justify-between items-center px-20 py-5 bg-white shadow-lg transition-transform duration-700 ease-in-out ${
           showNavbar ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="text-2xl font-bold text-black">
-          <span className="text-orange-500">TE</span>-KOR
+        <div className="text-2xl font-bold text-kr-red">
+          <span className="text-kr-blue">TE</span>-KOR
         </div>
-        <div className="flex gap-16 items-center">
+        <div className="flex gap-6 items-center font-opensans">
           <NavLink to="/" className={navItemStyle}>
-            <p className="text-black font-medium hover:text-orange-500">HOME</p>
+            <p>HOME</p>
           </NavLink>
-          <NavLink to="/products" className={navItemStyle}>
-            <p className="text-black font-medium hover:text-orange-500">PRODUCTS</p>
+          <span>|</span>
+          <NavLink to="/tryouts" className={navItemStyle}>
+            <p>TRYOUT</p>
+          </NavLink>
+          <span>|</span>
+          <NavLink to="/games" className={navItemStyle}>
+            <p className="me-10">GAMES</p>
           </NavLink>
 
-          {isLoggedIn ? (
-            <Button
-              onClick={handleLogout}
-              children={"Logout"}
-              width={"100px"}
-              height={"40px"}
-            />
+          {/* 👇 Bagian login / profile */}
+          {user ? (
+            renderProfileIcon()
           ) : (
             <NavLink to="/login">
-              <Button children={"Login"} width={"100px"} height={"40px"} />
+              <Button children={"Login"} width={"100px"} paddingBottom={"5px"} />
             </NavLink>
           )}
         </div>

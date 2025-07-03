@@ -6,24 +6,21 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-      poppins: ['Poppins', 'sans-serif'],
-      inter: ['Inter', 'sans-serif'],
-      rubik: ['Rubik', 'sans-serif'],
+      montserrat: ['Montserrat', 'sans-serif'],
+      opensans: ['"Open Sans"', 'sans-serif'],
       },
-      animation: {
-        'star-movement-bottom': 'star-movement-bottom linear infinite alternate',
-        'star-movement-top': 'star-movement-top linear infinite alternate',
+      colors: {
+        'kr-blue': '#0047A0',
+        'kr-red': '#CD2E3A',
+        'kr-black': '#000000',
+        'kr-white': '#FFFFFF',
+        'light-blue': '#E6ECF5',
+        'light-red': '#FDEAEB',
+        'gray-text': '#666666',
+        'success-green': '#22C55E',
+        'warning-yellow': '#F59E0B',
       },
-      keyframes: {
-        'star-movement-bottom': {
-          '0%': { transform: 'translate(0%, 0%)', opacity: '1' },
-          '100%': { transform: 'translate(-100%, 0%)', opacity: '0' },
-        },
-        'star-movement-top': {
-          '0%': { transform: 'translate(0%, 0%)', opacity: '1' },
-          '100%': { transform: 'translate(100%, 0%)', opacity: '0' },
-        },
-      }
+      transform: ['group-hover'],
     },
   },
   plugins: [],

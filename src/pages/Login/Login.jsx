@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Button } from "../../components/Button";
-import { NavLink, useNavigate } from "react-router-dom"; // ✅ tambahkan useNavigate
+import { NavLink, useNavigate } from "react-router-dom";
 import { PixelTransition } from "../../components/ui/PixelTransition";
-import imgLogin from "../../assets/LoginRegisterBg.jpeg";
+import imgLogin from "../../assets/BackgroundLoginAndRegister.svg";
 import { login } from "../../services/authService";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../features/auth/authSlice";
 
 const Login = () => {
-  const navigate = useNavigate(); // ✅ inisialisasi navigate
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
@@ -24,21 +27,47 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData);
     setError("");
+
     try {
-      await login(formData);
-      // console.log("Login successful:", data);
-      navigate("/products");
-      // Redirect or update UI
+      const loginData = await login(formData); // menyimpan token & mendapatkan data user
+      const apiUser = loginData.user;
+
+      // Transformasi data API agar sesuai dengan struktur frontend
+      const userProfile = {
+        ...apiUser,
+        username: apiUser.fullName, // Menggunakan fullName sebagai username
+      };
+
+      // Simpan data user ke Redux
+      dispatch(setUser(userProfile));
+
+      // Simpan data user ke localStorage untuk persistensi
+      localStorage.setItem("user", JSON.stringify(userProfile));
+
+      navigate("/tryouts");
     } catch (err) {
-      setError(err.message);
+      if (err.message?.includes("not verified") || err.message?.includes("belum terverifikasi")) {
+        setError("Email kamu belum diverifikasi. Cek email kamu untuk aktivasi.");
+      } else {
+        setError(err.message || "Username atau Password salah.");
+      }
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center ">
-      <div className="flex w-4/5 md:w-3/4 lg:w-2/3 bg-white shadow-lg shadow-orange-500 rounded-lg overflow-hidden ">
-        {/* Gambar */}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-light-blue via-light-red to-light-red">
+      <span className="korean-pattern pointer-events-none absolute z-0 top-[20%] left-[10%] -rotate-[15deg] text-6xl opacity-20">
+        한
+      </span>
+      <span className="korean-pattern pointer-events-none absolute z-0 top-1/2 right-[10%] rotate-[15deg] text-6xl opacity-20">
+        글
+      </span>
+      <span className="korean-pattern pointer-events-none absolute z-0 bottom-[5%] left-[60%] -translate-x-1/2 -rotate-[10deg] text-6xl opacity-20">
+        시
+      </span>
+      <div className="flex w-4/5 md:w-3/4 lg:w-2/3 bg-white shadow-lg z-10 shadow-kr-blue rounded-lg overflow-hidden ">
         <div className="w-1/2 hidden md:block">
           <PixelTransition
             firstContent={<img src={imgLogin} alt="city of Korea" style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
@@ -51,13 +80,13 @@ const Login = () => {
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
-                  gap: "0", // ubah jarak antar teks di sini
+                  gap: "0",
                   backgroundColor: "#fff",
                 }}
               >
                 <p style={{ fontWeight: 900, fontSize: "3rem" }}>
-                  <span className="text-orange-500">TE</span>
-                  <span className="text-black">-KOR</span>
+                  <span className="text-kr-blue">TE</span>
+                  <span className="text-kr-red">-KOR</span>
                 </p>
                 <p className="text-black" style={{ fontWeight: 500, fontSize: "2rem" }}>
                   Mulai sekarang juga
@@ -71,16 +100,15 @@ const Login = () => {
           />
         </div>
 
-        {/* Form */}
         <div className="w-full md:w-1/2 p-8 text-center pt-20">
           <h1 className="text-4xl font-bold mb-8">
-            <span className="text-orange-500">TE</span>
-            <span className="text-black">-KOR</span>
+            <span className="text-kr-blue">TE</span>
+            <span className="text-kr-red">-KOR</span>
           </h1>
           {error && <p className="mt-4 text-red-500 text-sm">{error}</p>}
           <form onSubmit={handleSubmit} className="space-y-6">
-            <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} className="w-full border border-orange-400 rounded-md p-3 focus:outline-none" />
-            <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} className="w-full border border-orange-400 rounded-md p-3 focus:outline-none" />
+            <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} className="w-full border border-kr-blue rounded-md p-3 focus:outline-none" />
+            <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} className="w-full border border-kr-blue rounded-md p-3 focus:outline-none" />
             <Button children={"Login"} />
           </form>
 
@@ -88,6 +116,11 @@ const Login = () => {
             Belum punya akun?{" "}
             <NavLink to={"/register"}>
               <span className="font-bold cursor-pointer hover:underline">Daftar</span>
+            </NavLink>
+          </p>
+          <p className="mt-4 text-sm text-right">
+            <NavLink to="/forgot-password" className="text-black hover:underline cursor-pointer">
+              Lupa Password?
             </NavLink>
           </p>
         </div>

@@ -3,7 +3,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "../pages/Home";
 import { Login } from "../pages/Login";
 import { Register } from "../pages/Register";
-import { Product } from "../pages/Products";
+import { ForgotPassword } from "../pages/ForgotPassword";
+import { ResetPassword } from "../pages/ResetPassword";
+import { NotFound } from "../pages/NotFound";
+import Game from "../pages/Games/Games";
+import Tryouts from "../pages/Tryouts/Tryouts";
+import ProfilePage from "../pages/Profile/Profile";
 
 const AppRouter = () => {
   return (
@@ -12,7 +17,12 @@ const AppRouter = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/products" element={<Product />} />
+        <Route path="/tryouts" element={<Tryouts />} />
+        <Route path="/games" element={<Game />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="*" element={<NotFound />} />
         {/* Tambah route lain di sini sesuai kebutuhan */}
       </Routes>
     </BrowserRouter>
