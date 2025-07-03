@@ -40,7 +40,6 @@ axiosInstance.interceptors.request.use((config) => {
 
   if (needsAuth) {
     const token = getToken();
-    console.log("Token sebelum dikirim:", token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

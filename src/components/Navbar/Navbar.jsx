@@ -30,7 +30,7 @@ const Navbar = () => {
   const navItemStyle = ({ isActive }) =>
     isActive
       ? "text-kr-red font-semibold"
-      : "text-gray-900  hover:text-kr-red";
+      : "text-gray-900  hover:text-kr-blue";
 
   const handleProfileClick = () => {
     navigate("/profile");
@@ -63,24 +63,24 @@ const Navbar = () => {
   return (
     <div className="relative z-10 font-montserrat rounded">
       <nav
-        className={`fixed top-0 right-14 left-14 flex justify-between items-center px-10 py-5 bg-white shadow-lg transition-transform duration-700 ease-in-out ${
+        className={`fixed top-0 right-0 left-0 flex justify-between items-center px-20 py-5 bg-white shadow-lg transition-transform duration-700 ease-in-out ${
           showNavbar ? "translate-y-0" : "-translate-y-full"
         }`}
       >
         <div className="text-2xl font-bold text-kr-red">
           <span className="text-kr-blue">TE</span>-KOR
         </div>
-        <div className="flex gap-6 items-center font-opensans font-semibold">
+        <div className="flex gap-6 items-center font-opensans">
           <NavLink to="/" className={navItemStyle}>
-            <p className="">HOME</p>
+            <p>HOME</p>
           </NavLink>
           <span>|</span>
           <NavLink to="/tryouts" className={navItemStyle}>
-            <p className="">TRYOUT</p>
+            <p>TRYOUT</p>
           </NavLink>
           <span>|</span>
           <NavLink to="/games" className={navItemStyle}>
-            <p className="">GAMES</p>
+            <p className="me-10">GAMES</p>
           </NavLink>
 
           {/* 👇 Bagian login / profile */}

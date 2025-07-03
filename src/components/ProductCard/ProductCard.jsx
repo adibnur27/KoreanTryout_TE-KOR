@@ -4,24 +4,25 @@ import { Button } from '../Button'
 const ProductCard = ({
   title,
   subtitle,
-  normalPrice,
   price,
+  DiscountPrice,
   buttonText,
   onButtonClick,
   children,
 }) => {
   return (
     <div className="w-full max-w-screen-xl mx-auto bg-white text-black rounded shadow lg:px-10 mt-5">
-      <div className="flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-20">
+      <div className="flex flex-col lg:flex-row items-center justify-between lg:gap-20">
         {/* Kiri */}
-        <div className="text-center lg:text-left flex-1 my-5">
-          <h3 className="text-2xl font-bold font-poppins mb-4">{title}</h3>
-          <p className="text-base max-w-sm font-inter mb-5">{subtitle}</p>
-          {price && <p className="text-md text-red-600 line-through font-semibold">{normalPrice}</p>}
-          {price && <p className="text-xl font-bold mb-4">{price}</p>}
+        <div className="text-center lg:text-left flex-1 my-5 font-opensans">
+          <h3 className="text-2xl font-bold font-poppins font-montserrat">{title}</h3>
+          <p className="text-base max-w-80 font-inter my-5">{subtitle}</p>
+          {price && <p className="text-md text-red-600 line-through"><i>{price}</i></p>}
+          <p className="text-xl font-bold mb-5">{DiscountPrice <= 0 ? " " : DiscountPrice}</p>
           <Button
             children={buttonText}
-            width={"200px"}
+            className={'bg-kr-blue text-white px-6 rounded-xl text-lg font-semibold hover:bg-light-blue hover:text-black hover:border-kr-blue border-2 shadow font-inter'}
+            width={"100px"}
             height={"35px"}
             onClick={onButtonClick}
           />

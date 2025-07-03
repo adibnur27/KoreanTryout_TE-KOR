@@ -4,7 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 // import { saveToken } from "../../utils/token"; // jika token dikirim setelah register
 import { register } from "../../services/authService";
 import { PixelTransition } from "../../components/ui/PixelTransition";
-import imgLogin from "../../assets/LoginRegisterBg.jpeg";
+import imgLogin from "../../assets/BackgroundLoginAndRegister.svg";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -50,13 +50,24 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen  flex justify-center items-center px-4">
-      <div className="flex w-full max-w-6xl bg-white rounded-lg overflow-hidden shadow-lg shadow-orange-500">
+    <div className="min-h-screen  flex justify-center items-center px-4 bg-gradient-to-br from-light-blue via-light-red to-light-red">
+      
+      <span className="korean-pattern pointer-events-none absolute z-0 top-[20%] left-[5%] -rotate-[15deg] text-6xl opacity-20">
+        한
+      </span>
+      <span className="korean-pattern pointer-events-none absolute z-10 top-1/2 right-[5%] rotate-[15deg] text-6xl opacity-20">
+        글
+      </span>
+      <span className="korean-pattern pointer-events-none absolute z-10 bottom-[5%] left-[60%] -translate-x-1/2 -rotate-[10deg] text-6xl opacity-20">
+        시
+      </span>
+      
+      <div className="flex w-full max-w-6xl bg-white rounded-lg overflow-hidden shadow-lg shadow-kr-blue">
         {/* Form */}
         <div className="w-full md:w-1/2 p-8 md:p-16">
           <h1 className="text-3xl font-bold mb-10 text-center">
-            <span className="text-orange-500">TE</span>
-            <span className="text-black">-KOR</span>
+            <span className="text-kr-blue">TE</span>
+            <span className="text-kr-red">-KOR</span>
           </h1>
 
           {error && <p className="text-red-500 text-center">{error}</p>}
@@ -68,7 +79,7 @@ const Register = () => {
               placeholder="FullName"
               value={formData.fullName}
               onChange={handleChange}
-              className="w-full border border-orange-500 px-4 py-3 rounded-xl focus:outline-none"
+              className="w-full border border-kr-blue px-4 py-3 rounded-xl focus:outline-none"
               // required
             />
             <input
@@ -77,18 +88,18 @@ const Register = () => {
               placeholder="Username"
               value={formData.username}
               onChange={handleChange}
-              className="w-full border border-orange-500 px-4 py-3 rounded-xl focus:outline-none"
+              className="w-full border border-kr-blue px-4 py-3 rounded-xl focus:outline-none"
               // required
             />
-            <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} className="w-full border border-orange-500 px-4 py-3 rounded-xl focus:outline-none" required />
-            <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} className="w-full border border-orange-500 px-4 py-3 rounded-xl focus:outline-none" required />
+            <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} className="w-full border border-kr-blue px-4 py-3 rounded-xl focus:outline-none" required />
+            <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} className="w-full border border-kr-blue px-4 py-3 rounded-xl focus:outline-none" required />
             <input
               type="password"
               name="confirmPassword"
               placeholder="Confirm Password"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="w-full border border-orange-500 px-4 py-3 rounded-xl focus:outline-none"
+              className="w-full border border-kr-blue px-4 py-3 rounded-xl focus:outline-none"
               // required
             />
 
@@ -123,8 +134,8 @@ const Register = () => {
                 }}
               >
                 <p style={{ fontWeight: 900, fontSize: "3rem" }}>
-                  <span className="text-orange-500">TE</span>
-                  <span className="text-black">-KOR</span>
+                  <span className="text-kr-blue">TE</span>
+                  <span className="text-kr-red">-KOR</span>
                 </p>
                 <p className="text-black" style={{ fontWeight: 500, fontSize: "2rem" }}>
                   Mulai sekarang juga
