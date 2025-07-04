@@ -11,3 +11,24 @@ export const getProfile = async () => {
     throw error;
   }
 };
+
+
+export const changePassword = async ({ currentPassword, newPassword, confirmNewPassword }) => {
+  const token = localStorage.getItem("accessToken");
+
+  const response = await axiosInstance.post(
+    "/users/change-password",
+    {
+      currentPassword,
+      newPassword,
+      confirmNewPassword,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return response.data;
+};

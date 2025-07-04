@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import Swal from "sweetalert2";
 import { Button } from "../../components/Button";
 import { NavLink, useNavigate } from "react-router-dom";
 import { PixelTransition } from "../../components/ui/PixelTransition";
@@ -7,52 +11,46 @@ import { login } from "../../services/authService";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../features/auth/authSlice";
 
+const schema = Yup.object().shape({
+  username: Yup.string().required("Username wajib diisi"),
+  password: Yup.string().required("Password wajib diisi"),
+});
+
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [error, setError] = useState("");
 
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(formData);
-    setError("");
-
+  const onSubmit = async (data) => {
     try {
-      const loginData = await login(formData); // menyimpan token & mendapatkan data user
+      const loginData = await login(data);
       const apiUser = loginData.user;
 
-      // Transformasi data API agar sesuai dengan struktur frontend
       const userProfile = {
         ...apiUser,
-        username: apiUser.fullName, // Menggunakan fullName sebagai username
+        username: apiUser.fullName,
       };
 
-      // Simpan data user ke Redux
       dispatch(setUser(userProfile));
-
-      // Simpan data user ke localStorage untuk persistensi
       localStorage.setItem("user", JSON.stringify(userProfile));
 
       navigate("/tryouts");
     } catch (err) {
-      if (err.message?.includes("not verified") || err.message?.includes("belum terverifikasi")) {
-        setError("Email kamu belum diverifikasi. Cek email kamu untuk aktivasi.");
-      } else {
-        setError(err.message || "Username atau Password salah.");
-      }
+      Swal.fire({
+        icon: "error",
+        title: "Login Gagal",
+        text:
+          err.message?.includes("not verified") ||
+          err.message?.includes("belum terverifikasi")
+            ? "Email kamu belum diverifikasi. Cek email kamu untuk aktivasi."
+            : err.message || "Username atau Password salah.",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -105,11 +103,27 @@ const Login = () => {
             <span className="text-kr-blue">TE</span>
             <span className="text-kr-red">-KOR</span>
           </h1>
-          {error && <p className="mt-4 text-red-500 text-sm">{error}</p>}
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} className="w-full border border-kr-blue rounded-md p-3 focus:outline-none" />
-            <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} className="w-full border border-kr-blue rounded-md p-3 focus:outline-none" />
-            <Button children={"Login"} />
+
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div>
+              <input
+                type="text"
+                placeholder="Username"
+                {...register("username")}
+                className="w-full border border-kr-blue rounded-md p-3 focus:outline-none"
+              />
+              {errors.username && <p className="text-sm text-red-500 mt-1 text-left">{errors.username.message}</p>}
+            </div>
+            <div>
+              <input
+                type="password"
+                placeholder="Password"
+                {...register("password")}
+                className="w-full border border-kr-blue rounded-md p-3 focus:outline-none"
+              />
+              {errors.password && <p className="text-sm text-red-500 mt-1 text-left">{errors.password.message}</p>}
+            </div>
+            <Button type="submit" children={"Login"} />
           </form>
 
           <p className="mt-6 text-sm text-black text-center">

@@ -11,6 +11,7 @@ import {UserDetails} from "./UserDetails";
 import {TryoutHistory} from "./TryoutHistory";
 import {TransactionHistory} from "./TransactionHistory";
 import {ChangePassword} from "./ChangePassword";
+import {LoadingCircle} from "../../components/ui/LoadingCircle";
 
 
 
@@ -72,7 +73,9 @@ const ProfilePage = () => {
   };
 
   if (loading) {
-    return <div className="flex justify-center items-center h-screen text-xl">Loading profile...</div>;
+    return <div className="flex justify-center items-center h-screen text-xl">
+      <LoadingCircle />
+    </div>;
   }
 
   if (error) {
@@ -123,7 +126,7 @@ const ProfilePage = () => {
               Riwayat Transaksi
             </button>
             <button onClick={() => setActiveTab("password")} className={activeTab === "password" ? "font-bold text-blue-600" : ""}>
-              Change Password
+              Ganti Password
             </button>
           </div>
         </div>
