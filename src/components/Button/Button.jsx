@@ -2,7 +2,8 @@ import React from "react";
 
 const Button = ({ 
   children, 
-  onClick, 
+  onClick,
+  type = "submit",
   width, 
   height, 
   paddingBottom,
@@ -10,6 +11,7 @@ const Button = ({
 }) => {
   return (
     <button
+      type = {type}
       onClick={onClick}
       className={className}
       style={{

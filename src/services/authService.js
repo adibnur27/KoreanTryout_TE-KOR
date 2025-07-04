@@ -20,8 +20,10 @@ export const login = async (credentials) => {
     }
 
     return response.data.data; // return hanya bagian data (user dan token)
-  } catch (error) {
-    throw error.response?.data || { message: 'Username atau Password yang anda masukkan salah.' };
+  }  catch (error) {
+    const message =
+      error.response?.data?.message || error.message || "Username atau Password yang anda masukkan salah.";
+    throw new Error(message); // penting agar ditangkap di catch Login.jsx
   }
 };
 
