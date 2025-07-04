@@ -10,8 +10,8 @@ import {Navbar} from "../../components/Navbar";
 import {UserDetails} from "./UserDetails";
 import {TryoutHistory} from "./TryoutHistory";
 import {TransactionHistory} from "./TransactionHistory";
-import {ChangePassword} from "./ChangePassword";
 import {LoadingCircle} from "../../components/ui/LoadingCircle";
+import EditProfile from "./EditProfile/EditProfile.jsx";
 
 
 
@@ -100,7 +100,7 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="flex-row md:flex lg:flex min-h-screen pb-2 px-2  lg:px-48 pt-28 lg:pt-24 lg:gap-10 gap-2 bg-gradient-to-br from-light-blue  to-light-red text-center font-opensans">
+    <div className="flex-row md:flex lg:flex min-h-screen pb-5 px-2  lg:px-48 pt-28 lg:pt-24 lg:gap-10 gap-2 bg-gradient-to-br from-light-blue  to-light-red text-center font-opensans">
       <Navbar />
       <span className="korean-pattern pointer-events-none absolute z-0 top-[20%] left-[10%] -rotate-[15deg] text-6xl opacity-10">
               한
@@ -111,7 +111,7 @@ const ProfilePage = () => {
             <span className="korean-pattern pointer-events-none absolute z-0 bottom-[8%] left-[10%] -translate-x-1/2 -rotate-[10deg] text-6xl opacity-10">
               시
             </span>
-      <div className="border lg:w-min p-5 pb-2 rounded-lg bg-gray-100 w-full shadow-lg">
+      <div className=" lg:fixed lg:bottom-5 border lg:w-min p-5 py-3 rounded-lg bg-gray-100 w-full shadow-lg h-min">
         {renderProfileIcon()}
         <h1 className="mt-4 text-xl w-min mx-auto font-semibold text-gray-800">{user.username}</h1>
         <div className="text-left mt-10 mx-auto md:mx-0 lg:mx-0 flex flex-col gap-2 mb-10">
@@ -125,8 +125,8 @@ const ProfilePage = () => {
             <button onClick={() => setActiveTab("riwayat")} className={activeTab === "riwayat" ? "font-bold text-blue-600" : ""}>
               Riwayat Transaksi
             </button>
-            <button onClick={() => setActiveTab("password")} className={activeTab === "password" ? "font-bold text-blue-600" : ""}>
-              Ganti Password
+            <button onClick={() => setActiveTab("editProfile")} className={activeTab === "editProfile" ? "font-bold text-blue-600" : ""}>
+              Edit Profile
             </button>
           </div>
         </div>
@@ -135,13 +135,13 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      <div className=" px-10 border rounded-lg bg-gray-100 w-full text-left me-2 shadow-lg font-opensans">
+      <div className="lg:ms-40 px-10 border rounded-lg bg-gray-100 w-full text-left me-2 shadow-lg font-opensans">
         {/* Content */}
         <div className="flex-1">
           {activeTab === "detail" && <UserDetails />}
           {activeTab === "riwayat tryout" && <TryoutHistory />}
           {activeTab === "riwayat" && <TransactionHistory />}
-          {activeTab === "password" && <ChangePassword />}
+          {activeTab === "editProfile" && <EditProfile />}
         </div>
       </div>
     </div>

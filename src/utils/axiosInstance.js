@@ -83,7 +83,7 @@ axiosInstance.interceptors.response.use(
     if (!refreshToken) {
       removeToken();
       store.dispatch(clearUser());
-      window.location.href = "/login"; // Redirect ke login
+      // window.location.href = "/login"; // Redirect ke login
       return Promise.reject(error);
     }
 
@@ -105,12 +105,14 @@ axiosInstance.interceptors.response.use(
       processQueue(refreshError, null);
       removeToken();
       store.dispatch(clearUser());
-      window.location.href = "/login"; // Redirect ke login
+      // window.location.href = "/login"; // Redirect ke login
       return Promise.reject(refreshError);
     } finally {
       isRefreshing = false;
     }
   }
 );
+
+
 
 export default axiosInstance;
