@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { changePassword } from "../../../services/userService";
+import { changePassword } from "../../../../services/userService";
 
 // ✅ Schema validasi pakai YUP
 const schema = Yup.object().shape({
@@ -50,7 +50,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6 bg-gray-100">
+    <div className="max-w-sm mt-5 bg-gray-100">
       <h2 className="text-xl font-bold mb-4">Ganti Password</h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -99,7 +99,7 @@ const ChangePassword = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 disabled:bg-blue-300"
+          className="w-full bg-kr-blue text-white py-2 px-4 rounded hover:text-black hover:border-kr-blue border-2 hover:bg-light-blue disabled:bg-blue-300"
         >
           {isSubmitting ? "Menyimpan..." : "Simpan"}
         </button>

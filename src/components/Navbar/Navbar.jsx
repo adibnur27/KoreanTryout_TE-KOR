@@ -37,10 +37,10 @@ const Navbar = () => {
   };
 
   const renderProfileIcon = () => {
-    if (user?.photoUrl) {
+    if (user?.imageUrl) {
       return (
         <img
-          src={user.photoUrl}
+          src={user.imageUrl}
           alt="Profile"
           onClick={handleProfileClick}
           className="w-10 h-10 rounded-full object-cover cursor-pointer"

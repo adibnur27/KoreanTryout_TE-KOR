@@ -66,7 +66,7 @@ const Login = () => {
         시
       </span>
       <div className="flex w-4/5 md:w-3/4 lg:w-2/3 bg-white shadow-lg z-10 shadow-kr-blue rounded-lg overflow-hidden ">
-        <div className="w-1/2 hidden md:block">
+        <div className="w-1/2 hidden md:block h-max">
           <PixelTransition
             firstContent={<img src={imgLogin} alt="city of Korea" style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
             secondContent={

@@ -32,3 +32,8 @@ export const changePassword = async ({ currentPassword, newPassword, confirmNewP
 
   return response.data;
 };
+
+export const updateFullName = async (fullName) => {
+  const response = await axiosInstance.patch("/users", { fullName });
+  return response.data.data; // ini adalah ProfileResponse
+};
