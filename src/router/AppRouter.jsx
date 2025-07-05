@@ -9,6 +9,7 @@ import { NotFound } from "../pages/NotFound";
 import Game from "../pages/Games/Games";
 import Tryouts from "../pages/Tryouts/Tryouts";
 import ProfilePage from "../pages/Profile/Profile";
+import { FlipCard } from "../pages/Games/FlipCard";
 
 const AppRouter = () => {
   return (
@@ -19,6 +20,7 @@ const AppRouter = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/tryouts" element={<Tryouts />} />
         <Route path="/games" element={<Game />} />
+        <Route path="/flipcard" element={<FlipCard />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
