@@ -64,7 +64,7 @@ const ProfilePage = () => {
 
   const renderProfileIcon = () => {
     if (user?.imageUrl) {
-      return <img src={user.imageUrl} alt="Profile" className="w-48 h-48 object-cover mx-auto" />;
+      return <img src={user.imageUrl} alt={user.username} className="w-48 h-48 object-cover mx-auto" />;
     } else if (user?.username) {
       const initial = user.username.charAt(0).toUpperCase();
       return <div className="w-48 h-48 bg-kr-red rounded mx-auto text-black flex items-center justify-center text-8xl font-bold">{initial}</div>;
