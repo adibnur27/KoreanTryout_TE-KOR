@@ -6,6 +6,7 @@ const TryoutHistory = () => {
   const [tryouts, setTryouts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [expandedId, setExpandedId] = useState(null); // State untuk melacak ID yang diperluas
 
   const fetchCompletedTryouts = async () => {
     try {
@@ -23,6 +24,10 @@ const TryoutHistory = () => {
   useEffect(() => {
     fetchCompletedTryouts();
   }, []);
+
+  const handleToggle = (id) => {
+    setExpandedId(expandedId === id ? null : id); // Toggle
+  };
 
   if (loading) return <LoadingCircle />;
 
@@ -45,15 +50,44 @@ const TryoutHistory = () => {
       <h2 className="text-xl font-bold mb-4">Riwayat Tryout</h2>
       <ul className="space-y-4">
         {tryouts.map((attempt) => (
-          <li key={attempt.id} className="border p-4 rounded-lg shadow-sm bg-white">
-            <p><strong>ID Attempt:</strong> {attempt.id}</p>
-            <p><strong>Package ID:</strong> {attempt.packageId}</p>
-            <p><strong>Skor:</strong> {attempt.score}</p>
-            <p><strong>Status:</strong> {attempt.status}</p>
-            <p><strong>Selesai pada:</strong> {new Date(attempt.endTime).toLocaleString("id-ID", {
-              dateStyle: "full",
-              timeStyle: "short"
-            })}</p>
+          <li
+            key={attempt.id}
+            className="border p-4 rounded-lg shadow-sm bg-white"
+          >
+            <div className="flex justify-between items-center">
+              <div>
+                <p>
+                  <strong>Package ID:</strong> {attempt.packageId}
+                </p>
+                <p>
+                  <strong>Skor:</strong> {attempt.score}
+                </p>
+              </div>
+              <div className="flex items-center gap-4">
+                <p className="text-sm text-gray-500">
+                  {new Date(attempt.endTime).toLocaleString("id-ID", {
+                    dateStyle: "long",
+                    timeStyle: "short",
+                  })}
+                </p>
+              </div>
+            </div>
+            <div className="mt-2 flex justify-end text-sm">
+              <button
+                onClick={() => handleToggle(attempt.id)}
+                className="bg-kr-blue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded "
+              >
+                {expandedId === attempt.id ? "Tutup" : "Lihat Evaluasi"}
+              </button>
+            </div>
+            {expandedId === attempt.id && (
+              <div className="mt-4 pt-4 border-t">
+                <h3 className="font-semibold">Evaluasi AI:</h3>
+                <p className="text-gray-700 whitespace-pre-wrap">
+                  {attempt.aiEvaluationResult}
+                </p>
+              </div>
+            )}
           </li>
         ))}
       </ul>
@@ -61,5 +95,4 @@ const TryoutHistory = () => {
   );
 };
 
-
-export default TryoutHistory
+export default TryoutHistory;
