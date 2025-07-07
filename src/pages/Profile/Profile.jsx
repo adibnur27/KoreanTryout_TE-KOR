@@ -34,9 +34,9 @@ const ProfilePage = () => {
         console.log("dari profile",profileData);
 
         const transformedProfile = {
-          fullName: profileData.data.fullName,
-          username: profileData.data.username,
-          imageUrl: profileData.data.imageUrl,
+          fullName: profileData.fullName,
+          username: profileData.username,
+          imageUrl: profileData.imageUrl,
         };
 
         console.log("dari profile",transformedProfile.imageUrl);
@@ -67,20 +67,27 @@ const ProfilePage = () => {
   };
 
   const renderProfileIcon = () => {
-    if (user?.imageUrl) {
-      return <img src={user.imageUrl} alt={user.username} className="w-48 h-48 object-cover mx-auto" />;
-    } else if (user?.username) {
-      const initial = user.username.charAt(0).toUpperCase();
-      return <div className="w-48 h-48 bg-kr-red rounded mx-auto text-black flex items-center justify-center text-8xl font-bold">{initial}</div>;
-    }
-    return <div className="w-48 h-44 rounded-full mx-auto bg-gray-300 animate-pulse" />;
-  };
-
-  if (loading) {
-    return <div className="flex justify-center items-center h-screen text-xl">
-      <LoadingCircle />
-    </div>;
+  if (user?.imageUrl) {
+    return (
+      <img
+        src={user.imageUrl}
+        alt={user.username}
+        className="w-48 h-48 object-cover mx-auto rounded-full"
+      />
+    );
+  } else if (user?.username) {
+    const initial = user.username.charAt(0).toUpperCase();
+    return (
+      <div className="w-48 h-48 bg-kr-red rounded-full mx-auto text-white flex items-center justify-center text-8xl font-bold">
+        {initial}
+      </div>
+    );
   }
+
+  return (
+    <div className="w-48 h-48 rounded-full mx-auto bg-gray-300 animate-pulse" />
+  );
+};
 
   if (error) {
     return (
@@ -139,7 +146,7 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      <div className="lg:ms-40 px-10 border rounded-lg bg-gray-100 w-full text-left me-2 shadow-lg font-opensans">
+      <div className="lg:ms-52 px-10 border rounded-lg bg-gray-100 w-full text-left me-2 shadow-lg font-opensans">
         {/* Content */}
         <div className="flex-1">
           {activeTab === "detail" && <UserDetails />}

@@ -10,7 +10,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
   useEffect(() => {
-  console.log("User dari Redux:", user);
+    console.log("User dari Redux:", user);
 }, [user]);
   useEffect(() => {
     const handleScroll = () => {
@@ -39,7 +39,7 @@ const Navbar = () => {
   };
 
   const renderProfileIcon = () => {
-    if (user.imageUrl) {
+    if (user?.imageUrl) {
       return (
         <img
           src={user?.imageUrl}
@@ -48,7 +48,7 @@ const Navbar = () => {
           className="w-10 h-10 rounded-full object-cover cursor-pointer"
         />
       );
-    } else if (user.username) {
+    } else if (user?.username) {
       const initial = user.username.charAt(0).toUpperCase();
       return (
         <div

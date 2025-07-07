@@ -37,7 +37,7 @@ const Login = () => {
         username: apiUser.fullName,
       };
 
-      dispatch(setUser({ data: userProfile }));
+      dispatch(setUser( data.userProfile));
       localStorage.setItem("user", JSON.stringify(userProfile));
       localStorage.setItem("refreshToken", tokenData?.refreshToken || "");
 
