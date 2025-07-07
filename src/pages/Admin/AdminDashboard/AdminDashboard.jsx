@@ -9,6 +9,7 @@ import UserTable from '../components/UserTable';
 import BundleTable from '../components/BundleTable';
 import Package from '../components/Package';
 import { getAllUsers } from '../../../services/adminService';
+import VocabularyDashboard from '../components/VocabularyDashboard';
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
@@ -68,6 +69,9 @@ const AdminDashboard = () => {
             <button onClick={() => setActiveTab("package")} className={activeTab === "package" ? "font-bold text-blue-600" : ""}>
               Edit Profile
             </button>
+            <button onClick={() => setActiveTab("vocabularyDashboard")} className={activeTab === "vocabularyDashboard" ? "font-bold text-blue-600" : ""}>
+              Edit Vocabulary
+            </button>
           </div>
         </div>
         <div className="mt-2 w-min mx-auto">
@@ -82,6 +86,7 @@ const AdminDashboard = () => {
           {activeTab === "userTable" && <UserTable />}
           {activeTab === "bundleTable" && <BundleTable />}
           {activeTab === "package" && <Package />}
+          {activeTab === "vocabularyDashboard" && <VocabularyDashboard/>}
         </div>
       </div>
     </div>
