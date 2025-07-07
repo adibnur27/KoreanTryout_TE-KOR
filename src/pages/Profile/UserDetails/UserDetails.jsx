@@ -18,16 +18,15 @@ const UserDetails = () => {
       try {
         setLoading(true);
         const profileData = await getProfile();
-
         const transformedProfile = {
-          id: profileData.id,
-          fullName: profileData.fullName,
-          username: profileData.username,
-          email: profileData.email,
-          imageUrl: profileData.imageUrl,
-          isVerified: profileData.isVerified,
-          createdAt: profileData.createdAt,
-          role: profileData.role,
+          id: profileData.data.id,
+          fullName: profileData.data.fullName,
+          username: profileData.data.username,
+          email: profileData.data.email,
+          imageUrl: profileData.data.imageUrl,
+          isVerified: profileData.data.isVerified,
+          createdAt: profileData.data.createdAt,
+          role: profileData.data.role,
         };
 
         dispatch(setUser(transformedProfile));

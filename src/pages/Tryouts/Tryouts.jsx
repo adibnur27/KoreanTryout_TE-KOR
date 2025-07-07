@@ -5,17 +5,19 @@ import { Footer } from "../../components/Fotter";
 import imgDflt from "../../assets/default-img.png";
 import { getAllTestPackages } from "../../services/testPackageService";
 import { LoadingCircle } from "../../components/ui/LoadingCircle";
+import { useNavigate } from "react-router-dom";
 
 
 
 const Tryouts = () => {
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAllTestPackages()
       .then((data) => {
-        setPackages(data);
+        setPackages(data || []);
       })
       .catch(() => {
         alert("Gagal memuat data paket!");
@@ -74,7 +76,7 @@ const Tryouts = () => {
                     : " "
                 }
                 buttonText="Detail"
-                onButtonClick={() => console.log(`Mulai ${pkg.name}`)}
+                onButtonClick={() => navigate(`/tryouts/${pkg.id}`)}
               >
                 <img
                   src={pkg.imageUrl || imgDflt}

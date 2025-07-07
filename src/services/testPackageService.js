@@ -10,3 +10,13 @@ export const getAllTestPackages = async () => {
     throw error;
   }
 };
+
+export const getTestPackageById = async (id) => {
+  try {
+    const response = await axios.get(`/test-packages/${id}`);
+    return response.data.data;
+  } catch (error) {
+    console.error("Failed to fetch test package by id:", error);
+    throw error;
+  }
+};

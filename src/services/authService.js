@@ -1,3 +1,4 @@
+
 import axiosInstance from '../utils/axiosInstance';
 import { saveToken } from "../utils/token";
 
@@ -70,4 +71,22 @@ export const refreshToken = async (refreshToken) => {
   } catch (error) {
     throw error.response?.data || { message: "Gagal refresh token." };
   }
+};
+
+
+/**
+ * @function loginAdmin
+ * @param {Object} credentials - { username, password }
+ * @returns {Promise<Object>} response.data.data
+ */
+export const loginAdmin = async (credentials) => {
+  const response = await axiosInstance.post("/auth/login", credentials);
+
+  const tokenData = response.data.data?.token;
+  if (tokenData?.accessToken) {
+    saveToken(tokenData.accessToken);
+    localStorage.setItem("refreshToken", tokenData.refreshToken);
+  }
+
+  return response.data.data;
 };

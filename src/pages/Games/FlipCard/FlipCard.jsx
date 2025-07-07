@@ -59,7 +59,7 @@ const FlipCard = () => {
       <h2 className='text-3xl font-medium text-center w-full mx-auto font-opensans mt-10'>
         Hafal Kosa Katanya Pelajari Penyebutannya Dan Cari Tahu Artinya 
       </h2>
-      <svg className='mx-auto mt-20' xmlns="http://www.w3.org/2000/svg" h mt-20eight="60px" viewBox="0 -960 960 960" width="60px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg>
+      {/* <svg className='mx-auto mt-20' xmlns="http://www.w3.org/2000/svg" h mt-20eight="60px" viewBox="0 -960 960 960" width="60px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg> */}
       {/* Dropdown */}
       <div className="mb-4 pt-20 w-1/3 mx-auto">
         {/* <label className="block mb-1 font-medium text-xl">Permainan Balik Kartu</label> */}

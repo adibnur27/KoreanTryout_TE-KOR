@@ -12,6 +12,7 @@ import {TryoutHistory} from "./TryoutHistory";
 import {TransactionHistory} from "./TransactionHistory";
 import {LoadingCircle} from "../../components/ui/LoadingCircle";
 import EditProfile from "./EditProfile/EditProfile.jsx";
+import { saveUser } from "../../utils/storage.js";
 
 
 
@@ -30,15 +31,18 @@ const ProfilePage = () => {
       try {
         setLoading(true);
         const profileData = await getProfile();
-        console.log(profileData);
+        console.log("dari profile",profileData);
 
         const transformedProfile = {
-          fullName: profileData.fullName,
-          username: profileData.username,
-          imageUrl: profileData.imageUrl,
+          fullName: profileData.data.fullName,
+          username: profileData.data.username,
+          imageUrl: profileData.data.imageUrl,
         };
 
+        console.log("dari profile",transformedProfile.imageUrl);
+
         dispatch(setUser(transformedProfile));
+        saveUser(transformedProfile);
         setError(null);
       } catch (err) {
         setError("Gagal memuat profil. Silakan coba lagi.");
@@ -114,8 +118,8 @@ const ProfilePage = () => {
       <div className=" lg:fixed lg:bottom-5 border lg:w-min p-5 py-3 rounded-lg bg-gray-100 w-full shadow-lg h-min">
         {renderProfileIcon()}
         <h1 className="mt-4 text-xl w-min mx-auto font-semibold text-gray-800">{user.username}</h1>
-        <div className="text-left mt-10 mx-auto md:mx-0 lg:mx-0 flex flex-col gap-2 mb-10">
-          <div className="text-left mx-auto md:mx-0 flex flex-col gap-2 mb-10 font-montserrat font-semibold">
+        <div className="text-left mt-10 mx-auto md:mx-0 lg:mx-0 flex flex-col  mb-5">
+          <div className="text-left mx-auto md:mx-0 flex flex-col mb-10 font-montserrat font-semibold">
             <button onClick={() => setActiveTab("detail")} className={activeTab === "detail" ? "font-bold text-blue-600" : ""}>
               Detail Pengguna
             </button>
@@ -130,7 +134,7 @@ const ProfilePage = () => {
             </button>
           </div>
         </div>
-        <div className="mt-6 w-min mx-auto">
+        <div className="mt-2 w-min mx-auto">
           <Button onClick={handleLogout} children="Logout" width="150px" />
         </div>
       </div>
