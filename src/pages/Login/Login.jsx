@@ -30,14 +30,16 @@ const Login = () => {
     try {
       const loginData = await login(data);
       const apiUser = loginData.user;
+      const tokenData = loginData.token;
 
       const userProfile = {
         ...apiUser,
         username: apiUser.fullName,
       };
 
-      dispatch(setUser(userProfile));
+      dispatch(setUser({ data: userProfile }));
       localStorage.setItem("user", JSON.stringify(userProfile));
+      localStorage.setItem("refreshToken", tokenData?.refreshToken || "");
 
       navigate("/tryouts");
     } catch (err) {

@@ -18,7 +18,7 @@ const ProductCard = ({
           <h3 className="text-2xl font-bold font-poppins font-montserrat">{title}</h3>
           <p className="text-base max-w-80 font-inter my-5">{subtitle}</p>
           {price && <p className="text-md text-red-600 line-through"><i>{price}</i></p>}
-          <p className="text-xl font-bold mb-5">{DiscountPrice <= 0 ? " " : DiscountPrice}</p>
+          <p className="text-xl font-bold mb-5">{DiscountPrice}</p>
           <Button
             children={buttonText}
             className={'bg-kr-blue text-white px-6 rounded-xl text-lg font-semibold hover:bg-light-blue hover:text-black hover:border-kr-blue border-2 shadow font-inter'}
