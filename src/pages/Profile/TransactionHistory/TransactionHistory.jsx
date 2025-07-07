@@ -8,7 +8,8 @@ const TransactionHistory = ({ userId }) => {
 
   const fetchTransactions = async () => {
     try {
-      const res = await axiosInstance.get(`/api/v1/transactions/${userId}`);
+      const res = await axiosInstance.get(`transactions/${userId}`);
+      console.log(res.data.data);
       setTransactions(res.data.data);
     } catch (err) {
       console.error("Gagal mengambil riwayat transaksi:", err);

@@ -146,14 +146,15 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      <div className="lg:ms-52 px-10 border rounded-lg bg-gray-100 w-full text-left me-2 shadow-lg font-opensans">
+      <div className=" flex flex-col lg:ms-52 px-10 border rounded-lg bg-gray-100 w-full text-left me-2 shadow-lg font-opensans">
         {/* Content */}
         <div className="flex-1">
           {activeTab === "detail" && <UserDetails />}
           {activeTab === "riwayat tryout" && <TryoutHistory />}
-          {activeTab === "riwayat" && <TransactionHistory userId={user.id} />}
+          {activeTab === "riwayat" && user?.id && <TransactionHistory userId={user.id} />}
           {activeTab === "editProfile" && <EditProfile />}
         </div>
+        <p className="text-center font-opensans font-bold pb-3 text-gray-500">Jika data tidak muncul silahkan reload browser</p>
       </div>
     </div>
   );

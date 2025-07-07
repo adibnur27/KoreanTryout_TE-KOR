@@ -18,6 +18,7 @@ const MyTryouts = () => {
       try {
         const res = await axiosInstance.get("/test-attempts/my-tests");
         const data = res.data.data;
+        console.log("package id :",data);
         setReadyToStart(data.readyToStart || []);
         setInProgress(data.inProgress || []);
       } catch (error) {
@@ -89,18 +90,7 @@ const MyTryouts = () => {
                         price="Sudah Dimulai"
                         DiscountPrice=""
                         buttonText="Lanjutkan"
-                        onButtonClick={async () => {
-                                                  try {
-                                                    const res = await axiosInstance.post(`/test-attempts/start/${item.packageId}`);
-                                                    const attemptId = res.data.data.id;
-                                                    navigate(`/cbt/${attemptId}`);
-                                                  } catch (err) {
-                                                    if (err.response?.status === 403) alert("❌ Kamu belum membeli paket ini.");
-                                                    else if (err.response?.status === 404) alert("❌ Paket tidak ditemukan.");
-                                                    else if (err.response?.status === 409) alert("❌ Kamu sudah melewati batas attempt.");
-                                                    else alert("❌ Gagal memulai tryout.");
-                                                  }
-                                                }}
+                        onButtonClick={() => navigate(`/cbt/${item.attemptId}`)}
                       >
                         <img
                           src={imgDflt}

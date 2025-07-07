@@ -64,7 +64,7 @@ const Tryouts = () => {
           ) : packages.length === 0 ? (
             <p className="text-center text-lg">Tidak ada paket tersedia.</p>
           ) : (
-            [...packages,...packages,...packages].map((pkg) => (
+            [...packages].map((pkg) => (
               <ProductCard
                 key={pkg.id}
                 title={pkg.name || "Tanpa Judul"}
@@ -72,7 +72,7 @@ const Tryouts = () => {
                 price={pkg.price === 0 ? "Gratis" : `Rp ${pkg.price.toLocaleString()}`}
                 DiscountPrice={
                   pkg.discountPrice && pkg.discountPrice > 0
-                    ? `Rp ${(pkg.price - pkg.discountPrice).toLocaleString()}`
+                    ? `Rp ${(pkg.discountPrice).toLocaleString()}`
                     : " "
                 }
                 buttonText="Detail"

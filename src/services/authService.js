@@ -66,7 +66,7 @@ export const resetPassword = async ({ token, newPassword, confirmPassword }) => 
 
 export const refreshToken = async (refreshToken) => {
   try {
-    const response = await axiosInstance.post("/auth/refresh", { refreshToken });
+    const response = await axiosInstance.post("/auth/refresh", refreshToken);
     return response.data.data; // Mengembalikan data token baru
   } catch (error) {
     throw error.response?.data || { message: "Gagal refresh token." };
