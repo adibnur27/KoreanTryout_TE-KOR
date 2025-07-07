@@ -151,7 +151,7 @@ const ProfilePage = () => {
         <div className="flex-1">
           {activeTab === "detail" && <UserDetails />}
           {activeTab === "riwayat tryout" && <TryoutHistory />}
-          {activeTab === "riwayat" && <TransactionHistory />}
+          {activeTab === "riwayat" && <TransactionHistory userId={user.id} />}
           {activeTab === "editProfile" && <EditProfile />}
         </div>
       </div>

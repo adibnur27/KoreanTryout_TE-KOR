@@ -3,7 +3,7 @@ import axiosInstance from "../utils/axiosInstance";
 export const getProfile = async () => {
   console.log("getProfile dipanggil");
   try {
-    const response = await axiosInstance.get("/users/profile");
+    const response = await axiosInstance.get("/users");
     console.log("API response:", response);
     return response.data.data;
   } catch (error) {

@@ -16,8 +16,11 @@ const UserDetails = () => {
     console.log("User from Redux:", user);
     const fetchProfile = async () => {
       try {
+        console.log("🚀 Memulai ambil profile");
         setLoading(true);
         const profileData = await getProfile();
+        console.log("✅ Profil berhasil diambil:", profileData);
+        
         const transformedProfile = {
           id: profileData.data.id,
           fullName: profileData.data.fullName,
@@ -28,6 +31,7 @@ const UserDetails = () => {
           createdAt: profileData.data.createdAt,
           role: profileData.data.role,
         };
+        console.log(profileData);
 
         dispatch(setUser(transformedProfile));
         setError(null);
@@ -45,7 +49,7 @@ const UserDetails = () => {
     };
 
     fetchProfile(); // panggil tanpa syarat
-  }, [dispatch, Navigate]);
+  }, [dispatch, navigate]);
 
   return (
     <div className="pt-5">

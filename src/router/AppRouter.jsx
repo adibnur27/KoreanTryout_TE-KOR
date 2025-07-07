@@ -21,6 +21,7 @@ import { TryoutDetail } from "../pages/Tryouts/TryoutDetail";
 import { AdminLogin } from "../pages/Admin/AdminLogin";
 import { AdminDashboard } from "../pages/Admin/AdminDashboard";
 import CBTPage from "../pages/CBTPage/CBTPage";
+import { MyTryoutDetail } from "../pages/MyTryouts/MyTryoutDetail";
 
 const AppRouter = () => {
   const dispatch = useDispatch();
@@ -54,6 +55,7 @@ const AppRouter = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/tryouts" element={<Tryouts />} />
         <Route path="/tryouts/:id" element={<TryoutDetail />} />
+        <Route path="/myTryoutDetail/:id" element={<MyTryoutDetail />} />
         <Route path="/myTryouts" element={<MyTryouts />} />
         <Route path="/cbtPage" element={<CBTPage />} />
         <Route path="/games" element={<Game />} />
@@ -61,6 +63,7 @@ const AppRouter = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/cbt/:testAttemptId" element={<CBTPage />} />
 
         {/* Admin */}
         <Route path="/admin" element={<AdminLogin />} />
