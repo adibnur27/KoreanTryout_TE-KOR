@@ -5,9 +5,9 @@ import { store } from "../App/store";
 import { clearUser } from "../features/auth/authSlice";
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "https://0ab1-180-248-33-245.ngrok-free.app/api/v1",
+  baseURL: "https://b553-36-85-50-252.ngrok-free.app/api/v1",
   headers: {
-    "Content-Type": "application/json",
+    "ngrok-skip-browser-warning": "true",
   },
 });
 

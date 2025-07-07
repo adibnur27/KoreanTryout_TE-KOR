@@ -8,7 +8,7 @@ const Navbar = () => {
   const lastScrollY = useRef(0);
 
   const navigate = useNavigate();
-  const user = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth.user);
   useEffect(() => {
   console.log("User dari Redux:", user);
 }, [user]);
@@ -89,7 +89,6 @@ const Navbar = () => {
             <p className="me-10">GAMES</p>
           </NavLink>
 
-          {/* 👇 Bagian login / profile */}
           {user ? (
             renderProfileIcon()
           ) : (

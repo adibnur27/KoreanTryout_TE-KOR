@@ -17,7 +17,7 @@ const Tryouts = () => {
   useEffect(() => {
     getAllTestPackages()
       .then((data) => {
-        setPackages(data);
+        setPackages(data || []);
       })
       .catch(() => {
         alert("Gagal memuat data paket!");
