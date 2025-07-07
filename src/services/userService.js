@@ -3,9 +3,9 @@ import axiosInstance from "../utils/axiosInstance";
 export const getProfile = async () => {
   console.log("getProfile dipanggil");
   try {
-    const response = await axiosInstance.get("/users");
+    const response = await axiosInstance.get("/users/profile");
     console.log("API response:", response);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error("Gagal getProfile:", error); // <== debug error
     throw error;

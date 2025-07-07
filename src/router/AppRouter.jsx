@@ -20,6 +20,7 @@ import { MyTryouts } from "../pages/MyTryouts";
 import { TryoutDetail } from "../pages/Tryouts/TryoutDetail";
 import { AdminLogin } from "../pages/Admin/AdminLogin";
 import { AdminDashboard } from "../pages/Admin/AdminDashboard";
+import CBTPage from "../pages/CBTPage/CBTPage";
 
 const AppRouter = () => {
   const dispatch = useDispatch();
@@ -54,6 +55,7 @@ const AppRouter = () => {
         <Route path="/tryouts" element={<Tryouts />} />
         <Route path="/tryouts/:id" element={<TryoutDetail />} />
         <Route path="/myTryouts" element={<MyTryouts />} />
+        <Route path="/cbtPage" element={<CBTPage />} />
         <Route path="/games" element={<Game />} />
         <Route path="/flipcard" element={<FlipCard />} />
         <Route path="/profile" element={<ProfilePage />} />
