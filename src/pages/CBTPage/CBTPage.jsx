@@ -1,49 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-
-// Dummy data
-const dummyData = {
-  testPackageName: "Simulasi Tes Korea",
-  remainingDuration: 3600,
-  questions: [
-    {
-      id: "q1",
-      questionText: "Apa arti dari 안녕하세요?",
-      imageUrl: "",
-      audioUrl: "",
-      options: [
-        { id: "a", optionText: "Selamat tinggal" },
-        { id: "b", optionText: "Halo" },
-        { id: "c", optionText: "Terima kasih" },
-        { id: "d", optionText: "Maaf" },
-      ],
-    },
-    {
-      id: "q2",
-      questionText: "Pilih huruf vokal Korea!",
-      imageUrl: "",
-      audioUrl: "",
-      options: [
-        { id: "a", optionText: "ㄱ" },
-        { id: "b", optionText: "ㅏ" },
-        { id: "c", optionText: "ㅁ" },
-        { id: "d", optionText: "ㅂ" },
-      ],
-    },
-    {
-      id: "q3",
-      questionText: "Huruf konsonan berikut ini adalah?",
-      imageUrl: "",
-      audioUrl: "",
-      options: [
-        { id: "a", optionText: "ㅏ" },
-        { id: "b", optionText: "ㅗ" },
-        { id: "c", optionText: "ㅁ" },
-        { id: "d", optionText: "ㅣ" },
-      ],
-    },
-  ],
-};
+import { useParams } from "react-router-dom";
+import axiosInstance from "../../utils/axiosInstance"; // pastikan path ini sesuai dengan proyekmu
 
 // Anti-cheat Hook
 function useAntiCheat() {
@@ -56,7 +13,7 @@ function useAntiCheat() {
         alert(message);
         setViolationCount((prev) => prev + 1);
         setIsBlurred(true);
-        setTimeout(() => setIsBlurred(false), 3000); // hilangkan blur setelah 3 detik
+        setTimeout(() => setIsBlurred(false), 3000);
       }
     };
 
@@ -106,15 +63,33 @@ function useAntiCheat() {
   return { isBlurred };
 }
 
-const CBTPage = ({ testAttemptId }) => {
-  const [data, setData] = useState(dummyData);
+const CBTPage = () => {
+  const { testAttemptId } = useParams();
+  const [data, setData] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [timeLeft, setTimeLeft] = useState(dummyData.remainingDuration);
-  const { isBlurred } = useAntiCheat(); // Panggil anti-cheat hook
+  const [timeLeft, setTimeLeft] = useState(0);
+  const { isBlurred } = useAntiCheat();
 
-  // ⏱ Timer
+  // Ambil soal dari server
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axiosInstance.get(`/test-attempts/${testAttemptId}/details`);
+        const resData = res.data.data;
+        setData(resData);
+        setTimeLeft(resData.remainingDuration);
+      } catch (error) {
+        alert("❌ Gagal memuat soal ujian.");
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [testAttemptId]);
+
+  // Timer
+  useEffect(() => {
+    if (!timeLeft) return;
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
@@ -124,10 +99,9 @@ const CBTPage = ({ testAttemptId }) => {
         }
         return prev - 1;
       });
-    }, 1000); // 1 detik interval
-
+    }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [timeLeft]);
 
   const handleAnswer = (questionId, optionId) => {
     setAnswers((prev) => ({
@@ -155,8 +129,9 @@ const CBTPage = ({ testAttemptId }) => {
         selectedOptionId: answer,
       }));
 
-      // Simulasi POST
-      console.log("Submit:", formattedAnswers);
+      await axiosInstance.post(`/test-attempts/${testAttemptId}/submit`, {
+        answers: formattedAnswers,
+      });
 
       alert("✅ Ujian selesai! Jawaban telah disubmit.");
     } catch (error) {
@@ -170,6 +145,14 @@ const CBTPage = ({ testAttemptId }) => {
     const s = seconds % 60;
     return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
+
+  if (!data) {
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <p>Memuat soal...</p>
+      </div>
+    );
+  }
 
   const currentQuestion = data.questions[currentIndex];
   const userAnswer = answers[currentQuestion.id];
@@ -192,8 +175,7 @@ const CBTPage = ({ testAttemptId }) => {
               <button
                 key={q.id}
                 onClick={() => setCurrentIndex(index)}
-                className={`
-                  w-10 h-10 rounded-full text-sm font-bold
+                className={`w-10 h-10 rounded-full text-sm font-bold
                   ${isAnswered ? "bg-green-500 text-white" : "bg-gray-300 text-black"}
                   ${isActive ? "ring-2 ring-blue-500" : ""}
                 `}
