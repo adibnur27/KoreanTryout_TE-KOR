@@ -11,36 +11,20 @@ const UserDetails = () => {
   const user = useSelector((state) => state.auth.user);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
-    console.log("User from Redux:", user);
     const fetchProfile = async () => {
       try {
-        console.log("🚀 Memulai ambil profile");
         setLoading(true);
         const profileData = await getProfile();
-        console.log("✅ Profil berhasil diambil:", profileData);
-        
-        const transformedProfile = {
-          id: profileData.data.id,
-          fullName: profileData.data.fullName,
-          username: profileData.data.username,
-          email: profileData.data.email,
-          imageUrl: profileData.data.imageUrl,
-          isVerified: profileData.data.isVerified,
-          createdAt: profileData.data.createdAt,
-          role: profileData.data.role,
-        };
-        console.log(profileData);
-
-        dispatch(setUser(transformedProfile));
+        setProfile(profileData);
+        console.log("profile:", profileData); // simpan ke state lokal
         setError(null);
       } catch (err) {
-        console.log(err);
         setError("Gagal memuat profil. Silakan coba lagi.");
-        if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+        if (err.response?.status === 401 || err.response?.status === 403) {
           removeToken();
-          dispatch(clearUser());
           navigate("/login");
         }
       } finally {
@@ -48,25 +32,35 @@ const UserDetails = () => {
       }
     };
 
-    fetchProfile(); // panggil tanpa syarat
-  }, [dispatch, navigate]);
+    fetchProfile();
+  }, []);
 
   return (
     <div className="pt-5">
       <h3 className="text-2xl font-semibold mb-20 font-montserrat text-center">Detail Pengguna</h3>
       <div className="text-xl flex flex-col gap-3 ">
-        <p className="border-gray-400 border-b pb-2">
-          <strong className="me-2">Nama Lengkap:</strong> {user.fullName}
-        </p>
-        <p className="border-gray-400 border-b pb-2">
-          <strong className="me-2">Username:</strong> {user.username}
-        </p>
-        <p className="border-gray-400 border-b pb-2">
-          <strong className="me-2">Email:</strong> {user.email}
-        </p>
-        <p className="border-gray-400 border-b pb-2">
-          <strong className="me-2">Terdaftar Sejak:</strong> {new Date(user.createdAt).toLocaleString()}
-        </p>
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p className="text-red-500">{error}</p>
+        ) : profile ? (
+          <div className="text-xl flex flex-col gap-3">
+            <p className="border-gray-400 border-b pb-2">
+              <strong>Nama Lengkap:</strong> {profile.fullName}
+            </p>
+            <p className="border-gray-400 border-b pb-2">
+              <strong>Username:</strong> {profile.username}
+            </p>
+            <p className="border-gray-400 border-b pb-2">
+              <strong>Email:</strong> {profile.email}
+            </p>
+            <p className="border-gray-400 border-b pb-2">
+              <strong>Terdaftar Sejak:</strong> {new Date(profile.createdAt).toLocaleString()}
+            </p>
+          </div>
+        ) : (
+          <p>Data tidak tersedia</p>
+        )}
       </div>
     </div>
   );

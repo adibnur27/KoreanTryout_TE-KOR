@@ -72,13 +72,7 @@
           className="text-center
         px-6  pt-5 h-screen relative "
         >
-          {/* <div style={{ width: '100%', height: '300px', position: 'absolute', bottom:10, left:0, top:-190,}}>
-            <Threads
-              amplitude={1}
-              distance={0}
-              enableMouseInteraction={true}
-            />
-          </div> */}
+          
           <p className="text-2xl font-semibold max-w-4xl mx-auto font-opensans mb-5">
             <span className="text-kr-blue font-montserrat">TE</span>
             <span className="text-kr-red font-montserrat">-KOR </span>

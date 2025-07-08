@@ -151,7 +151,7 @@ const CBTTrial = () => {
                 return `<li style="padding: 4px 8px; margin-bottom: 4px; border-radius: 6px; ${bgColor}">
                 <span style="display: inline-block;width: 28px;height: 28px;text-align: center;line-height: 28px;border: 2px solid black;border-radius: 50%;margin-right: 8px;font-weight: bold;">${i + 1}</span>
                   ${opt.optionText} ${isCorrect ? "✅" : isUserAnswer ? "❌" : ""}
-                </li>`;
+                </li><hr>`;
               })
               .join("")}
           </ul>

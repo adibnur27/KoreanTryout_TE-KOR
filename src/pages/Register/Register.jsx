@@ -103,22 +103,22 @@ const Register = () => {
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
             <div>
-              <input type="text" {...register("fullName")} placeholder="FullName" className="w-full border border-kr-blue px-4 py-3 rounded-xl focus:outline-none" />
+              <input type="text" {...register("fullName")} autoComplete="off" placeholder="FullName" className="w-full border border-kr-blue px-4 py-3 rounded-xl focus:outline-none" />
               {errors.fullName && <p className="text-red-500 text-sm">{errors.fullName.message}</p>}
             </div>
 
             <div>
-              <input type="text" {...register("username")} placeholder="Username" className="w-full border border-kr-blue px-4 py-3 rounded-xl focus:outline-none" />
+              <input type="text" {...register("username")} autoComplete="off" placeholder="Username" className="w-full border border-kr-blue px-4 py-3 rounded-xl focus:outline-none" />
               {errors.username && <p className="text-red-500 text-sm">{errors.username.message}</p>}
             </div>
 
             <div>
-              <input type="email" {...register("email")} placeholder="Email" className="w-full border border-kr-blue px-4 py-3 rounded-xl focus:outline-none" />
+              <input type="email" {...register("email")} autoComplete="off" placeholder="Email" className="w-full border border-kr-blue px-4 py-3 rounded-xl focus:outline-none" />
               {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
             </div>
 
             <div className="relative">
-              <input type={showPassword ? "text" : "password"} placeholder="Password" {...register("password")} className="w-full border border-kr-blue rounded-md p-3 pr-10 focus:outline-none" />
+              <input type={showPassword ? "text" : "password"} autoComplete="off" placeholder="Password" {...register("password")} className="w-full border border-kr-blue rounded-md p-3 pr-10 focus:outline-none" />
               <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" tabIndex={-1}>
                 {showPassword ? (
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="#000000">
@@ -134,7 +134,7 @@ const Register = () => {
             </div>
 
             <div className="relative">
-              <input type={showConfirmPassword ? "text" : "password"} placeholder="Konfirmasi Password" {...register("confirmPassword")} className="w-full border border-kr-blue rounded-md p-3 pr-10 focus:outline-none" />
+              <input type={showConfirmPassword ? "text" : "password"} autoComplete="off" placeholder="Konfirmasi Password" {...register("confirmPassword")} className="w-full border border-kr-blue rounded-md p-3 pr-10 focus:outline-none" />
               <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" tabIndex={-1}>
                 {showPassword ? (
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="#000000">

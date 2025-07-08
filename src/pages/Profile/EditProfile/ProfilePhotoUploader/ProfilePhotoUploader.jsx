@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../../../features/auth/authSlice";
 import Swal from "sweetalert2";
-import axiosInstance from "../../../../utils/axiosInstance"; // ✅ gunakan axiosInstance
+import axiosInstance from "../../../../utils/axiosInstance";
 import { LoadingCircle } from "../../../../components/ui/LoadingCircle";
-import { div } from "framer-motion/client";
+import { getToken } from "../../../../utils/token";
 
 const ProfilePhotoUploader = () => {
   const [preview, setPreview] = useState(null);
@@ -12,6 +12,7 @@ const ProfilePhotoUploader = () => {
   const [loading, setLoading] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
+  const token = getToken();
 
   useEffect(() => {
     return () => {
@@ -36,11 +37,12 @@ const ProfilePhotoUploader = () => {
     setLoading(true);
     try {
       const response = await axiosInstance.post(
-        "/users/avatar", // ✅ tidak perlu baseURL
+        "/users/avatar",
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -72,8 +74,7 @@ const ProfilePhotoUploader = () => {
             className="hidden"
         />
         </label>
-      {/* <label className="text-sm font-semibold">Ubah Foto Profil</label>
-      <input type="file" accept="image/*" capture="user" onChange={handleFileChange} /> */}
+      
       {preview && (
         <div className="w-32 h-32 object-cover shadow">
 
