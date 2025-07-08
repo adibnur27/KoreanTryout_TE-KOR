@@ -19,7 +19,10 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-light-blue via-light-red to-light-red">
+      <span className="korean-pattern pointer-events-none absolute z-0 top-[20%] left-[10%] -rotate-[15deg] text-6xl opacity-20">한</span>
+      <span className="korean-pattern pointer-events-none absolute z-0 top-1/2 right-[10%] rotate-[15deg] text-6xl opacity-20">글</span>
+      <span className="korean-pattern pointer-events-none absolute z-0 bottom-[5%] left-[60%] -translate-x-1/2 -rotate-[10deg] text-6xl opacity-20">시</span>
       <form
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded shadow w-full max-w-md"
@@ -37,7 +40,7 @@ const ForgotPassword = () => {
         />
         <button
           type="submit"
-          className="w-full bg-orange-500 text-white py-2 rounded hover:bg-orange-600"
+          className="w-full font-bold bg-kr-blue text-white py-2 rounded border-2 hover:text-black hover:bg-light-blue hover:border-kr-blue hover:border-2"
         >
           Kirim Link Reset
         </button>
