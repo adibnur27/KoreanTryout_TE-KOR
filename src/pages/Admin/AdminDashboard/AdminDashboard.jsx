@@ -6,8 +6,8 @@ import { clearUser } from '../../../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
 import DashboardStats from '../components/DashboardStats';
 import UserTable from '../components/UserTable';
-import BundleTable from '../components/BundleTable';
-import Package from '../components/Package';
+import BundleManagement from '../components/BundleManagement';
+import TestPackage from '../components/TestPackage';
 import { getAllUsers } from '../../../services/adminService';
 import VocabularyDashboard from '../components/VocabularyDashboard';
 
@@ -58,16 +58,16 @@ const AdminDashboard = () => {
         <div className="text-left mt-10 mx-auto md:mx-0 lg:mx-0 flex flex-col  mb-5">
           <div className="text-left mx-auto md:mx-0 flex flex-col mb-10 font-montserrat font-semibold">
             <button onClick={() => setActiveTab("dashboardStats")} className={activeTab === "dashboardStats" ? "font-bold text-blue-600" : ""}>
-              dashboardStats
+              Dashboard Admin
             </button>
             <button onClick={() => setActiveTab("userTable")} className={activeTab === "userTable" ? "font-bold text-blue-600" : ""}>
-              User Table
+              Edit User
             </button>
             <button onClick={() => setActiveTab("bundleTable")} className={activeTab === "bundleTable" ? "font-bold text-blue-600" : ""}>
-              bundle
+              Edit Bundle
             </button>
             <button onClick={() => setActiveTab("package")} className={activeTab === "package" ? "font-bold text-blue-600" : ""}>
-              Edit Profile
+              Edit Test Package
             </button>
             <button onClick={() => setActiveTab("vocabularyDashboard")} className={activeTab === "vocabularyDashboard" ? "font-bold text-blue-600" : ""}>
               Edit Vocabulary
@@ -80,12 +80,11 @@ const AdminDashboard = () => {
       </div>
 
       <div className="lg:ms-52 px-10 border rounded-lg bg-gray-100 w-full text-left me-2 shadow-lg font-opensans">
-        {/* Content */}
         <div className="flex-1">
           {activeTab === "dashboardStats" && <DashboardStats />}
           {activeTab === "userTable" && <UserTable />}
-          {activeTab === "bundleTable" && <BundleTable />}
-          {activeTab === "package" && <Package />}
+          {activeTab === "bundleTable" && <BundleManagement />}
+          {activeTab === "package" && <TestPackage />}
           {activeTab === "vocabularyDashboard" && <VocabularyDashboard/>}
         </div>
       </div>
