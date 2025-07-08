@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance"; // pastikan path ini sesuai dengan proyekmu
+import Swal from "sweetalert2";
 
 // Anti-cheat Hook
 function useAntiCheat(active = true) {
@@ -32,11 +33,7 @@ function useAntiCheat(active = true) {
     const prevent = (e) => e.preventDefault();
 
     const disableKeyShortcuts = (e) => {
-      if (
-        e.key === "F12" ||
-        (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "i") ||
-        (e.ctrlKey && ["u", "c", "v", "x", "s"].includes(e.key.toLowerCase()))
-      ) {
+      if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "i") || (e.ctrlKey && ["u", "c", "v", "x", "s"].includes(e.key.toLowerCase()))) {
         e.preventDefault();
       }
     };
@@ -86,7 +83,7 @@ const CBTPage = () => {
         setData(resData);
         setTimeLeft(resData.remainingDuration);
       } catch (error) {
-        alert("❌ Gagal memuat soal ujian.");
+        Swal.fire("Gagal", "Gagal memuat soal ujian.", "error");
         console.error(error);
       }
     };
@@ -100,7 +97,7 @@ const CBTPage = () => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          alert("⏱ Waktu habis!");
+          Swal.fire("Waktu Habis", "Waktu ujian kamu telah habis.", "warning");
           return 0;
         }
         return prev - 1;
@@ -108,6 +105,10 @@ const CBTPage = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, [timeLeft]);
+
+  const isImageUrl = (text) => {
+    return /^https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp)$/i.test(text);
+  };
 
   const handleAnswer = (questionId, optionId) => {
     setAnswers((prev) => ({
@@ -140,11 +141,16 @@ const CBTPage = () => {
       });
 
       setIsSubmitted(true); // <== DISINI setelah submit berhasil
-      alert("✅ Ujian selesai! Jawaban telah disubmit. dan silahkan cek riwayat try out");
-
-      navigate("/profile");
+      Swal.fire({
+        title: "Ujian Selesai!",
+        text: "Jawaban telah disubmit. Silakan cek riwayat tryout di profil kamu.",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        navigate("/profile");
+      });
     } catch (error) {
-      alert("❌ Gagal submit jawaban.");
+      Swal.fire("Gagal", "Gagal submit jawaban.", "error");
       console.error(error);
     }
   };
@@ -167,8 +173,8 @@ const CBTPage = () => {
   const userAnswer = answers[currentQuestion.id];
 
   return (
-    <div className="min-h-screen bg-gradient-to-t from-light-red via-white to-light-blue pt-5">
-      <div className={`max-w-3xl mx-auto mt-10 p-6 bg-white shadow rounded-xl transition duration-300 ${isBlurred ? "blur-sm pointer-events-none" : ""}`}>
+    <div className="min-h-screen bg-gradient-to-t from-light-red via-white to-light-blue py-5">
+      <div className={`max-w-3xl mx-auto p-6 bg-white shadow rounded-xl transition duration-300 ${isBlurred ? "blur-sm pointer-events-none" : ""}`}>
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">{data.testPackageName}</h2>
@@ -196,12 +202,12 @@ const CBTPage = () => {
         </div>
 
         {/* Soal */}
-        <p className="mb-2 font-medium">Soal {currentIndex + 1} dari {data.questions.length}</p>
+        <p className="mb-2 font-medium">
+          Soal {currentIndex + 1} dari {data.questions.length}
+        </p>
         <p className="mb-4">{currentQuestion.questionText}</p>
 
-        {currentQuestion.imageUrl && (
-          <img src={currentQuestion.imageUrl} alt="Soal" className="mb-4 rounded" />
-        )}
+        {currentQuestion.imageUrl && <img src={currentQuestion.imageUrl} alt="Soal" className="mb-4 rounded" />}
 
         {currentQuestion.audioUrl && (
           <audio controls className="mb-4">
@@ -212,41 +218,26 @@ const CBTPage = () => {
 
         {/* Pilihan jawaban */}
         <div className="space-y-2 mb-4">
-          {currentQuestion.options.map((opt) => (
-            <button
-              key={opt.id}
-              onClick={() => handleAnswer(currentQuestion.id, opt.id)}
-              className={`w-full border px-4 py-2 rounded text-left ${
-                userAnswer === opt.id ? "bg-blue-200 font-bold" : "hover:bg-gray-100"
-              }`}
-            >
-              {opt.optionText}
+          {currentQuestion.options.map((opt,i) => (
+            <button key={opt.id} onClick={() => handleAnswer(currentQuestion.id, opt.id)} className={` flex w-full border px-4 py-2 rounded text-left ${userAnswer === opt.id ? "bg-blue-200 font-bold" : "hover:bg-gray-100"}`}>
+              <span className="block border-black w-7 h-7 text-center me-4 border-2 rounded-full">{++i}</span>
+              {isImageUrl(opt.optionText) ? <img src={opt.optionText} alt="Option" className="h-24 rounded object-contain" /> : <span>{opt.optionText}</span>}
             </button>
           ))}
         </div>
 
         {/* Navigasi bawah */}
         <div className="flex justify-between items-center mt-6">
-          <button
-            onClick={handlePrevious}
-            disabled={currentIndex === 0}
-            className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50"
-          >
+          <button onClick={handlePrevious} disabled={currentIndex === 0} className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50">
             Sebelumnya
           </button>
 
           {currentIndex === data.questions.length - 1 ? (
-            <button
-              onClick={handleSubmit}
-              className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-            >
+            <button onClick={handleSubmit} className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
               Selesai & Submit
             </button>
           ) : (
-            <button
-              onClick={handleNext}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
+            <button onClick={handleNext} className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
               Selanjutnya
             </button>
           )}

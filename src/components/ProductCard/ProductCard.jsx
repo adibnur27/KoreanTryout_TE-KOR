@@ -22,7 +22,7 @@ const ProductCard = ({
           <Button
             children={buttonText}
             className={'bg-kr-blue text-white px-6 rounded-xl text-lg font-semibold hover:bg-light-blue hover:text-black hover:border-kr-blue border-2 shadow font-inter'}
-            width={"100px"}
+            Minwidth={"100px"}
             height={"35px"}
             onClick={onButtonClick}
           />
