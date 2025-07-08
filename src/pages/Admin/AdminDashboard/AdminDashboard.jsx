@@ -4,12 +4,12 @@ import { removeToken } from '../../../utils/token';
 import { useDispatch} from 'react-redux';
 import { clearUser } from '../../../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
-import DashboardStats from '../components/DashboardStats';
 import UserTable from '../components/UserTable';
 import BundleManagement from '../components/BundleManagement';
 import TestPackage from '../components/TestPackage';
 import { getAllUsers } from '../../../services/adminService';
 import VocabularyDashboard from '../components/VocabularyDashboard';
+import ProfilePictureManagement from '../components/ProfilePictureManagement';
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
@@ -57,7 +57,7 @@ const AdminDashboard = () => {
       <div className=" lg:fixed lg:bottom-5 border lg:w-min p-5 py-3 rounded-lg bg-gray-100 w-full shadow-lg h-min">
         <div className="text-left mt-10 mx-auto md:mx-0 lg:mx-0 flex flex-col  mb-5">
           <div className="text-left mx-auto md:mx-0 flex flex-col mb-10 font-montserrat font-semibold">
-            <button onClick={() => setActiveTab("dashboardStats")} className={activeTab === "dashboardStats" ? "font-bold text-blue-600" : ""}>
+            <button onClick={() => setActiveTab("profilePictureManagement")} className={activeTab === "profilePictureManagement" ? "font-bold text-blue-600" : ""}>
               Dashboard Admin
             </button>
             <button onClick={() => setActiveTab("userTable")} className={activeTab === "userTable" ? "font-bold text-blue-600" : ""}>
@@ -81,7 +81,7 @@ const AdminDashboard = () => {
 
       <div className="lg:ms-52 px-10 border rounded-lg bg-gray-100 w-full text-left me-2 shadow-lg font-opensans">
         <div className="flex-1">
-          {activeTab === "dashboardStats" && <DashboardStats />}
+          {activeTab === "profilePictureManagement" && <ProfilePictureManagement />}
           {activeTab === "userTable" && <UserTable />}
           {activeTab === "bundleTable" && <BundleManagement />}
           {activeTab === "package" && <TestPackage />}
