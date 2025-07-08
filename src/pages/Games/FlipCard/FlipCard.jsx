@@ -81,8 +81,8 @@ const FlipCard = () => {
       {error && <p className="text-red-500">{error}</p>}
 
       {/* Vocabulary list */}
-      <div className="mt-20 min-h-screen font-serif flex gap-10 justify-around flex-wrap w-4/5 mx-auto bg-transparent ">
-        {[...vocabularies,...vocabularies].map((vocab) => (
+      <div className="mt-20 mb-10 min-h-screen font-serif flex gap-10 justify-around flex-wrap w-4/5 mx-auto bg-transparent ">
+        {[...vocabularies].map((vocab) => (
       <FadeContent blur={true} duration={500} easing="ease-out" initialOpacity={0}>
             <GameCard frontTopText={vocab.koreanWord} frontBottomText={vocab.romanization} backContent={vocab.translation} />
       </FadeContent>

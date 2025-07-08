@@ -5,7 +5,7 @@ const Footer = () => {
   const navItemStyle = ({ isActive }) => (isActive ? "text-kr-red font-semibold" : "text-white  hover:text-kr-blue");
 
   return (
-    <footer className=" lg:flex md:flex justify-center items-center gap-6 p-5 text-lg bg-blue-950 text-white">
+    <footer className=" lg:flex md:flex  items-center py-5 justify-around text-lg bg-blue-950 text-white">
       <div className=" w-1/2 mx-auto lg:mx-0 md:mx-0 ">
         <p className="my-2 text-xl text-center font-semibold tracking-wider">TEST - KOREA WITH</p>
         <svg className="mx-auto" width="200" height="40" viewBox="0 0 508 94" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -50,9 +50,9 @@ const Footer = () => {
         <p className="text-center mb-5">available on mobile</p>
         <img src="/src/assets/mobile.svg" alt="Mobile" className="w-[45%] mx-auto"/>
       </div>
-      <div className=" lg:w-[15%] md:flex">
-        <p className=" w-fit mx-auto">Supported By</p>
-        <img src="/src/assets/partner.svg" alt="partner" className=" mx-auto  w-[75%]" />
+      <div className=" lg:w-[15%]">
+        <p className="h-fit lg:w-full text-center  mx-auto">Supported By</p>
+        <img src="/src/assets/partner.svg" alt="partner" className=" mx-auto  w-[70%]" />
       </div>
       
     </footer>
