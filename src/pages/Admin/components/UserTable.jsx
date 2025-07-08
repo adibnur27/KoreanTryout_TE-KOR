@@ -27,10 +27,9 @@ const UserTable = () => {
           <thead className="bg-gray-100">
             <tr>
               <th className="px-4 py-2 border">No</th>
-              <th className="px-4 py-2 border">Nama Lengkap</th>
+
               <th className="px-4 py-2 border">Username</th>
               <th className="px-4 py-2 border">Email</th>
-              <th className="px-4 py-2 border">Verifikasi</th>
               <th className="px-4 py-2 border">Aksi</th>
             </tr>
           </thead>
@@ -38,16 +37,8 @@ const UserTable = () => {
             {users.map((user, index) => (
               <tr key={user.id} className="text-center hover:bg-gray-50">
                 <td className="px-4 py-2 border">{index + 1}</td>
-                <td className="px-4 py-2 border">{user.fullName}</td>
                 <td className="px-4 py-2 border">{user.username}</td>
                 <td className="px-4 py-2 border">{user.email}</td>
-                <td className="px-4 py-2 border">
-                  {user.isVerified ? (
-                    <span className="text-green-600 font-semibold">✔</span>
-                  ) : (
-                    <span className="text-red-600 font-semibold">✘</span>
-                  )}
-                </td>
                 <td className="px-4 py-2 border">
                   <button
                     onClick={() => navigate(`/admin/users/detail/${user.id}`)}
