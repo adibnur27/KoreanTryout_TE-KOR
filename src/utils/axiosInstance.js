@@ -31,7 +31,7 @@ axiosInstance.interceptors.request.use((config) => {
     "/login",
     "/forgot-password",
     "/reset-password",
-    "/auth/refresh", // Tambahkan endpoint refresh token
+    "/auth/refresh",
   ];
 
   const needsAuth = !noAuthEndpoints.some((endpoint) =>
@@ -53,7 +53,6 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // Jika error bukan 401 atau 403, atau sudah mencoba refresh
     if (
       (error.response.status !== 401 && error.response.status !== 403) ||
       originalRequest._retry
@@ -61,7 +60,6 @@ axiosInstance.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    // Jika sedang dalam proses refresh token, tambahkan permintaan ke antrian
     if (isRefreshing) {
       return new Promise((resolve, reject) => {
         failedQueue.push({ resolve, reject });
@@ -110,7 +108,5 @@ axiosInstance.interceptors.response.use(
     }
   }
 );
-
-
 
 export default axiosInstance;
