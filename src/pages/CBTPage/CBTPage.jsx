@@ -3,71 +3,71 @@ import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance"; // pastikan path ini sesuai dengan proyekmu
 
 // Anti-cheat Hook
-// function useAntiCheat(active = true) {
-//   const [violationCount, setViolationCount] = useState(0);
-//   const [isBlurred, setIsBlurred] = useState(false);
+function useAntiCheat(active = true) {
+  const [violationCount, setViolationCount] = useState(0);
+  const [isBlurred, setIsBlurred] = useState(false);
 
-//   useEffect(() => {
-//     if (!active) return;
+  useEffect(() => {
+    if (!active) return;
 
-//     const showAlert = (message) => {
-//       if (violationCount < 3) {
-//         alert(message);
-//         setViolationCount((prev) => prev + 1);
-//         setIsBlurred(true);
-//         setTimeout(() => setIsBlurred(false), 3000);
-//       }
-//     };
+    const showAlert = (message) => {
+      if (violationCount < 3) {
+        alert(message);
+        setViolationCount((prev) => prev + 1);
+        setIsBlurred(true);
+        setTimeout(() => setIsBlurred(false), 3000);
+      }
+    };
 
-//     const handleVisibilityChange = () => {
-//       if (document.hidden) {
-//         showAlert("🚨 Anda tidak boleh berpindah tab selama ujian berlangsung.");
-//       }
-//     };
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        showAlert("🚨 Anda tidak boleh berpindah tab selama ujian berlangsung.");
+      }
+    };
 
-//     const handleWindowBlur = () => {
-//       showAlert("🚨 Jangan meninggalkan halaman ujian!");
-//     };
+    const handleWindowBlur = () => {
+      showAlert("🚨 Jangan meninggalkan halaman ujian!");
+    };
 
-//     const prevent = (e) => e.preventDefault();
+    const prevent = (e) => e.preventDefault();
 
-//     const disableKeyShortcuts = (e) => {
-//       if (
-//         e.key === "F12" ||
-//         (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "i") ||
-//         (e.ctrlKey && ["u", "c", "v", "x", "s"].includes(e.key.toLowerCase()))
-//       ) {
-//         e.preventDefault();
-//       }
-//     };
+    const disableKeyShortcuts = (e) => {
+      if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "i") ||
+        (e.ctrlKey && ["u", "c", "v", "x", "s"].includes(e.key.toLowerCase()))
+      ) {
+        e.preventDefault();
+      }
+    };
 
-//     document.addEventListener("visibilitychange", handleVisibilityChange);
-//     window.addEventListener("blur", handleWindowBlur);
-//     document.addEventListener("contextmenu", prevent);
-//     document.addEventListener("keydown", disableKeyShortcuts);
-//     document.addEventListener("copy", prevent);
-//     document.addEventListener("paste", prevent);
-//     document.addEventListener("cut", prevent);
-//     document.addEventListener("selectstart", prevent);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("blur", handleWindowBlur);
+    document.addEventListener("contextmenu", prevent);
+    document.addEventListener("keydown", disableKeyShortcuts);
+    document.addEventListener("copy", prevent);
+    document.addEventListener("paste", prevent);
+    document.addEventListener("cut", prevent);
+    document.addEventListener("selectstart", prevent);
 
-//     return () => {
-//       document.removeEventListener("visibilitychange", handleVisibilityChange);
-//       window.removeEventListener("blur", handleWindowBlur);
-//       document.removeEventListener("contextmenu", prevent);
-//       document.removeEventListener("keydown", disableKeyShortcuts);
-//       document.removeEventListener("copy", prevent);
-//       document.removeEventListener("paste", prevent);
-//       document.removeEventListener("cut", prevent);
-//       document.removeEventListener("selectstart", prevent);
-//     };
-//   }, [active, violationCount]);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("blur", handleWindowBlur);
+      document.removeEventListener("contextmenu", prevent);
+      document.removeEventListener("keydown", disableKeyShortcuts);
+      document.removeEventListener("copy", prevent);
+      document.removeEventListener("paste", prevent);
+      document.removeEventListener("cut", prevent);
+      document.removeEventListener("selectstart", prevent);
+    };
+  }, [active, violationCount]);
 
-//   return { isBlurred };
-// }
+  return { isBlurred };
+}
 
 const CBTPage = () => {
-  // const [isSubmitted, setIsSubmitted] = useState(false);
-  // const { isBlurred } = useAntiCheat(!isSubmitted);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const { isBlurred } = useAntiCheat(!isSubmitted);
   const { testAttemptId } = useParams();
   const [data, setData] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -140,9 +140,9 @@ const CBTPage = () => {
       });
 
       setIsSubmitted(true); // <== DISINI setelah submit berhasil
-      alert("✅ Ujian selesai! Jawaban telah disubmit.");
+      alert("✅ Ujian selesai! Jawaban telah disubmit. dan silahkan cek riwayat try out");
 
-      navigate("/result");
+      navigate("/profile");
     } catch (error) {
       alert("❌ Gagal submit jawaban.");
       console.error(error);
