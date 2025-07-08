@@ -31,6 +31,43 @@ const MyTryouts = () => {
     fetchMyTests();
   }, []);
 
+ const handleStartTryout = async (packageId) => {
+  try {
+    const res = await axiosInstance.post(`/test-attempts/start/${packageId}`);
+    const attemptId = res.data.data.id;
+
+    // Tunggu sampai detail soal siap (maks 5x cek)
+    let retries = 0;
+    const maxRetries = 5;
+    let detailLoaded = false;
+
+    while (retries < maxRetries && !detailLoaded) {
+      try {
+        const check = await axiosInstance.get(`/test-attempts/${attemptId}/details`);
+        if (check.data?.data?.questions?.length > 0) {
+          detailLoaded = true;
+          break;
+        }
+      } catch (e) {
+        // skip, mungkin belum siap
+      }
+
+      retries++;
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // tunggu 1 detik
+    }
+
+    if (detailLoaded) {
+      navigate(`/cbt/${attemptId}`);
+    } else {
+      alert("Ujian belum siap, silakan coba lagi beberapa saat.");
+    }
+
+  } catch (error) {
+    alert("Gagal memulai tryout!");
+    console.error(error);
+  }
+};
+
   return (
     <div className="font-opensans">
       <Navbar />
@@ -65,7 +102,7 @@ const MyTryouts = () => {
                         price="Sudah Dibeli"
                         DiscountPrice=""
                         buttonText="Mulai"
-                        onButtonClick={() => navigate(`/cbt/${item.transactionId}`)}
+                        onButtonClick={() => handleStartTryout(item.testPackage.id)}
                       >
                         <img
                           src={imgDflt}
