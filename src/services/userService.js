@@ -1,10 +1,9 @@
 import axiosInstance from "../utils/axiosInstance";
 
 export const getProfile = async () => {
-  console.log("getProfile dipanggil");
+
   try {
     const response = await axiosInstance.get("/users");
-    console.log("API response:", response);
     return response.data.data;
   } catch (error) {
     console.error("Gagal getProfile:", error); // <== debug error
@@ -14,21 +13,11 @@ export const getProfile = async () => {
 
 
 export const changePassword = async ({ currentPassword, newPassword, confirmNewPassword }) => {
-  const token = localStorage.getItem("accessToken");
-
-  const response = await axiosInstance.post(
-    "/users/change-password",
-    {
-      currentPassword,
-      newPassword,
-      confirmNewPassword,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const response = await axiosInstance.post("/users/change-password", {
+    currentPassword,
+    newPassword,
+    confirmNewPassword,
+  });
 
   return response.data;
 };

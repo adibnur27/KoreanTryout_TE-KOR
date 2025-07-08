@@ -87,8 +87,9 @@ useEffect(() => {
   return (
     <div className="font-opensans">
       <Navbar />
-      <section className="py-16 pb-10 min-h-screen bg-gradient-to-t from-light-red pt-5 via-white to-light-blue">
-  
+      <section className="py-16 pb-10 pt-20 min-h-screen bg-gradient-to-t from-light-red via-white to-light-blue">
+        
+        
 
         <div className="max-w-4xl mx-auto mt-10 space-y-10">
           {loading ? (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ProductCard } from "../../components/ProductCard";
 import { GameCard } from "../../components/GameCard";
 import { Footer } from "../../components/Fotter";
@@ -28,13 +28,10 @@ const Games = () => {
       <span className="korean-pattern pointer-events-none absolute z-0 top-[80%] right-[10%] -rotate-[15deg] text-6xl opacity-10">한</span>
       <span className="korean-pattern pointer-events-none absolute z-0 top-[90%] left-[10%] rotate-[15deg] text-6xl opacity-10">글</span>
       <section className="py-16 min-h-screen pb-10 bg-gradient-to-t from-light-red pt-5 via-white  to-light-blue">
-        <div className="max-w-xl mx-auto mt-20">
-          <div className="flex border-2 border-black rounded-full overflow-hidden">
-            <input type="text" placeholder="Search" className="w-full px-4 py-2 outline-none placeholder-gray-500 bg-gradient-to-l from-light-red via-white  to-light-blue" />
-            {/* <button className="px-4 text-orange-500 text-lg ">🔍</button> */}
-          </div>
-        </div>
-        <div className="max-w-4xl mx-auto">
+        
+        
+        
+        <div className="max-w-4xl mx-auto pt-20">
           <ProductCard title="Game Balik Kartu" subtitle="Tebak kata dan balikkkan kartunya. Permainan yang seru dan membuat kamu menghafal kosa kata satu persatu" buttonText="Mulai" onButtonClick={() => navigate('/flipCard')}>
             <div className="flex gap-10">
               {items.map((item, i) => (

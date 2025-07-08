@@ -10,7 +10,6 @@
   const Tryouts = () => {
     const [packages, setPackages] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [showModal, setShowModal] = useState(true);
     const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,28 +37,14 @@
         <span className="korean-pattern pointer-events-none absolute z-0 top-[80%] right-[10%] -rotate-[15deg] text-6xl opacity-10">한</span>
         <span className="korean-pattern pointer-events-none absolute z-0 top-[100%] left-[10%] rotate-[15deg] text-6xl opacity-10">글</span>
 
-        {showModal && (
-          <div className="z-50 fixed bottom-2 end-0 animate-fade-in">
-            <div className="max-w-3xl mx-auto mt-4 px-6 py-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 rounded shadow-md flex justify-between items-start">
-              <div>
-                <h3 className="font-semibold text-md mb-1">Perhatian!</h3>
-                <p className="text-sm">
-                  Jika <strong>profile tidak muncul</strong> dan tombol <strong>login</strong> masih terlihat di navbar setelah login, silakan <strong>reload halaman</strong>.
-                </p>
-              </div>
-              <button onClick={() => setShowModal(false)} className="text-red-700 hover:text-red-600 font-bold text-xl ml-4" aria-label="Tutup modal">
-                &times;
-              </button>
-            </div>
-          </div>
-        )}
+        
 
-        <section className="py-16 pb-10 min-h-screen bg-gradient-to-t from-light-red pt-5 via-white to-light-blue">
-          <div className="max-w-xl mx-auto mt-20">
+        <section className="py-16 pt-20 pb-10 min-h-screen bg-gradient-to-t from-light-red via-white to-light-blue">
+          {/* <div className="max-w-xl mx-auto mt-20">
             <div className="flex border-2 border-black rounded-full overflow-hidden">
               <input type="text" placeholder="Search" className="w-full px-4 py-2 outline-none placeholder-gray-500 bg-gradient-to-l from-light-red via-white to-light-blue" />
             </div>
-          </div>
+          </div> */}
 
           <div className="max-w-4xl mx-auto mt-10 space-y-6">
             {loading ? (
