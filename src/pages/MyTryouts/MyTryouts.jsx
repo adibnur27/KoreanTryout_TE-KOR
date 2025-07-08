@@ -31,6 +31,17 @@ const MyTryouts = () => {
     fetchMyTests();
   }, []);
 
+  const handleStartTryout = async (packageId) => {
+    try {
+      const res = await axiosInstance.post(`/test-attempts/start/${packageId}`);
+      if (res.data.status === "Create") {
+        navigate(`/cbt/${res.data.data.id}`);
+      }
+    } catch (error) {
+      alert("Gagal memulai tryout!");
+    }
+  };
+
   return (
     <div className="font-opensans">
       <Navbar />
@@ -65,7 +76,7 @@ const MyTryouts = () => {
                         price="Sudah Dibeli"
                         DiscountPrice=""
                         buttonText="Mulai"
-                        onButtonClick={() => navigate(`/cbt/${item.transactionId}`)}
+                        onButtonClick={() => handleStartTryout(item.testPackage.id)}
                       >
                         <img
                           src={imgDflt}
