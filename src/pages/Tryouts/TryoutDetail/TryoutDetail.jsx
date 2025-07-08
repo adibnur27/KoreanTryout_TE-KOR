@@ -25,14 +25,13 @@ const TryoutDetail = () => {
     const fetchTryout = async () => {
       try {
         const data = await getTestPackageById(id);
-        setPkg(data);
+        setPkg(data.data);
       } catch (err) {
         console.error("Gagal memuat detail tryout", err);
       } finally {
         setLoading(false);
       }
     };
-
     fetchTryout();
   }, [id, user, navigate]);
 

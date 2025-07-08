@@ -6,6 +6,7 @@ import { LoadingCircle } from "../../components/ui/LoadingCircle";
 import { ProductCard } from "../../components/ProductCard";
 import axiosInstance from "../../utils/axiosInstance";
 import imgDflt from "../../assets/default-img.png";
+import coverfreetrial from "../../assets/coverfreetrial.jpg";
 import Swal from "sweetalert2";
 
 const MyTryouts = () => {
@@ -146,7 +147,7 @@ useEffect(() => {
         <div>
           <h2 className="text-xl font-semibold mb-4">Coba Simulasi</h2>
           <ProductCard title="Simulasi Tryout Gratis" subtitle="Tryout ini berisi 10 soal yang dimana kamu akan mencoba simulasi tryout mirip dengan tryout aslinya" price="Gratis" DiscountPrice="" buttonText="Coba Sekarang" onButtonClick={() => navigate("/cbt-trial")}>
-            <img src={imgDflt} alt="dummy" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <img src={coverfreetrial} alt="dummy" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </ProductCard>
         </div>
         </div>
