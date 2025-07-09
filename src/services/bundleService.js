@@ -56,5 +56,5 @@ export const updateBundle = async (bundleId, updateData) => {
  */
 export const deleteBundle = async (bundleId) => {
   const response = await axiosInstance.delete(`/bundles/${bundleId}`);
-  return response.data;
+  return response.message;
 }
