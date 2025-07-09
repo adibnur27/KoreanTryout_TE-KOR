@@ -17,7 +17,8 @@ const AdminLogin = () => {
 
     try {
       const data = await loginAdmin(formData);
-      localStorage.setItem("adminToken", data.token);
+      console.log("DATA LOGIN ADMIN:", data);
+      localStorage.setItem("adminToken", data.token.accessToken);
       navigate("/admin/dashboard");
     } catch (error) {
       console.log("Login error:", error);

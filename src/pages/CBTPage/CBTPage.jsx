@@ -1,87 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axiosInstance from "../../utils/axiosInstance"; // pastikan path ini sesuai dengan proyekmu
+import axiosInstance from "../../utils/axiosInstance";
 import Swal from "sweetalert2";
-
-// Anti-cheat Hook
-function useAntiCheat(active = true) {
-  const [violationCount, setViolationCount] = useState(0);
-  const [isBlurred, setIsBlurred] = useState(false);
-
-  useEffect(() => {
-    if (!active) return;
-
-    const showAlert = (message) => {
-      if (violationCount < 3) {
-        alert(message);
-        setViolationCount((prev) => prev + 1);
-        setIsBlurred(true);
-        setTimeout(() => setIsBlurred(false), 3000);
-      }
-    };
-
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        showAlert("🚨 Anda tidak boleh berpindah tab selama ujian berlangsung.");
-      }
-    };
-
-    const handleWindowBlur = () => {
-      showAlert("🚨 Jangan meninggalkan halaman ujian!");
-    };
-
-    const prevent = (e) => e.preventDefault();
-
-    const disableKeyShortcuts = (e) => {
-      if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "i") || (e.ctrlKey && ["u", "c", "v", "x", "s"].includes(e.key.toLowerCase()))) {
-        e.preventDefault();
-      }
-    };
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    window.addEventListener("blur", handleWindowBlur);
-    document.addEventListener("contextmenu", prevent);
-    document.addEventListener("keydown", disableKeyShortcuts);
-    document.addEventListener("copy", prevent);
-    document.addEventListener("paste", prevent);
-    document.addEventListener("cut", prevent);
-    document.addEventListener("selectstart", prevent);
-
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("blur", handleWindowBlur);
-      document.removeEventListener("contextmenu", prevent);
-      document.removeEventListener("keydown", disableKeyShortcuts);
-      document.removeEventListener("copy", prevent);
-      document.removeEventListener("paste", prevent);
-      document.removeEventListener("cut", prevent);
-      document.removeEventListener("selectstart", prevent);
-    };
-  }, [active, violationCount]);
-
-  return { isBlurred };
-}
 
 const CBTPage = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { isBlurred } = useAntiCheat(!isSubmitted);
   const { testAttemptId } = useParams();
   const [data, setData] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [timeLeft, setTimeLeft] = useState(0);
-
+  const [timeLeft, setTimeLeft] = useState(null);
   const navigate = useNavigate();
 
-  // Ambil soal dari server
+  // Fetch soal ujian
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axiosInstance.get(`/test-attempts/${testAttemptId}/details`);
         const resData = res.data.data;
-        console.log("id test attemp:", testAttemptId);
+
+        const start = new Date(resData.startTime).getTime();
+        const finish = new Date(resData.finishTime).getTime();
+        const now = new Date().getTime();
+        const remaining = finish - now;
+
         setData(resData);
-        setTimeLeft(resData.remainingDuration);
+        setTimeLeft(remaining > 0 ? Math.floor(remaining / 1000) : 0);
       } catch (error) {
         Swal.fire("Gagal", "Gagal memuat soal ujian.", "error");
         console.error(error);
@@ -90,32 +34,48 @@ const CBTPage = () => {
     fetchData();
   }, [testAttemptId]);
 
-  // Timer
+  // Countdown timer dan auto submit
   useEffect(() => {
-    if (!timeLeft) return;
+    if (timeLeft === null || isSubmitted) return;
+
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          Swal.fire("Waktu Habis", "Waktu ujian kamu telah habis.", "warning");
+          handleSubmit(true); // auto submit
           return 0;
         }
         return prev - 1;
       });
     }, 1000);
+
     return () => clearInterval(timer);
-  }, [timeLeft]);
+  }, [timeLeft, isSubmitted]);
 
-  const isImageUrl = (text) => {
-    return /^https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp)$/i.test(text);
-  };
+  const isImageUrl = (text) => /^https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp)$/i.test(text);
 
-  const handleAnswer = (questionId, optionId) => {
-    setAnswers((prev) => ({
-      ...prev,
-      [questionId]: optionId,
-    }));
+  const handleAnswer = async (questionId, optionId) => {
+    const newAnswers = { ...answers, [questionId]: optionId };
+    setAnswers(newAnswers);
+    localStorage.setItem(`answers_${testAttemptId}`, JSON.stringify(newAnswers));
+
+    try {
+      await axiosInstance.post(`/test-attempts/${testAttemptId}/answer`, {
+        questionId,
+        optionId,
+      });
+      console.log("Jawaban berhasil dikirim ke server");
+    } catch (error) {
+      console.error("Gagal mengirim jawaban ke server:", error);
+      // Optional: Tampilkan alert ringan atau toast
+    }
   };
+  useEffect(() => {
+    const savedAnswers = localStorage.getItem(`answers_${testAttemptId}`);
+    if (savedAnswers) {
+      setAnswers(JSON.parse(savedAnswers));
+    }
+  }, [testAttemptId]);
 
   const handleNext = () => {
     if (currentIndex < data.questions.length - 1) {
@@ -129,21 +89,23 @@ const CBTPage = () => {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (auto = false) => {
+    if (isSubmitted) return;
+
     try {
-      const formattedAnswers = Object.entries(answers).map(([questionId, answer]) => ({
+      const formattedAnswers = Object.entries(answers).map(([questionId, optionId]) => ({
         questionId,
-        selectedOptionId: answer,
+        selectedOptionId: optionId,
       }));
 
       await axiosInstance.post(`/test-attempts/${testAttemptId}/submit`, {
         answers: formattedAnswers,
       });
 
-      setIsSubmitted(true); // <== DISINI setelah submit berhasil
+      setIsSubmitted(true);
       Swal.fire({
-        title: "Ujian Selesai!",
-        text: "Jawaban telah disubmit. Silakan cek riwayat tryout di profil kamu.",
+        title: auto ? "Waktu Habis!" : "Ujian Selesai!",
+        text: auto ? "Waktu ujian telah habis dan jawabanmu telah otomatis disubmit." : "Jawaban telah disubmit. Silakan cek riwayat tryout di profil kamu.",
         icon: "success",
         confirmButtonText: "OK",
       }).then(() => {
@@ -156,6 +118,7 @@ const CBTPage = () => {
   };
 
   const formatTime = (seconds) => {
+    if (seconds === null || isNaN(seconds)) return "--:--";
     const m = Math.floor(seconds / 60);
     const s = seconds % 60;
     return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
@@ -174,14 +137,14 @@ const CBTPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-t from-light-red via-white to-light-blue py-5">
-      <div className={`max-w-3xl mx-auto p-6 bg-white shadow rounded-xl transition duration-300 ${isBlurred ? "blur-sm pointer-events-none" : ""}`}>
+      <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded-xl transition duration-300">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">{data.testPackageName}</h2>
           <span className="text-red-600 font-bold text-lg">🕒 {formatTime(timeLeft)}</span>
         </div>
 
-        {/* Navigasi nomor soal */}
+        {/* Navigasi soal */}
         <div className="flex flex-wrap gap-2 mb-6">
           {data.questions.map((q, index) => {
             const isAnswered = answers[q.id];
@@ -218,9 +181,9 @@ const CBTPage = () => {
 
         {/* Pilihan jawaban */}
         <div className="space-y-2 mb-4">
-          {currentQuestion.options.map((opt,i) => (
-            <button key={opt.id} onClick={() => handleAnswer(currentQuestion.id, opt.id)} className={` flex w-full border px-4 py-2 rounded text-left ${userAnswer === opt.id ? "bg-blue-200 font-bold" : "hover:bg-gray-100"}`}>
-              <span className="block border-black w-7 h-7 text-center me-4 border-2 rounded-full">{++i}</span>
+          {currentQuestion.options.map((opt, i) => (
+            <button key={opt.id} onClick={() => handleAnswer(currentQuestion.id, opt.id)} className={`flex w-full border px-4 py-2 rounded text-left ${userAnswer === opt.id ? "bg-blue-200 font-bold" : "hover:bg-gray-100"}`}>
+              <span className="block border-black w-7 h-7 text-center me-4 border-2 rounded-full">{i + 1}</span>
               {isImageUrl(opt.optionText) ? <img src={opt.optionText} alt="Option" className="h-24 rounded object-contain" /> : <span>{opt.optionText}</span>}
             </button>
           ))}
@@ -233,7 +196,7 @@ const CBTPage = () => {
           </button>
 
           {currentIndex === data.questions.length - 1 ? (
-            <button onClick={handleSubmit} className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+            <button onClick={() => handleSubmit(false)} className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
               Selesai & Submit
             </button>
           ) : (

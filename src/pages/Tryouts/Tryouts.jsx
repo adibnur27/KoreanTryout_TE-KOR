@@ -28,6 +28,7 @@
     .finally(() => setLoading(false));
 }, []);
 
+
     return (
       <div className="font-sans">
         <Navbar />
@@ -64,7 +65,7 @@
                   price={pkg.price === 0 ? "Gratis" : `Rp ${pkg.price.toLocaleString()}`}
                   DiscountPrice={pkg.discountPrice && pkg.discountPrice > 0 ? `Rp ${pkg.discountPrice.toLocaleString()}` : " "}
                   buttonText="Detail"
-                  onButtonClick={() => navigate(`/tryouts/${pkg.id}`)}
+                  onButtonClick={() => navigate(`/tryoutsDetail/${pkg.type}/${pkg.id}`)}
                 >
                   <img src={pkg.imageUrl || imgDflt} alt={pkg.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </ProductCard>
