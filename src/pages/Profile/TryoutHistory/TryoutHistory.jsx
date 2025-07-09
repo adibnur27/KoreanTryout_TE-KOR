@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../../../utils/axiosInstance"; // pastikan path sesuai
 import { LoadingCircle } from "../../../components/ui/LoadingCircle";
 
+import { marked } from "marked";
+
 const TryoutHistory = () => {
   const [tryouts, setTryouts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [expandedId, setExpandedId] = useState(null); // State untuk melacak ID yang diperluas
+
 
   const fetchCompletedTryouts = async () => {
     try {
@@ -83,9 +86,10 @@ const TryoutHistory = () => {
             {expandedId === attempt.id && (
               <div className="mt-4 pt-4 border-t">
                 <h3 className="font-semibold">Evaluasi AI:</h3>
-                <p className="text-gray-700 whitespace-pre-wrap">
-                  {attempt.aiEvaluationResult}
-                </p>
+                <div
+                    className="text-gray-700 whitespace-pre-wrap prose max-w-none"
+                    dangerouslySetInnerHTML={{ __html: marked.parse(attempt.aiEvaluationResult || "") }}
+                  />
               </div>
             )}
           </li>

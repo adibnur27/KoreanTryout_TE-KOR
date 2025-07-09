@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
     uploadVocabularies,
     fetchVocabCategories,
-    // HIGHLIGHT: deleteVocabCategory dihapus dari import
     fetchVocabulariesByCategory,
     deleteVocabulary
 } from '../../../services/vocabService';
@@ -15,7 +14,6 @@ const VocabularyDashboard = () => {
     const [vocabularies, setVocabularies] = useState([]);
 
     const [isUploading, setIsUploading] = useState(false);
-    // HIGHLIGHT: State isDeleting dihapus karena tidak lagi diperlukan
     const [isFetchingCategories, setIsFetchingCategories] = useState(false);
     const [isFetchingVocabs, setIsFetchingVocabs] = useState(false);
     const [deletingVocabId, setDeletingVocabId] = useState(null);

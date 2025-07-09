@@ -72,20 +72,20 @@ const ProfilePage = () => {
       <img
         src={user.imageUrl}
         alt={user.username}
-        className="w-48 h-48 object-cover mx-auto rounded-full"
+        className="w-48 h-48 object-cover mx-auto rounded"
       />
     );
   } else if (user?.username) {
     const initial = user.username.charAt(0).toUpperCase();
     return (
-      <div className="w-48 h-48 bg-kr-red rounded-full mx-auto text-white flex items-center justify-center text-8xl font-bold">
+      <div className="w-48 h-48 bg-kr-red rounded mx-auto text-white flex items-center justify-center text-8xl font-bold">
         {initial}
       </div>
     );
   }
 
   return (
-    <div className="w-48 h-48 rounded-full mx-auto bg-gray-300 animate-pulse" />
+    <div className="w-48 h-48 rounded mx-auto bg-gray-300 animate-pulse" />
   );
 };
 
