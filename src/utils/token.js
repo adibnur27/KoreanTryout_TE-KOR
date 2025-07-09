@@ -10,6 +10,8 @@ export const getToken = () => {
 
 export const removeToken = () => {
   localStorage.removeItem("token");
+  localStorage.removeItem("adminToken");
   localStorage.removeItem("refreshToken");
   localStorage.removeItem("user");
 };
+

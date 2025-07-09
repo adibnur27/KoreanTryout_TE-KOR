@@ -21,6 +21,13 @@ const AdminDashboard = () => {
 
   useEffect(() => {
   const fetchUsers = async () => {
+    const adminToken = localStorage.getItem("adminToken");
+
+    if (!adminToken) {
+      // Redirect jika tidak ada token admin
+      navigate("/admin"); // asumsikan ini halaman login admin
+    }
+
     if (activeTab === "userTable") {
       try {
         setLoading(true);

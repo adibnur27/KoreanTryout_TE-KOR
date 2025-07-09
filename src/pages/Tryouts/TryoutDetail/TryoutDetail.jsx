@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getTestPackageById } from "../../../services/testPackageService";
+import { getBundlesById } from "../../../services/bundleService";
+
 import { Navbar } from "../../../components/Navbar";
 import { Footer } from "../../../components/Fotter";
 import { LoadingCircle } from "../../../components/ui/LoadingCircle";
@@ -10,7 +12,7 @@ import { Button } from "../../../components/Button";
 import axiosInstance from "../../../utils/axiosInstance";
 
 const TryoutDetail = () => {
-  const { id } = useParams();
+  const { type, id } = useParams();
   const [pkg, setPkg] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -22,9 +24,18 @@ const TryoutDetail = () => {
       return;
     }
 
-    const fetchTryout = async () => {
+    const fetchTryout = async (id, type) => {
       try {
-        const data = await getTestPackageById(id);
+        let data;
+        if (type === "package") {
+          data = await getTestPackageById(id);
+        } else if (type === "bundle") {
+          data = await getBundlesById(id);
+        } else {
+          console.warn("Unknown type:", type);
+          return;
+        }
+
         setPkg(data.data);
       } catch (err) {
         console.error("Gagal memuat detail tryout", err);
@@ -32,18 +43,26 @@ const TryoutDetail = () => {
         setLoading(false);
       }
     };
-    fetchTryout();
-  }, [id, user, navigate]);
+    fetchTryout(id, type);
+  }, [type, id, user, navigate]);
 
   const handleBuy = async () => {
     try {
-      const response = await axiosInstance.post(
-        "/transactions/create",
-        {
-          testPackageId: id,
-          quantity: 1, // statis, sesuai permintaan
-        }
-      );
+      const payload = {
+        quantity: 1, // statis
+      };
+
+      // Tentukan field ID yang dikirim berdasarkan type
+      if (type === "package") {
+        payload.testPackageId = id;
+      } else if (type === "bundle") {
+        payload.bundleId = id;
+      } else {
+        alert("Tipe tidak dikenali");
+        return;
+      }
+
+      const response = await axiosInstance.post("/transactions/create", payload);
 
       const redirectUrl = response.data.data.redirectUrl;
 
@@ -53,17 +72,17 @@ const TryoutDetail = () => {
         alert("Gagal mendapatkan URL pembayaran.");
       }
     } catch (error) {
-  console.error("Gagal membuat transaksi:", error);
-  if (error.response) {
-    console.log("Response error:", error.response.data);
-  } else if (error.request) {
-    console.log("No response received:", error.request);
-  } else {
-    console.log("Error setting up request:", error.message);
-  }
+      console.error("Gagal membuat transaksi:", error);
+      if (error.response) {
+        console.log("Response error:", error.response.data);
+      } else if (error.request) {
+        console.log("No response received:", error.request);
+      } else {
+        console.log("Error setting up request:", error.message);
+      }
 
-  alert("Terjadi kesalahan saat memproses pembelian.");
-}
+      alert("Terjadi kesalahan saat memproses pembelian.");
+    }
   };
 
   if (!user) return null;
@@ -96,31 +115,17 @@ const TryoutDetail = () => {
         <div>
           <h1 className="text-3xl font-bold mt-4">{pkg.name}</h1>
           <p className="text-gray-700 mt-2 mb-10 max-w-2xl">{pkg.description}</p>
-          <p className="text-md text-red-600 line-through">
-            {pkg.price && pkg.discountPrice !== pkg.price
-              ? `Rp ${pkg.price.toLocaleString()}`
-              : ""}
-          </p>
-          <p className="text-xl font-bold mb-5">
-            {pkg.price - (pkg.discountPrice ?? 0) === 0
-              ? "Gratis"
-              : `Rp ${(pkg.discountPrice ?? pkg.price).toLocaleString()}`}
-          </p>
+          <p className="text-md text-red-600 line-through">{pkg.price && pkg.discountPrice !== pkg.price ? `Rp ${pkg.price.toLocaleString()}` : ""}</p>
+          <p className="text-xl font-bold mb-5">{pkg.price - (pkg.discountPrice ?? 0) === 0 ? "Gratis" : `Rp ${(pkg.discountPrice ?? pkg.price).toLocaleString()}`}</p>
           <Button
             children={"Beli"}
-            className={
-              "bg-kr-blue text-white px-6 rounded-xl text-lg font-semibold hover:bg-light-blue hover:text-black hover:border-kr-blue border-2 shadow font-inter"
-            }
+            className={"bg-kr-blue text-white px-6 rounded-xl text-lg font-semibold hover:bg-light-blue hover:text-black hover:border-kr-blue border-2 shadow font-inter"}
             width={"100px"}
             height={"35px"}
             onClick={handleBuy}
           />
         </div>
-        <img
-          src={pkg.imageUrl || imgDflt}
-          alt={pkg.name}
-          className="w-1/4 h-1/4 object-cover rounded"
-        />
+        <img src={pkg.imageUrl || imgDflt} alt={pkg.name} className="w-1/4 h-1/4 object-cover rounded" />
       </div>
 
       <div className="max-w-6xl mx-auto mt-5 p-5 bg-white rounded shadow-md">
@@ -132,4 +137,3 @@ const TryoutDetail = () => {
 };
 
 export default TryoutDetail;
-
