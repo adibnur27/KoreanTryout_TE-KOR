@@ -16,6 +16,16 @@ export const getAllPackages = async () => {
   return response.data;
 };
 
+/**
+ * @description Mengambil bundles yang tersedia by id.
+ */
+
+export const getBundlesById = async (id) => {
+  const response = await axiosInstance.get(`/bundles/${id}`);
+  return response.data;
+};
+
+
 export const createBundle = async (bundleData) => {
   return axiosInstance.post('/bundles', { // highlight-line
     name: bundleData.name,

@@ -260,8 +260,8 @@
 
         {/* Products Section */}
         <section id="tryit-now" className="px-16 pb-10 bg-gradient-to-r from-light-blue pt-5  to-white">
-          <p className="text-center p-16 font-inter font-bold text-3xl font-montserrat">Coba Sekarang</p>
-          <ProductCard title="Permainan Flip-Card" subtitle="Tebak kata dan balikkkan kartunya. Permainan yang seru dan membuat kamu menghafal kosa kata satu persatu" buttonText="Mulai" onButtonClick={() => navigate("/games")}>
+          <p className="text-center p-16 font-inter font-bold text-3xl font-montserrat">Mainkan Sekarang</p>
+          <ProductCard title="Permainan Balik Kartu" subtitle="Tebak kata dan balikkkan kartunya. Permainan yang seru dan membuat kamu menghafal kosa kata satu persatu" buttonText="Coba Sekarang" onButtonClick={() => navigate("/games")}>
             <div className="flex gap-10">
               {items.map((item, i) => (
                 <div key={i}>
