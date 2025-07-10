@@ -141,7 +141,9 @@ const CBTPage = () => {
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">{data.testPackageName}</h2>
-          <span className="text-red-600 font-bold text-lg">🕒 {formatTime(timeLeft)}</span>
+          <span className="text-red-600 font-bold text-lg">
+            🕒 {formatTime(timeLeft)}
+          </span>
         </div>
 
         {/* Navigasi soal */}
@@ -154,7 +156,11 @@ const CBTPage = () => {
                 key={q.id}
                 onClick={() => setCurrentIndex(index)}
                 className={`w-10 h-10 rounded-full text-sm font-bold
-                  ${isAnswered ? "bg-green-500 text-white" : "bg-gray-300 text-black"}
+                  ${
+                    isAnswered
+                      ? "bg-green-500 text-white"
+                      : "bg-gray-300 text-black"
+                  }
                   ${isActive ? "ring-2 ring-blue-500" : ""}
                 `}
               >
@@ -173,7 +179,7 @@ const CBTPage = () => {
         {currentQuestion.imageUrl && <img src={currentQuestion.imageUrl} alt="Soal" className="mb-4 rounded" />}
 
         {currentQuestion.audioUrl && (
-          <audio controls className="mb-4">
+          <audio key={currentQuestion.audioUrl} controls className="mb-4">
             <source src={currentQuestion.audioUrl} type="audio/mp3" />
             Browser tidak mendukung audio.
           </audio>
