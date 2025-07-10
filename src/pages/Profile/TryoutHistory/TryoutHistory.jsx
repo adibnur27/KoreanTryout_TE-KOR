@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../../../utils/axiosInstance"; // pastikan path sesuai
+import axiosInstance from "../../../utils/axiosInstance";
 import { LoadingCircle } from "../../../components/ui/LoadingCircle";
-
 import { marked } from "marked";
+import ReviewModal from "./ReviewModal"; // Impor modal
 
 const TryoutHistory = () => {
   const [tryouts, setTryouts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [expandedId, setExpandedId] = useState(null); // State untuk melacak ID yang diperluas
+  const [expandedId, setExpandedId] = useState(null);
 
+  // State untuk modal review
+  const [isReviewModalOpen, setReviewModalOpen] = useState(false);
+  const [reviewData, setReviewData] = useState(null);
+  const [reviewLoading, setReviewLoading] = useState(false);
+  const [reviewError, setReviewError] = useState(null);
 
   const fetchCompletedTryouts = async () => {
     try {
@@ -29,7 +34,27 @@ const TryoutHistory = () => {
   }, []);
 
   const handleToggle = (id) => {
-    setExpandedId(expandedId === id ? null : id); // Toggle
+    setExpandedId(expandedId === id ? null : id);
+  };
+
+  const handleOpenReviewModal = async (attemptId) => {
+    setReviewLoading(true);
+    setReviewError(null);
+    try {
+      const res = await axiosInstance.get(`/test-attempts/${attemptId}/review`);
+      setReviewData(res.data.data);
+      setReviewModalOpen(true);
+    } catch (err) {
+      console.error("Gagal mengambil data review:", err);
+      setReviewError("Gagal memuat data review. Silakan coba lagi.");
+    } finally {
+      setReviewLoading(false);
+    }
+  };
+
+  const handleCloseReviewModal = () => {
+    setReviewModalOpen(false);
+    setReviewData(null);
   };
 
   if (loading) return <LoadingCircle />;
@@ -75,10 +100,17 @@ const TryoutHistory = () => {
                 </p>
               </div>
             </div>
-            <div className="mt-2 flex justify-end text-sm">
+            <div className="mt-2 flex justify-end text-sm gap-2">
+              <button
+                onClick={() => handleOpenReviewModal(attempt.id)}
+                disabled={reviewLoading}
+                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              >
+                {reviewLoading ? <LoadingCircle size={5} /> : "Lihat Jawaban"}
+              </button>
               <button
                 onClick={() => handleToggle(attempt.id)}
-                className="bg-kr-blue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded "
+                className="bg-kr-blue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               >
                 {expandedId === attempt.id ? "Tutup" : "Lihat Evaluasi"}
               </button>
@@ -87,16 +119,25 @@ const TryoutHistory = () => {
               <div className="mt-4 pt-4 border-t">
                 <h3 className="font-semibold">Evaluasi AI:</h3>
                 <div
-                    className="text-gray-700 whitespace-pre-wrap prose max-w-none"
-                    dangerouslySetInnerHTML={{ __html: marked.parse(attempt.aiEvaluationResult || "") }}
-                  />
+                  className="text-gray-700 whitespace-pre-wrap prose max-w-none"
+                  dangerouslySetInnerHTML={{
+                    __html: marked.parse(attempt.aiEvaluationResult || ""),
+                  }}
+                />
               </div>
             )}
           </li>
         ))}
       </ul>
+      {reviewError && <p className="text-red-500 text-center">{reviewError}</p>}
+      <ReviewModal
+        isOpen={isReviewModalOpen}
+        onClose={handleCloseReviewModal}
+        reviewData={reviewData}
+      />
     </div>
   );
 };
 
 export default TryoutHistory;
+
