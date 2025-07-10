@@ -10,7 +10,33 @@ const CBTPage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [timeLeft, setTimeLeft] = useState(null);
+  const [violationCount, setViolationCount] = useState(0); // 🔐 counter pelanggaran
   const navigate = useNavigate();
+
+  // 🔐 Fungsi untuk menangani pelanggaran
+  const registerViolation = (reason) => {
+    setViolationCount((prev) => {
+      const newCount = prev + 1;
+
+      if (newCount >= 3) {
+        Swal.fire({
+          title: "Ujian Dihentikan",
+          text: `Kamu melanggar aturan sebanyak ${newCount} kali. Ujian akan disubmit otomatis.`,
+          icon: "error",
+        }).then(() => {
+          handleSubmit(true); // auto submit
+        });
+      } else {
+        Swal.fire({
+          title: "Peringatan!",
+          text: `${reason} (${newCount}/3 pelanggaran)`,
+          icon: "warning",
+        });
+      }
+
+      return newCount;
+    });
+  };
 
   // Fetch soal ujian
   useEffect(() => {
@@ -52,6 +78,46 @@ const CBTPage = () => {
     return () => clearInterval(timer);
   }, [timeLeft, isSubmitted]);
 
+  // 🔐 Aturan anti-cheat setelah data tersedia
+  useEffect(() => {
+    if (!data) return;
+
+
+    // Deteksi keluar tab
+    const handleBlur = () => {
+      registerViolation("Kamu keluar dari tab browser.");
+    };
+
+    
+
+    // Blokir klik kanan
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+      Swal.fire("Dilarang", "Klik kanan dinonaktifkan saat ujian!", "info");
+    };
+
+    // Blokir kombinasi tombol
+    const handleKeyDown = (e) => {
+      if (
+        (e.ctrlKey && ["c", "u", "s", "a"].includes(e.key.toLowerCase())) ||
+        e.key === "F12"
+      ) {
+        e.preventDefault();
+        Swal.fire("Dilarang", "Shortcut ini dinonaktifkan selama ujian!", "error");
+      }
+    };
+
+    window.addEventListener("blur", handleBlur);
+    window.addEventListener("contextmenu", handleContextMenu);
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("blur", handleBlur);
+      window.removeEventListener("contextmenu", handleContextMenu);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [data]);
+
   const isImageUrl = (text) => /^https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp)$/i.test(text);
 
   const handleAnswer = async (questionId, optionId) => {
@@ -64,12 +130,11 @@ const CBTPage = () => {
         questionId,
         optionId,
       });
-      console.log("Jawaban berhasil dikirim ke server");
     } catch (error) {
       console.error("Gagal mengirim jawaban ke server:", error);
-      // Optional: Tampilkan alert ringan atau toast
     }
   };
+
   useEffect(() => {
     const savedAnswers = localStorage.getItem(`answers_${testAttemptId}`);
     if (savedAnswers) {
@@ -136,45 +201,16 @@ const CBTPage = () => {
   const userAnswer = answers[currentQuestion.id];
 
   return (
-    <div className="min-h-screen bg-gradient-to-t from-light-red via-white to-light-blue py-5">
-      <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded-xl transition duration-300">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold">{data.testPackageName}</h2>
-          <span className="text-red-600 font-bold text-lg">
-            🕒 {formatTime(timeLeft)}
-          </span>
-        </div>
-
+    <div className="min-h-screen flex bg-gradient-to-t from-light-red  to-light-blue py-2 px-5 relative">
+      <div className="w-2/3 p-6 pt-0 bg-white shadow rounded-xl transition duration-300 ms-5 relative">
         {/* Navigasi soal */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          {data.questions.map((q, index) => {
-            const isAnswered = answers[q.id];
-            const isActive = currentIndex === index;
-            return (
-              <button
-                key={q.id}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-10 h-10 rounded-full text-sm font-bold
-                  ${
-                    isAnswered
-                      ? "bg-green-500 text-white"
-                      : "bg-gray-300 text-black"
-                  }
-                  ${isActive ? "ring-2 ring-blue-500" : ""}
-                `}
-              >
-                {index + 1}
-              </button>
-            );
-          })}
+        <div className="text-center mt-5 text-lg">
+          <p className="mb-2 font-bold">
+            Soal {currentIndex + 1} dari {data.questions.length}
+          </p>
         </div>
 
-        {/* Soal */}
-        <p className="mb-2 font-medium">
-          Soal {currentIndex + 1} dari {data.questions.length}
-        </p>
-        <p className="mb-4">{currentQuestion.questionText}</p>
+        <p className="mt-8 mb-5">{currentQuestion.questionText}</p>
 
         {currentQuestion.imageUrl && <img src={currentQuestion.imageUrl} alt="Soal" className="mb-4 rounded" />}
 
@@ -185,8 +221,7 @@ const CBTPage = () => {
           </audio>
         )}
 
-        {/* Pilihan jawaban */}
-        <div className="space-y-2 mb-4">
+        <div className="space-y-2">
           {currentQuestion.options.map((opt, i) => (
             <button key={opt.id} onClick={() => handleAnswer(currentQuestion.id, opt.id)} className={`flex w-full border px-4 py-2 rounded text-left ${userAnswer === opt.id ? "bg-blue-200 font-bold" : "hover:bg-gray-100"}`}>
               <span className="block border-black w-7 h-7 text-center me-4 border-2 rounded-full">{i + 1}</span>
@@ -195,21 +230,65 @@ const CBTPage = () => {
           ))}
         </div>
 
-        {/* Navigasi bawah */}
-        <div className="flex justify-between items-center mt-6">
-          <button onClick={handlePrevious} disabled={currentIndex === 0} className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50">
-            Sebelumnya
+        <div className="flex justify-between items-center mt-5">
+          <button onClick={handlePrevious} disabled={currentIndex === 0} className="px-4 py-1 flex gap-2 font-semibold rounded bg-light-red">
+            <svg xmlns="http://www.w3.org/2000/svg" className="mt-[2px]" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+            <p>Sebelumnya</p>
           </button>
-
           {currentIndex === data.questions.length - 1 ? (
-            <button onClick={() => handleSubmit(false)} className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+            <button onClick={() => handleSubmit(false)} className="px-4 py-1 font-semibold bg-green-600  text-white rounded hover:bg-green-700">
               Selesai & Submit
             </button>
           ) : (
-            <button onClick={handleNext} className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-              Selanjutnya
+            <button onClick={handleNext} className="px-4 py-1 flex gap-2  font-semibold rounded bg-light-blue">
+              <p>Selanjutnya</p>
+              <div>
+              <svg xmlns="http://www.w3.org/2000/svg" className="mt-[2px]" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg>
+              </div>
             </button>
           )}
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2 max-w-sm  font-opensans fixed right-8 top-1">
+        <div className="rounded-xl bg-white px-6 py-2">
+          <p className="text-lg font-bold text-kr-blue">Test</p>
+          <h2 className="text-xl font-bold ">{data.testPackageName}</h2>
+        </div>
+
+        <div className="rounded-xl bg-white px-6 py-2">
+          <p className="text-lg font-bold text-kr-blue">Sisa Waktu</p>
+          <div className="flex">
+            <svg xmlns="http://www.w3.org/2000/svg" className="mt-[2px] me-2" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M360-840v-80h240v80H360Zm80 440h80v-240h-80v240Zm40 320q-74 0-139.5-28.5T226-186q-49-49-77.5-114.5T120-440q0-74 28.5-139.5T226-694q49-49 114.5-77.5T480-800q62 0 119 20t107 58l56-56 56 56-56 56q38 50 58 107t20 119q0 74-28.5 139.5T734-186q-49 49-114.5 77.5T480-80Zm0-80q116 0 198-82t82-198q0-116-82-198t-198-82q-116 0-198 82t-82 198q0 116 82 198t198 82Zm0-280Z"/></svg>
+          <h2 className="text-black text-xl font-bold">00:{formatTime(timeLeft)}</h2>
+          </div>
+        </div>
+
+        <div className="rounded-xl bg-white px-6 py-4">
+          <p className="text-lg font-bold text-red-600">Pelanggaran</p>
+          <h2 className="text-black text-xl font-bold ">{violationCount} / 3</h2>
+        </div>
+
+        <div className="rounded-xl bg-white px-6 py-4">
+          <p className="text-xl font-bold text-kr-blue">Soal</p>
+          <div className="flex flex-wrap gap-2 my-4 ">
+            {data.questions.map((q, index) => {
+              const isAnswered = answers[q.id];
+              const isActive = currentIndex === index;
+              return (
+                <button
+                  key={q.id}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`w-10 h-10 rounded-full text-sm font-bold
+                  ${isAnswered ? "bg-green-500 text-white" : "bg-gray-300 text-black"}
+                  ${isActive ? "ring-2 ring-blue-500" : ""}
+                `}
+                >
+                  {index + 1}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
