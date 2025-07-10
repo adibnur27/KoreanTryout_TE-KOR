@@ -96,7 +96,7 @@ const AdminDashboard = () => {
         
       </div>
 
-      <div className="ms-64 px-10 rounded-lg w-[90%] text-left shadow-md shadow-blue-950 font-opensans bg-gradient-to-r from-light-blue to-light-red">
+      <div className="ms-[16rem] px-10 rounded-lg w-[90%] text-left shadow-md shadow-blue-950 font-opensans bg-gradient-to-r from-light-blue to-light-red">
         <div className="">
           {activeTab === "profilePictureManagement" && <ProfilePictureManagement />}
           {activeTab === "userTable" && <UserTable />}
