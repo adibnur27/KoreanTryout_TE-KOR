@@ -88,8 +88,8 @@ const AdminDashboard = () => {
                Test Package
             </button>
           </div>
-          <div className=" w-min mx-auto cursor-pointer">
-            <p onClick={handleLogout} className='font-opensans text-xl'>Logout</p>
+          <div className="mx-auto cursor-pointer border border-gray-500 w-[90%] pb-1 hover:bg-gradient-to-r from-light-blue to-light-red hover:text-blue-950">
+            <p onClick={handleLogout} className='font-opensans text-xl text-center'>Logout</p>
             {/* <Button onClick={handleLogout} children="Logout" width="150px" borderRadius='0.2rem' /> */}
           </div>
         </div>
