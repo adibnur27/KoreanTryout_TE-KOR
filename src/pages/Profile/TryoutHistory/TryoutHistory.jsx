@@ -85,7 +85,10 @@ const TryoutHistory = () => {
             <div className="flex justify-between items-center">
               <div>
                 <p>
-                  <strong>Package ID:</strong> {attempt.packageId}
+                  <strong> {attempt.testPackageName}</strong>
+                </p>
+                <p>
+                 {attempt.packageId}
                 </p>
                 <p>
                   <strong>Skor:</strong> {attempt.score}
@@ -117,7 +120,7 @@ const TryoutHistory = () => {
             </div>
             {expandedId === attempt.id && (
               <div className="mt-4 pt-4 border-t">
-                <h3 className="font-semibold">Evaluasi AI:</h3>
+                <h3 className="font-semibold">Evaluasi dari Tekor:</h3>
                 <div
                   className="text-gray-700 whitespace-pre-wrap prose max-w-none"
                   dangerouslySetInnerHTML={{
