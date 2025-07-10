@@ -58,7 +58,7 @@ export const deleteTestPackage = async (id) => {
  * @returns {Promise<object>} Data respons dari server yang berisi daftar semua packages dan bundles.
  */
 export const getAllPackagesAndBundles = async () => {
-  const response = await axiosInstance.get("/test-packages");
+  const response = await axiosInstance.get("/bundles");
   return response.data;
 };
 
@@ -68,6 +68,6 @@ export const getAllPackagesAndBundles = async () => {
  * @returns {Promise<object>} Data respons dari server yang berisi daftar semua test packages.
  */
 export const getAllTestPackages = async () => {
-  const response = await axiosInstance.get("/test-packages/all");
+  const response = await axiosInstance.get("/test-packages");
   return response.data;
 };

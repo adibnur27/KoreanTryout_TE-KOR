@@ -35,12 +35,31 @@ const TransactionHistory = ({ userId }) => {
         <ul className="space-y-4">
           {transactions.map((trx) => (
             <li key={trx.id} className="p-4 border rounded shadow-sm bg-white">
-              <p><strong>Order ID:</strong> {trx.midtransOrderId}</p>
-              <p><strong>Status:</strong> {trx.status}</p>
-              <p><strong>Jumlah:</strong> Rp {trx.amount.toLocaleString()}</p>
-              <p><strong>Paket:</strong> {trx.testPackage?.name || "-"}</p>
-              <p><strong>Bundle:</strong> {trx.bundle?.name || "-"}</p>
-              <p><strong>Tanggal:</strong> {new Date(trx.createdAt).toLocaleString()}</p>
+              <p>
+                <strong>Order ID:</strong> {trx.midtransOrderId}
+              </p>
+              <p>
+                <strong>Status:</strong>{" "}
+                <span className="px-1 font-bold"
+                  style={{
+                    backgroundColor: trx.status === "SUCCESS" ? "green" : trx.status === "FAILED" ? "red" : trx.status === "PENDING" ? "orange" : "black",
+                  }}
+                >
+                  {trx.status}
+                </span>
+              </p>
+              <p>
+                <strong>Jumlah:</strong> Rp {trx.amount.toLocaleString()}
+              </p>
+              <p>
+                <strong>Paket:</strong> {trx.testPackage?.name || "-"}
+              </p>
+              <p>
+                <strong>Bundle:</strong> {trx.bundle?.name || "-"}
+              </p>
+              <p>
+                <strong>Tanggal:</strong> {new Date(trx.createdAt).toLocaleString()}
+              </p>
             </li>
           ))}
         </ul>
@@ -48,6 +67,5 @@ const TransactionHistory = ({ userId }) => {
     </div>
   );
 };
-
 
 export default TransactionHistory;
