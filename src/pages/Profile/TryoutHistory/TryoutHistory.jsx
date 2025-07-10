@@ -42,6 +42,7 @@ const TryoutHistory = () => {
     setReviewError(null);
     try {
       const res = await axiosInstance.get(`/test-attempts/${attemptId}/review`);
+      console.log(res.data.data);
       setReviewData(res.data.data);
       setReviewModalOpen(true);
     } catch (err) {

@@ -1,8 +1,8 @@
 import React from "react";
 
-const ReviewModal = ({ isOpen, onClose, reviewData }) => {
+const ReviewModal = ({ isOpen, onClose, reviewData, time }) => {
   if (!isOpen) return null;
-
+  console.log(reviewData);
   const isImageUrl = (text) =>
     text && /^https?:\/\/.+\.(?:png|jpg|jpeg|gif|webp)$/i.test(text);
 
@@ -17,7 +17,7 @@ const ReviewModal = ({ isOpen, onClose, reviewData }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 pt-0 rounded-lg shadow-xl w-11/12 max-w-4xl max-h-[80vh] overflow-y-auto">
+      <div className="bg-white p-6 pt-0 rounded-lg shadow-xl w-11/12 max-w-6xl max-h-[95vh] overflow-y-auto">
         <div className="flex justify-between items-center sticky top-0 bg-white pb-4 z-10">
           <h2 className="text-xl font-bold mt-4">
             Review Jawaban{" "}
