@@ -24,17 +24,15 @@ useEffect(() => {
       setInProgress(data.inProgress || []);
     } catch (error) {
       if (error.response?.status === 403) {
-        // Belum login
         Swal.fire({
           icon: "warning",
           title: "Akses Ditolak",
           text: "Silakan login terlebih dahulu untuk menampilkan tryouts yang kamu miliki.",
           confirmButtonText: "Login",
         }).then(() => {
-          navigate("/login"); // arahkan ke halaman login
+          navigate("/login");
         });
       } else {
-        // Error lain
         Swal.fire({
           icon: "error",
           title: "Terjadi Kesalahan",
@@ -54,7 +52,6 @@ useEffect(() => {
       const res = await axiosInstance.post(`/test-attempts/start/${packageId}`);
       const attemptId = res.data.data.id;
 
-      // Tunggu sampai detail soal siap (maks 5x cek)
       let retries = 0;
       const maxRetries = 5;
       let detailLoaded = false;
@@ -67,7 +64,6 @@ useEffect(() => {
             break;
           }
         } catch (e) {
-          // skip, mungkin belum siap
         }
 
         retries++;
@@ -82,17 +78,6 @@ useEffect(() => {
     } catch (error) {
       alert("Gagal memulai tryout!");
       console.error(error);
-    }
-  };
-
-  const handleStartTryout = async (packageId) => {
-    try {
-      const res = await axiosInstance.post(`/test-attempts/start/${packageId}`);
-      if (res.data.status === "Create") {
-        navigate(`/cbt/${res.data.data.id}`);
-      }
-    } catch (error) {
-      alert("Gagal memulai tryout!");
     }
   };
 

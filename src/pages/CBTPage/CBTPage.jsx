@@ -179,7 +179,7 @@ const CBTPage = () => {
         {currentQuestion.imageUrl && <img src={currentQuestion.imageUrl} alt="Soal" className="mb-4 rounded" />}
 
         {currentQuestion.audioUrl && (
-          <audio controls className="mb-4">
+          <audio key={currentQuestion.audioUrl} controls className="mb-4">
             <source src={currentQuestion.audioUrl} type="audio/mp3" />
             Browser tidak mendukung audio.
           </audio>
