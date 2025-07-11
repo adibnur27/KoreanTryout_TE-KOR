@@ -28,17 +28,7 @@ const AdminDashboard = () => {
       navigate("/admin"); // asumsikan ini halaman login admin
     }
 
-    if (activeTab === "userTable") {
-      try {
-        setLoading(true);
-        const result = await getAllUsers();
-        setUsers(result);
-      } catch (err) {
-        setError("Gagal mengambil data user.");
-      } finally {
-        setLoading(false);
-      }
-    }
+    
   };
 
   fetchUsers();
@@ -61,8 +51,8 @@ const AdminDashboard = () => {
       <span className="korean-pattern pointer-events-none absolute z-10 bottom-[8%] left-[10%] -translate-x-1/2 -rotate-[10deg] text-6xl opacity-5">
         시
       </span>
-      <div className="fixed top-2 bottom-2 rounded-lg w-[18%]  text-white ">
-        <div className='bg-blue-950 flex flex-col justify-between h-full py-5  rounded-lg'>
+      <div className="w-[21%]">
+        <div className='bg-blue-950 flex flex-col justify-between py-5 fixed top-2 bottom-2 w-[18%] text-white rounded-lg'>
 
           <div className="flex flex-col gap-3 font-opensans text-lg">
             <svg className="mx-auto my-10 mb-16" width="200" height="40" viewBox="0 0 508 94" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -93,10 +83,9 @@ const AdminDashboard = () => {
             {/* <Button onClick={handleLogout} children="Logout" width="150px" borderRadius='0.2rem' /> */}
           </div>
         </div>
-        
       </div>
 
-      <div className="ms-[16rem] px-10 rounded-lg w-[90%] text-left shadow-md shadow-blue-950 font-opensans bg-gradient-to-r from-light-blue to-light-red">
+      <div className="px-10 rounded-lg w-[90%] text-left shadow-md shadow-blue-950 font-opensans bg-gradient-to-r from-light-blue to-light-red">
         <div className="">
           {activeTab === "profilePictureManagement" && <ProfilePictureManagement />}
           {activeTab === "userTable" && <UserTable />}
