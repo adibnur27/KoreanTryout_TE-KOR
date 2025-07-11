@@ -13,39 +13,41 @@ const MyTryouts = () => {
   const [loading, setLoading] = useState(true);
   const [readyToStart, setReadyToStart] = useState([]);
   const [inProgress, setInProgress] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
   const navigate = useNavigate();
 
-useEffect(() => {
-  const fetchMyTests = async () => {
-    try {
-      const res = await axiosInstance.get("/test-attempts/my-tests");
-      const data = res.data.data;
-      setReadyToStart(data.readyToStart || []);
-      setInProgress(data.inProgress || []);
-    } catch (error) {
-      if (error.response?.status === 403) {
-        Swal.fire({
-          icon: "warning",
-          title: "Akses Ditolak",
-          text: "Silakan login terlebih dahulu untuk menampilkan tryouts yang kamu miliki.",
-          confirmButtonText: "Login",
-        }).then(() => {
-          navigate("/login");
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Terjadi Kesalahan",
-          text: "Terjadi kesalahan saat memuat data tryout.",
-        });
+  useEffect(() => {
+    const fetchMyTests = async () => {
+      try {
+        const res = await axiosInstance.get("/test-attempts/my-tests");
+        const data = res.data.data;
+        setReadyToStart(data.readyToStart || []);
+        setInProgress(data.inProgress || []);
+      } catch (error) {
+        if (error.response?.status === 403) {
+          Swal.fire({
+            icon: "warning",
+            title: "Akses Ditolak",
+            text: "Silakan login terlebih dahulu untuk menampilkan tryouts yang kamu miliki.",
+            confirmButtonText: "Login",
+          }).then(() => {
+            navigate("/login");
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Terjadi Kesalahan",
+            text: "Terjadi kesalahan saat memuat data tryout.",
+          });
+        }
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
 
-  fetchMyTests();
-}, [navigate]);
+    fetchMyTests();
+  }, [navigate]);
 
   const handleStartTryout = async (packageId) => {
     try {
@@ -63,11 +65,10 @@ useEffect(() => {
             detailLoaded = true;
             break;
           }
-        } catch (e) {
-        }
+        } catch (e) {}
 
         retries++;
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // tunggu 1 detik
+        await new Promise((resolve) => setTimeout(resolve, 1000));
       }
 
       if (detailLoaded) {
@@ -81,25 +82,41 @@ useEffect(() => {
     }
   };
 
+  // 🔍 Filter readyToStart berdasarkan nama
+  const filteredReadyToStart = readyToStart.filter((item) =>
+    item.testPackage.name?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="font-opensans">
       <Navbar />
-      <section className="py-16 pb-10 pt-20 min-h-screen bg-gradient-to-t from-light-red via-white to-light-blue">
-        
-        
+      <section className="py-16 pb-10 pt-20 min-h-screen bg-gradient-to-t  from-light-red via-white to-light-blue">
+        {/* 🔎 Search input */}
+        <div className="flex max-w-xl h-20 items-center mx-auto gap-5 justify-center ">
+          <div className="flex w-full h-2/4 border-2 border-gray-300 rounded-full overflow-hidden focus-within:border-black">
+            <input
+              type="text"
+              placeholder="Cari nama tryout..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full px-4 py-2 outline-none placeholder-gray-500 bg-gradient-to-l from-light-red via-white to-light-blue"
+            />
+          </div>
+        </div>
 
-        <div className="max-w-4xl mx-auto mt-10 space-y-10">
+        <div className="max-w-4xl mx-auto mt-5 space-y-10">
           {loading ? (
             <div className="text-center text-lg w-min mx-auto mt-52">
               <LoadingCircle size={40} color="#000" />
             </div>
           ) : (
             <>
-              {readyToStart.length > 0 && (
+              {/* Siap Dimulai */}
+              {filteredReadyToStart.length > 0 && (
                 <div>
                   <h2 className="text-xl font-semibold mb-4">Siap Dimulai</h2>
                   <div className="space-y-6">
-                    {readyToStart.map((item) => (
+                    {filteredReadyToStart.map((item) => (
                       <ProductCard
                         key={item.transactionId}
                         title={item.testPackage.name || "Tanpa Nama"}
@@ -109,13 +126,18 @@ useEffect(() => {
                         buttonText="Mulai"
                         onButtonClick={() => handleStartTryout(item.testPackage.id)}
                       >
-                        <img src={item.testPackage.imageUrl || imgDflt} alt="paket" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                        <img
+                          src={item.testPackage.imageUrl || imgDflt}
+                          alt="paket"
+                          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        />
                       </ProductCard>
                     ))}
                   </div>
                 </div>
               )}
 
+              {/* Sedang Berlangsung */}
               {inProgress.length > 0 && (
                 <div>
                   <h2 className="text-xl font-semibold mt-8 mb-4">Sedang Berlangsung</h2>
@@ -130,22 +152,42 @@ useEffect(() => {
                         buttonText="Lanjutkan"
                         onButtonClick={() => navigate(`/cbt/${item.attemptId}`)}
                       >
-                        <img src={item.testPackage.imageUrl || imgDflt} alt="paket" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                        <img
+                          src={item.testPackage.imageUrl || imgDflt}
+                          alt="paket"
+                          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        />
                       </ProductCard>
                     ))}
                   </div>
                 </div>
               )}
 
-              {readyToStart.length === 0 && inProgress.length === 0 && <p className="text-center text-lg">Kamu Belum Memiliki Tryout</p>}
+              {/* Kosong */}
+              {filteredReadyToStart.length === 0 && inProgress.length === 0 && (
+                <p className="text-center text-lg">Kamu Belum Memiliki Tryout</p>
+              )}
             </>
           )}
-        <div>
-          <h2 className="text-xl font-semibold mb-4">Coba Simulasi</h2>
-          <ProductCard title="Simulasi Tryout Gratis" subtitle="Tryout ini berisi 10 soal yang dimana kamu akan mencoba simulasi tryout mirip dengan tryout aslinya" price="Gratis" DiscountPrice="" buttonText="Coba Sekarang" onButtonClick={() => navigate("/cbt-trial")}>
-            <img src={coverfreetrial} alt="dummy" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-          </ProductCard>
-        </div>
+
+          {/* Free Trial */}
+          <div>
+            <h2 className="text-xl font-semibold mb-4">Coba Simulasi</h2>
+            <ProductCard
+              title="Simulasi Tryout Gratis"
+              subtitle="Tryout ini berisi 10 soal yang dimana kamu akan mencoba simulasi tryout mirip dengan tryout aslinya"
+              price="Gratis"
+              DiscountPrice=""
+              buttonText="Coba Sekarang"
+              onButtonClick={() => navigate("/cbt-trial")}
+            >
+              <img
+                src={coverfreetrial}
+                alt="dummy"
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+            </ProductCard>
+          </div>
         </div>
       </section>
       <Footer />
