@@ -106,7 +106,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden flex flex-col items-start gap-4 bg-white shadow-md px-6 pt-4 pb-6 mt-16 absolute top-0 left-0 right-0 z-0 font-opensans">
+        <div className="md:hidden flex flex-col items-start gap-4 bg-white  px-6 pt-4 pb-6 mt-16 absolute top-0 left-0 right-0 z-0 font-opensans">
           <NavLink to="/" className={navItemStyle} onClick={() => setIsMenuOpen(false)}>HOME</NavLink>
           <NavLink to="/tryouts" className={navItemStyle} onClick={() => setIsMenuOpen(false)}>TRYOUT</NavLink>
           <NavLink to="/Mytryouts" className={navItemStyle} onClick={() => setIsMenuOpen(false)}>TRYOUT SAYA</NavLink>
