@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../../utils/axiosInstance";
 
 const UserTable = () => {
   const [users, setUsers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const fetchUsers = async () => {
+  const fetchUsers = async (username = "") => {
     try {
-      const response = await axiosInstance.get("/users/all");
+      const response = await axiosInstance.get("/users/all", {
+        params: { username },
+      });
       setUsers(response.data.data || []);
+      console.log(users);
     } catch (error) {
       console.error("Gagal mengambil data user:", error);
     }
   };
-
-  console.log(users);
 
   const fetchUserDetail = async (id) => {
     try {
@@ -35,11 +36,40 @@ const UserTable = () => {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Daftar Pengguna</h1>
+
+      {/* Search Bar */}
+      <div className="mb-4 flex gap-2">
+        <input
+          type="text"
+          placeholder="Cari username..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="px-4 py-2 border border-gray-300 rounded w-64"
+        />
+        <button
+          onClick={() => fetchUsers(searchQuery)}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Cari
+        </button>
+        <button
+          onClick={() => {
+            setSearchQuery("");
+            fetchUsers();
+          }}
+          className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
+        >
+          Reset
+        </button>
+      </div>
+
+      {/* Table */}
       <div className="overflow-x-auto">
         <table className="min-w-full border border-gray-300 bg-white shadow-sm">
           <thead className="bg-gray-100">
             <tr>
               <th className="px-4 py-2 border">No</th>
+              <th className="px-4 py-2 border">Full Name</th>
               <th className="px-4 py-2 border">Username</th>
               <th className="px-4 py-2 border">Email</th>
               <th className="px-4 py-2 border">Aksi</th>
@@ -49,6 +79,7 @@ const UserTable = () => {
             {users.map((user, index) => (
               <tr key={user.id} className="text-center hover:bg-gray-50">
                 <td className="px-4 py-2 border">{index + 1}</td>
+                <td className="px-4 py-2 border">{user.fullName}</td>
                 <td className="px-4 py-2 border">{user.username}</td>
                 <td className="px-4 py-2 border">{user.email}</td>
                 <td className="px-4 py-2 border">
@@ -63,7 +94,7 @@ const UserTable = () => {
             ))}
             {users.length === 0 && (
               <tr>
-                <td colSpan="6" className="text-center py-4 text-gray-500">
+                <td colSpan="4" className="text-center py-4 text-gray-500">
                   Tidak ada data pengguna.
                 </td>
               </tr>

@@ -23,10 +23,15 @@ export const fetchVocabCategories = async () => {
   }));
 };
 
-export const fetchVocabulariesByCategory = async (category) => {
-  const response = await axiosInstance.get(`/vocabularies?category=${category}`);
-  console.log(response);
-  return response.data.data;
+export const fetchVocabulariesByCategory = async (categoryName, page = 0, size = 10) => {
+  const res = await axiosInstance.get(`/vocabularies`, {
+    params: {
+      category: categoryName,
+      page,
+      size,
+    },
+  });
+  return res.data.data; // format: { content: [...], totalPages, number, ... }
 };
 
 
