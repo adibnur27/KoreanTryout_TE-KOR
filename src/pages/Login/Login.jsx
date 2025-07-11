@@ -112,8 +112,8 @@ const Login = () => {
               {errors.username && <p className="text-sm text-red-500 mt-1 text-left">{errors.username.message}</p>}
             </div>
             <div className="relative">
-              <input type={showPassword ? "text" : "password"} placeholder="Password" {...register("password")} className="w-full border border-kr-blue rounded-md p-3 pr-10 focus:outline-none" />
-              <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500" tabIndex={-1}>
+              <input type={showPassword ? "text" : "password"} placeholder="Password" {...register("password")} className="w-full border border-kr-blue rounded-md p-3  pr-10 focus:outline-none" />
+              <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-6 -translate-y-1/2 text-gray-500" tabIndex={-1}>
                 {showPassword ? (
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="#000000">
                     <path d="M10 3C5 3 1.73 7.11 1 10c.73 2.89 4 7 9 7s8.27-4.11 9-7c-.73-2.89-4-7-9-7zm0 12a5 5 0 110-10 5 5 0 010 10zm0-2a3 3 0 100-6 3 3 0 000 6z" />

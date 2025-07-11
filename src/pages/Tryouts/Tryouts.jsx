@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Navbar } from "../../components/Navbar";
 import { ProductCard } from "../../components/ProductCard";
 import { Footer } from "../../components/Fotter";
-import imgDflt from "../../assets/default-img.png";
 import { getAllTestPackages } from "../../services/testPackageService";
 import { LoadingCircle } from "../../components/ui/LoadingCircle";
 import { useNavigate } from "react-router-dom";
+
+import coverfreetrial from "../../assets/coverfreetrial.jpg";
+import imgDflt from "../../assets/default-img.png";
+import { ScrollToTop } from "../../components/ScrollToTop";
 
 const Tryouts = () => {
   const [packages, setPackages] = useState([]);
@@ -42,6 +45,7 @@ const Tryouts = () => {
   return (
     <div className="font-sans">
       <Navbar />
+      <ScrollToTop />
       {/* Background pattern */}
       <span className="korean-pattern pointer-events-none absolute z-0 top-[20%] left-[10%] -rotate-[15deg] text-6xl opacity-10">한</span>
       <span className="korean-pattern pointer-events-none absolute z-0 top-[50%] right-[10%] rotate-[15deg] text-6xl opacity-10">글</span>
@@ -63,15 +67,30 @@ const Tryouts = () => {
             />
           </div>
           <div className="flex justify-center ">
-            <select value={filterType} onChange={(e) => setFilterType(e.target.value)} className="focus-within:border-black px-2 py-2 border-2 placeholder-gray-500 border-gray-500 rounded-full text-sm bg-gradient-to-l from-light-red via-white to-light-blue ` focus:border-black">
+            <select
+              value={filterType}
+              onChange={(e) => setFilterType(e.target.value)}
+              className="focus-within:border-black px-2 py-2 border-2 placeholder-gray-500 border-gray-500 rounded-full text-sm bg-gradient-to-l from-light-red via-white to-light-blue ` focus:border-black"
+            >
               <option value="all">Semua Tipe</option>
               <option value="bundle">Bundle</option>
               <option value="package">Package</option>
             </select>
           </div>
         </div>
+
         {/* 🧾 Package Cards */}
         <div className="max-w-4xl mx-auto space-y-6">
+          {/* package trial */}
+          {searchQuery === "" && filterType === "all" && (
+            <div>
+              <h2 className="text-xl font-semibold mb-4">Coba Simulasi</h2>
+              <ProductCard title="Simulasi Tryout Gratis" subtitle="Tryout ini berisi 10 soal ..." price="Gratis" buttonText="Coba Sekarang" onButtonClick={() => navigate("/cbt-trial")}>
+                <img src={coverfreetrial} alt="dummy" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              </ProductCard>
+            </div>
+          )}
+
           {loading ? (
             <div className="text-center text-lg w-min mx-auto mt-52">
               <LoadingCircle size={40} color="#000" />

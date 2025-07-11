@@ -86,10 +86,7 @@ const TryoutHistory = () => {
             <div className="flex justify-between items-center">
               <div>
                 <p>
-                  <strong> {attempt.testPackageName}</strong>
-                </p>
-                <p>
-                 {attempt.packageId}
+                  <strong>Paket: {attempt.testPackageName}</strong>
                 </p>
                 <p>
                   <strong>Skor:</strong> {attempt.score}
