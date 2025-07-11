@@ -20,7 +20,6 @@ const validationSchema = Yup.object().shape({
     .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Format email tidak valid. Contoh: usertekor@example.com"),
   password: Yup.string()
     .min(8, "Password minimal 8 karakter")
-    .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, "Password harus mengandung huruf dan angka")
     .required("Password wajib diisi"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Konfirmasi password tidak cocok")
@@ -119,7 +118,7 @@ const Register = () => {
 
             <div className="relative">
               <input type={showPassword ? "text" : "password"} autoComplete="off" placeholder="Password" {...register("password")} className="w-full border border-kr-blue rounded-md p-3 pr-10 focus:outline-none" />
-              <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" tabIndex={-1}>
+              <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-6 transform -translate-y-1/2 text-gray-500" tabIndex={-1}>
                 {showPassword ? (
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="#000000">
                     <path d="M10 3C5 3 1.73 7.11 1 10c.73 2.89 4 7 9 7s8.27-4.11 9-7c-.73-2.89-4-7-9-7zm0 12a5 5 0 110-10 5 5 0 010 10zm0-2a3 3 0 100-6 3 3 0 000 6z" />
@@ -135,7 +134,7 @@ const Register = () => {
 
             <div className="relative">
               <input type={showConfirmPassword ? "text" : "password"} autoComplete="off" placeholder="Konfirmasi Password" {...register("confirmPassword")} className="w-full border border-kr-blue rounded-md p-3 pr-10 focus:outline-none" />
-              <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" tabIndex={-1}>
+              <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-6 transform -translate-y-1/2 text-gray-500" tabIndex={-1}>
                 {showConfirmPassword ? (
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="#000000">
                     <path d="M10 3C5 3 1.73 7.11 1 10c.73 2.89 4 7 9 7s8.27-4.11 9-7c-.73-2.89-4-7-9-7zm0 12a5 5 0 110-10 5 5 0 010 10zm0-2a3 3 0 100-6 3 3 0 000 6z" />

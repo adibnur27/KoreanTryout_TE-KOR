@@ -6,8 +6,8 @@ import { LoadingCircle } from "../../components/ui/LoadingCircle";
 import { ProductCard } from "../../components/ProductCard";
 import axiosInstance from "../../utils/axiosInstance";
 import imgDflt from "../../assets/default-img.png";
-import coverfreetrial from "../../assets/coverfreetrial.jpg";
 import Swal from "sweetalert2";
+import { ScrollToTop } from "../../components/ScrollToTop";
 
 const MyTryouts = () => {
   const [loading, setLoading] = useState(true);
@@ -31,8 +31,6 @@ const MyTryouts = () => {
             title: "Akses Ditolak",
             text: "Silakan login terlebih dahulu untuk menampilkan tryouts yang kamu miliki.",
             confirmButtonText: "Login",
-          }).then(() => {
-            navigate("/login");
           });
         } else {
           Swal.fire({
@@ -83,13 +81,13 @@ const MyTryouts = () => {
   };
 
   // 🔍 Filter readyToStart berdasarkan nama
-  const filteredReadyToStart = readyToStart.filter((item) =>
-    item.testPackage.name?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredReadyToStart = readyToStart.filter((item) => item.testPackage.name?.toLowerCase().includes(searchQuery.toLowerCase()));
 
   return (
     <div className="font-opensans">
       <Navbar />
+      
+      <ScrollToTop/>
       <section className="py-16 pb-10 pt-20 min-h-screen bg-gradient-to-t  from-light-red via-white to-light-blue">
         {/* 🔎 Search input */}
         <div className="flex max-w-xl h-20 items-center mx-auto gap-5 justify-center ">
@@ -106,9 +104,7 @@ const MyTryouts = () => {
 
         <div className="max-w-4xl mx-auto mt-5 space-y-10">
           {loading ? (
-            <div className="text-center text-lg w-min mx-auto mt-52">
-              <LoadingCircle size={40} color="#000" />
-            </div>
+            <div className="text-center text-lg w-min mx-auto mt-52"></div>
           ) : (
             <>
               {/* Siap Dimulai */}
@@ -126,11 +122,7 @@ const MyTryouts = () => {
                         buttonText="Mulai"
                         onButtonClick={() => handleStartTryout(item.testPackage.id)}
                       >
-                        <img
-                          src={item.testPackage.imageUrl || imgDflt}
-                          alt="paket"
-                          style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                        />
+                        <img src={item.testPackage.imageUrl || imgDflt} alt="paket" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                       </ProductCard>
                     ))}
                   </div>
@@ -152,11 +144,7 @@ const MyTryouts = () => {
                         buttonText="Lanjutkan"
                         onButtonClick={() => navigate(`/cbt/${item.attemptId}`)}
                       >
-                        <img
-                          src={item.testPackage.imageUrl || imgDflt}
-                          alt="paket"
-                          style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                        />
+                        <img src={item.testPackage.imageUrl || imgDflt} alt="paket" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                       </ProductCard>
                     ))}
                   </div>
@@ -165,29 +153,24 @@ const MyTryouts = () => {
 
               {/* Kosong */}
               {filteredReadyToStart.length === 0 && inProgress.length === 0 && (
-                <p className="text-center text-lg">Kamu Belum Memiliki Tryout</p>
+                <div className="text-center text-lg mx-auto mt-20">
+                  <p className="text-center text-2xl text-gray-400">Kamu Belum Memiliki Tryout</p>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto text-gray-400" enable-background="new 0 0 24 24" height="100px" viewBox="0 0 24 24" width="100px" fill="#9CA3AF">
+                    <g>
+                      <rect fill="none" height="24" width="24" />
+                    </g>
+                    <g>
+                      <g>
+                        <path d="M15.5,14h-0.79l-0.28-0.27C15.41,12.59,16,11.11,16,9.5C16,5.91,13.09,3,9.5,3C6.08,3,3.28,5.64,3.03,9h2.02 C5.3,6.75,7.18,5,9.5,5C11.99,5,14,7.01,14,9.5S11.99,14,9.5,14c-0.17,0-0.33-0.03-0.5-0.05v2.02C9.17,15.99,9.33,16,9.5,16 c1.61,0,3.09-0.59,4.23-1.57L14,14.71v0.79l5,4.99L20.49,19L15.5,14z" />
+                        <polygon points="6.47,10.82 4,13.29 1.53,10.82 0.82,11.53 3.29,14 0.82,16.47 1.53,17.18 4,14.71 6.47,17.18 7.18,16.47 4.71,14 7.18,11.53" />
+                      </g>
+                    </g>
+                  </svg>
+                  <p className="text-center text-6xl text-gray-400">아직 오디션이 없잖아</p>
+                </div>
               )}
             </>
           )}
-
-          {/* Free Trial */}
-          <div>
-            <h2 className="text-xl font-semibold mb-4">Coba Simulasi</h2>
-            <ProductCard
-              title="Simulasi Tryout Gratis"
-              subtitle="Tryout ini berisi 10 soal yang dimana kamu akan mencoba simulasi tryout mirip dengan tryout aslinya"
-              price="Gratis"
-              DiscountPrice=""
-              buttonText="Coba Sekarang"
-              onButtonClick={() => navigate("/cbt-trial")}
-            >
-              <img
-                src={coverfreetrial}
-                alt="dummy"
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              />
-            </ProductCard>
-          </div>
         </div>
       </section>
       <Footer />

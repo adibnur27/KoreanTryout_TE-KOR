@@ -9,6 +9,7 @@
   import { GameCard } from "../../components/GameCard";
 
   import { Link } from "react-router-dom";
+import { ScrollToTop } from "../../components/ScrollToTop";
 
   const Home = () => {
     const navigate = useNavigate();
@@ -41,10 +42,10 @@
     return (
       <div>
         <Navbar />
-
+        <ScrollToTop/>
         {/* Hero Section */}
         <FadeContent blur={true} duration={500} easing="ease-out" initialOpacity={0}>
-          <section id="header" className="text-center px-6 lg:pt-40 pt-32 pt bg-gradient-to-br from-light-blue via-white to-light-red h-screen font-montserrat">
+          <section id="header" className="text-center px-6 lg:pt-40 pt-32 bg-gradient-to-br from-light-blue via-white to-light-red h-screen font-montserrat">
             <span className="korean-pattern pointer-events-none absolute z-0 top-[20%] left-[10%] -rotate-[15deg] text-6xl opacity-20">한</span>
             <span className="korean-pattern pointer-events-none absolute z-0 top-1/2 right-[10%] rotate-[15deg] text-6xl opacity-20">글</span>
             <span className="korean-pattern pointer-events-none absolute z-0 bottom-[8%] left-1/2 -translate-x-1/2 -rotate-[10deg] text-6xl opacity-20">시</span>
