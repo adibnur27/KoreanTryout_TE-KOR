@@ -314,9 +314,9 @@ const BundleTable = ({ bundles, onEdit, onDelete }) => {
                 <button onClick={() => onEdit(bundle)} className="px-3 py-1 m-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 mr-2 text-sm">
                   Edit
                 </button>
-                <button onClick={() => onDelete(bundle.id)} className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm">
+                {/* <button onClick={() => onDelete(bundle.id)} className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm">
                   Hapus
-                </button>
+                </button> */}
               </td>
             </tr>
           ))}
