@@ -16,7 +16,7 @@ const ProductCard = ({
         {/* Kiri */}
         <div className="text-center lg:text-left flex-1 my-5 font-opensans">
           <h3 className="text-2xl font-bold font-poppins font-montserrat">{title}</h3>
-          <p className="text-base max-w-80 font-inter my-5">{subtitle}</p>
+          <p className="text-base max-w-80 font-inter my-5 line-clamp-2">{subtitle}</p>
           {price && <p className="text-md text-red-600 line-through"><i>{price}</i></p>}
           <p className="text-xl font-bold mb-5">{DiscountPrice}</p>
           <Button

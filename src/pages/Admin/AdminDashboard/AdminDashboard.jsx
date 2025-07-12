@@ -62,9 +62,7 @@ const AdminDashboard = () => {
               fill="#CD2E3A"
             />
           </svg>
-            {/* <button onClick={() => setActiveTab("profilePictureManagement")} className={activeTab === "profilePictureManagement" ? " text-black bg-gradient-to-r from-light-blue to-light-red  py-2 " : " py-2"}>
-              Dashboard Admin
-            </button> */}
+            
             <button onClick={() => setActiveTab("userTable")} className={activeTab === "userTable" ? " text-black bg-gradient-to-r from-light-blue to-light-red  py-2 text-left px-10" : "text-left px-10 py-2"}>
               User
             </button>

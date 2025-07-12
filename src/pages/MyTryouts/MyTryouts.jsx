@@ -15,6 +15,10 @@ const MyTryouts = () => {
   const [inProgress, setInProgress] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const [selectedTryout, setSelectedTryout] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalType, setModalType] = useState(""); // 'start' atau 'resume'
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +28,7 @@ const MyTryouts = () => {
         const data = res.data.data;
         setReadyToStart(data.readyToStart || []);
         setInProgress(data.inProgress || []);
+        console.log(data);
       } catch (error) {
         if (error.response?.status === 403) {
           Swal.fire({
@@ -46,6 +51,18 @@ const MyTryouts = () => {
 
     fetchMyTests();
   }, [navigate]);
+
+  const openModal = (tryout, type) => {
+    setSelectedTryout(tryout);
+    setModalType(type);
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+    setSelectedTryout(null);
+    setModalType("");
+  };
 
   const handleStartTryout = async (packageId) => {
     try {
@@ -86,8 +103,8 @@ const MyTryouts = () => {
   return (
     <div className="font-opensans">
       <Navbar />
-      
-      <ScrollToTop/>
+
+      <ScrollToTop />
       <section className="py-16 pb-10 pt-20 min-h-screen bg-gradient-to-t  from-light-red via-white to-light-blue">
         {/* 🔎 Search input */}
         <div className="flex max-w-xl h-20 items-center mx-auto gap-5 justify-center ">
@@ -116,11 +133,11 @@ const MyTryouts = () => {
                       <ProductCard
                         key={item.transactionId}
                         title={item.testPackage.name || "Tanpa Nama"}
-                        subtitle="Paket tryout siap dimulai"
+                        subtitle={item.testPackage.description}
                         price="Sudah Dibeli"
                         DiscountPrice=""
                         buttonText="Mulai"
-                        onButtonClick={() => handleStartTryout(item.testPackage.id)}
+                        onButtonClick={() => openModal(item, "start")}
                       >
                         <img src={item.testPackage.imageUrl || imgDflt} alt="paket" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                       </ProductCard>
@@ -138,15 +155,44 @@ const MyTryouts = () => {
                       <ProductCard
                         key={item.attemptId}
                         title={item.testPackage.name || "Tanpa Nama"}
-                        subtitle={`Sisa waktu ${Math.floor(item.remainingDuration / 60)} menit`}
+                        subtitle={`Segera Lanjutkan Karena Sisa Waktu Kamu Terus Berjalan`}
                         price="Sudah Dimulai"
                         DiscountPrice=""
                         buttonText="Lanjutkan"
-                        onButtonClick={() => navigate(`/cbt/${item.attemptId}`)}
+                        onButtonClick={() => openModal(item, "resume")}
                       >
                         <img src={item.testPackage.imageUrl || imgDflt} alt="paket" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                       </ProductCard>
                     ))}
+                  </div>
+                </div>
+              )}
+
+              {isModalVisible && selectedTryout && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+                  <div className="bg-white p-6 rounded-lg w-full max-w-md">
+                    <h2 className="text-xl font-bold mb-2">{modalType === "start" ? "Mulai Tryout" : "Lanjutkan Tryout"}</h2>
+                    <p className="mb-4 text-gray-700">{modalType === "start" ? "Apakah kamu yakin ingin memulai tryout ini sekarang?" : "Kamu akan melanjutkan tryout yang sedang berlangsung."}</p>
+                    <p className="mb-4 font-semibold">{selectedTryout.testPackage.name}</p>
+
+                    <div className="flex justify-end gap-3">
+                      <button onClick={closeModal} className="px-4 py-2 border rounded-md hover:bg-gray-100">
+                        Batal
+                      </button>
+                      <button
+                        onClick={() => {
+                          closeModal();
+                          if (modalType === "start") {
+                            handleStartTryout(selectedTryout.testPackage.id);
+                          } else {
+                            navigate(`/cbt/${selectedTryout.attemptId}`);
+                          }
+                        }}
+                        className="px-4 py-2 bg-kr-blue text-white hover:bg-blue-700 rounded-md"
+                      >
+                        {modalType === "start" ? "Mulai Sekarang" : "Lanjutkan"}
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}
