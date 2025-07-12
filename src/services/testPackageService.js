@@ -71,3 +71,10 @@ export const getAllTestPackages = async () => {
   const response = await axiosInstance.get("/test-packages");
   return response.data;
 };
+
+export const downloadPackageTemplate = async () => {
+  const response = await axiosInstance.get("/download/test-package-template", {
+    responseType: "blob",
+  });
+  return response.data;
+};

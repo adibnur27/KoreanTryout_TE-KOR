@@ -6,14 +6,23 @@ const UserTable = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+  });
 
-  const fetchUsers = async (username = "") => {
+  const fetchUsers = async (username = "", page = 1) => {
     try {
       const response = await axiosInstance.get("/users/all", {
-        params: { username },
+        params: { username, page },
       });
-      setUsers(response.data.data || []);
-      console.log(users);
+
+      const pageData = response.data.data;
+      setUsers(pageData.content || []);
+      setPagination({
+        currentPage: pageData.currentPage,
+        totalPages: pageData.totalPages,
+      });
     } catch (error) {
       console.error("Gagal mengambil data user:", error);
     }
@@ -101,6 +110,41 @@ const UserTable = () => {
             )}
           </tbody>
         </table>
+        {/* Pagination Controls */}
+        <div className="flex justify-center items-center mt-4 gap-2">
+          <button
+            onClick={() => fetchUsers(searchQuery, pagination.currentPage - 1)}
+            disabled={pagination.currentPage === 1}
+            className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+          >
+            &lt;
+          </button>
+
+          {[...Array(pagination.totalPages)].map((_, idx) => {
+            const page = idx + 1;
+            return (
+              <button
+                key={page}
+                onClick={() => fetchUsers(searchQuery, page)}
+                className={`px-3 py-1 rounded ${
+                  page === pagination.currentPage
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200"
+                }`}
+              >
+                {page}
+              </button>
+            );
+          })}
+
+          <button
+            onClick={() => fetchUsers(searchQuery, pagination.currentPage + 1)}
+            disabled={pagination.currentPage === pagination.totalPages}
+            className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+          >
+            &gt;
+          </button>
+        </div>
       </div>
 
       {/* MODAL */}
@@ -108,18 +152,31 @@ const UserTable = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-lg shadow-lg w-full max-w-xl p-6">
             <h2 className="text-xl font-semibold mb-4">Detail Pengguna</h2>
-            <p><strong>Nama Lengkap:</strong> {selectedUser.fullName}</p>
-            <p><strong>Username:</strong> {selectedUser.username}</p>
-            <p><strong>Email:</strong> {selectedUser.email}</p>
-            <p><strong>Verified:</strong> {selectedUser.isVerified ? "Ya" : "Tidak"}</p>
-            <p><strong>Dibuat pada:</strong> {new Date(selectedUser.createdAt).toLocaleString()}</p>
+            <p>
+              <strong>Nama Lengkap:</strong> {selectedUser.fullName}
+            </p>
+            <p>
+              <strong>Username:</strong> {selectedUser.username}
+            </p>
+            <p>
+              <strong>Email:</strong> {selectedUser.email}
+            </p>
+            <p>
+              <strong>Verified:</strong>{" "}
+              {selectedUser.isVerified ? "Ya" : "Tidak"}
+            </p>
+            <p>
+              <strong>Dibuat pada:</strong>{" "}
+              {new Date(selectedUser.createdAt).toLocaleString()}
+            </p>
 
             <h3 className="mt-4 font-semibold">Transaksi:</h3>
             {selectedUser.transactions.length > 0 ? (
               <ul className="list-disc ml-6 mt-1">
                 {selectedUser.transactions.map((t, idx) => (
                   <li key={idx}>
-                    {t.purchasedItemName} - {t.status} - Rp{t.amount} - {new Date(t.transactionDate).toLocaleString()}
+                    {t.purchasedItemName} - {t.status} - Rp{t.amount} -{" "}
+                    {new Date(t.transactionDate).toLocaleString()}
                   </li>
                 ))}
               </ul>
