@@ -68,9 +68,15 @@ export const getAllPackagesAndBundles = async () => {
  * @returns {Promise<object>} Data respons dari server yang berisi daftar semua test packages.
  */
 export const getAllTestPackages = async () => {
+  const response = await axiosInstance.get("/test-packages/all");
+  return response.data;
+};
+
+export const getAllTestPackagesAndBundle = async () => {
   const response = await axiosInstance.get("/test-packages");
   return response.data;
 };
+
 
 export const downloadPackageTemplate = async () => {
   const response = await axiosInstance.get("/download/test-package-template", {

@@ -167,7 +167,7 @@ const VocabularyDashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Category Sidebar */}
         <div className="md:col-span-1 p-4 border rounded shadow-sm">
-          <h2 className="text-xl font-semibold mb-2">Vocabulary Categories</h2>
+          <h2 className="text-xl font-semibold mb-2">Kategori Vocabulary</h2>
           {isFetchingCategories && <p>Loading categories...</p>}
           <ul className="list-none">
             {categories.map((category) => (
@@ -199,7 +199,7 @@ const VocabularyDashboard = () => {
           {isFetchingVocabs && <p>Loading vocabularies...</p>}
           {!isFetchingVocabs && !selectedCategory && (
             <p className="text-gray-500">
-              Select a category to view vocabularies.
+              Pilih kategori untuk melihat vocabulary
             </p>
           )}
           {!isFetchingVocabs &&
