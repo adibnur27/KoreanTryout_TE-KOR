@@ -22,6 +22,7 @@ export const fetchVocabCategories = async () => {
 };
 
 export const fetchVocabulariesByCategory = async (categoryName, page = 0, size = 10) => {
+  console.log("Fetching vocab with:", { categoryName, page, size });
   const res = await axiosInstance.get(`/vocabularies`, {
     params: {
       category: categoryName,
