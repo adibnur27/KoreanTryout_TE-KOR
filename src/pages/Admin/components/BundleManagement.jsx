@@ -187,7 +187,7 @@ const BundleManagement = () => {
       setShowCreateForm(false);
       await fetchAllData();
     } catch (err) {
-      setActionError(err.response?.data?.message || "Gagal menyimpan bundle.");
+      Swal.fire("Gagal", err.response?.data?.message || "Gagal menyimpan bundle.", "error");
     } finally {
       setIsSubmitting(false);
     }
@@ -212,22 +212,34 @@ const BundleManagement = () => {
       setEditingBundle(null);
       await fetchAllData();
     } catch (err) {
-      setActionError(err.response?.data?.message || "Gagal memperbarui bundle.");
+      Swal.fire("Gagal", err.response?.data?.message || "Gagal memperbarui bundle.", "error");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const handleDelete = async (bundleId) => {
-    if (window.confirm("Apakah Anda yakin ingin menghapus bundle ini?")) {
-      try {
-        await deleteBundle(bundleId);
-        setBundles((prev) => prev.filter((b) => b.id !== bundleId));
-      } catch (err) {
-        setActionError(err.response?.data?.message || "Gagal menghapus bundle.");
-      }
+  const result = await Swal.fire({
+    title: "Apakah Anda yakin?",
+    text: "Bundle ini akan dihapus secara permanen.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Ya, hapus!",
+    cancelButtonText: "Batal",
+  });
+
+  if (result.isConfirmed) {
+    try {
+      await deleteBundle(bundleId);
+      setBundles((prev) => prev.filter((b) => b.id !== bundleId));
+      Swal.fire("Terhapus!", "Bundle berhasil dihapus.", "success");
+    } catch (err) {
+      Swal.fire("Gagal", err.response?.data?.message || "Gagal menghapus bundle.", "error");
     }
-  };
+  }
+};
 
   const handleCancel = () => {
     setShowCreateForm(false);

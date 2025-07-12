@@ -1,19 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  createTestPackage,
-  getAllTestPackages,
-  deleteTestPackage,
-  updateTestPackage,
-  getTestPackageById,
-  downloadPackageTemplate
-} from "../../../services/testPackageService";
+import { createTestPackage, getAllTestPackages, deleteTestPackage, updateTestPackage, getTestPackageById, downloadPackageTemplate } from "../../../services/testPackageService";
+import Swal from "sweetalert2";
+import { Dialog } from "@headlessui/react";
 
-const TestPackageForm = ({
-  onSubmit,
-  onCancel,
-  isSubmitting,
-  initialData = null,
-}) => {
+const TestPackageForm = ({ onSubmit, onCancel, isSubmitting, initialData = null }) => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -53,67 +43,35 @@ const TestPackageForm = ({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="p-4 mb-6 border rounded-md shadow-md bg-white"
-    >
-      <h2 className="text-xl font-semibold mb-4">{`Edit Test Package: ${initialData.name}`}</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <input
-          type="text"
-          name="name"
-          placeholder="Nama Paket"
-          value={formData.name}
-          onChange={handleInputChange}
-          className="p-2 border rounded"
-          required
-        />
-        <input
-          type="text"
-          name="description"
-          placeholder="Deskripsi"
-          value={formData.description}
-          onChange={handleInputChange}
-          className="p-2 border rounded col-span-1 md:col-span-2"
-        />
-        <input
-          type="number"
-          name="price"
-          placeholder="Harga"
-          value={formData.price}
-          onChange={handleInputChange}
-          className="p-2 border rounded"
-          required
-        />
-        <input
-          type="number"
-          name="discountPrice"
-          placeholder="Harga Diskon (opsional)"
-          value={formData.discountPrice}
-          onChange={handleInputChange}
-          className="p-2 border rounded"
-        />
-        <input
-          type="file"
-          name="image"
-          onChange={handleFileChange}
-          className="p-2 border rounded col-span-1 md:col-span-2"
-          accept="image/*"
-        />
+    <form onSubmit={handleSubmit} className="p-4 mb-6   bg-white">
+      <h2 className="text-xl font-semibold mb-4">{`Edit Test Package: ${initialData?.name}`}</h2>
+      <div className="flex flex-col gap-2">
+        <div className="flex flex-col">
+          <label htmlFor="" className=" font-bold">Nama Paket: </label>
+          <input type="text" name="name" placeholder="Nama Paket" value={formData.name} onChange={handleInputChange} className="p-2 border rounded" required />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="" className=" font-bold">Deskripsi: </label>
+          <input type="text" name="description" placeholder="Deskripsi" value={formData.description} onChange={handleInputChange} className="p-2 border rounded col-span-1 md:col-span-2" />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="" className=" font-bold">Harga: </label>
+          <input type="number" name="price" placeholder="Harga" value={formData.price} onChange={handleInputChange} className="p-2 border rounded" required />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="" className=" font-bold">Harga Diskon: </label>
+        <input type="number" name="discountPrice" placeholder="Harga Diskon (opsional)" value={formData.discountPrice} onChange={handleInputChange} className="p-2 border rounded" />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="" className=" font-bold">Gambar: </label>
+        <input type="file" name="image" onChange={handleFileChange} className="p-2 border rounded col-span-1 md:col-span-2" accept="image/*" />
+        </div>
       </div>
       <div className="flex justify-end space-x-2 mt-4">
-        <button
-          type="button"
-          onClick={onCancel}
-          className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-        >
+        <button type="button" onClick={onCancel} className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
           Batal
         </button>
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-blue-300"
-        >
+        <button type="submit" disabled={isSubmitting} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-blue-300">
           {isSubmitting ? "Menyimpan..." : "Simpan Perubahan"}
         </button>
       </div>
@@ -127,23 +85,17 @@ const TestPackage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
-  const [error, setError] = useState(null);
   const [editingPackage, setEditingPackage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [actionError, setActionError] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const fetchTestPackages = async () => {
     setIsLoading(true);
-    setError(null);
     try {
       const response = await getAllTestPackages();
       setTestPackages(response.data || []);
     } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          err.message ||
-          "Failed to fetch test packages."
-      );
+      Swal.fire("Gagal", err?.response?.data?.message || "Gagal mengambil data.", "error");
     } finally {
       setIsLoading(false);
     }
@@ -153,50 +105,25 @@ const TestPackage = () => {
     fetchTestPackages();
   }, []);
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-
-  const handleUpload = async () => {
-    if (!file) {
-      setError("Please select a file to upload.");
-      return;
-    }
-    setIsUploading(true);
-    setError(null);
-    try {
-      await createTestPackage({ file });
-      await fetchTestPackages();
-      setFile(null);
-      document.getElementById("file-input").value = null;
-    } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          err.message ||
-          "An error occurred during file upload."
-      );
-    } finally {
-      setIsUploading(false);
-    }
-  };
-
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this test package?")) {
-      return;
-    }
+    const result = await Swal.fire({
+      title: "Yakin hapus?",
+      text: "Tindakan ini tidak dapat dibatalkan!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Ya, hapus!",
+    });
+    if (!result.isConfirmed) return;
+
     setDeletingId(id);
-    setError(null);
     try {
       await deleteTestPackage(id);
-      setTestPackages((currentPackages) =>
-        currentPackages.filter((pkg) => pkg.id !== id)
-      );
+      setTestPackages((current) => current.filter((pkg) => pkg.id !== id));
+      Swal.fire("Berhasil", "Data berhasil dihapus", "success");
     } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          err.message ||
-          "Failed to delete test package."
-      );
+      Swal.fire("Gagal", err?.response?.data?.message || "Gagal menghapus.", "error");
     } finally {
       setDeletingId(null);
     }
@@ -206,33 +133,29 @@ const TestPackage = () => {
     try {
       const response = await getTestPackageById(pkg.id);
       setEditingPackage(response.data);
+      setIsEditModalOpen(true);
     } catch (err) {
-      setActionError(
-        err.response?.data?.message || "Failed to fetch package details."
-      );
+      Swal.fire("Gagal", err?.response?.data?.message || "Gagal mengambil detail.", "error");
     }
   };
 
   const handleUpdateSubmit = async (formData) => {
     setIsSubmitting(true);
-    setActionError(null);
     try {
       const payload = new FormData();
       payload.append("name", formData.name);
       payload.append("description", formData.description);
       payload.append("price", formData.price);
       payload.append("discountPrice", formData.discountPrice);
-      if (formData.image) {
-        payload.append("image", formData.image);
-      }
+      if (formData.image) payload.append("image", formData.image);
 
       await updateTestPackage(editingPackage.id, payload);
       setEditingPackage(null);
+      setIsEditModalOpen(false);
       await fetchTestPackages();
+      Swal.fire("Berhasil", "Data berhasil diperbarui", "success");
     } catch (err) {
-      setActionError(
-        err.response?.data?.message || "Failed to update test package."
-      );
+      Swal.fire("Gagal", err?.response?.data?.message || "Gagal memperbarui.", "error");
     } finally {
       setIsSubmitting(false);
     }
@@ -240,81 +163,14 @@ const TestPackage = () => {
 
   const handleCancel = () => {
     setEditingPackage(null);
-    setActionError(null);
-  };
-
-  const handleDownloadTemplate = async () => {
-    try {
-      const blob = await downloadPackageTemplate();
-      const url = window.URL.createObjectURL(new Blob([blob]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "test-package-template.xlsx");
-      document.body.appendChild(link);
-      link.click();
-      link.parentNode.removeChild(link);
-    } catch (error) {
-      setError("Failed to download template.");
-    }
+    setIsEditModalOpen(false);
   };
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Test Package Dashboard</h1>
 
-      {error && (
-        <div
-          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
-          role="alert"
-        >
-          {error}
-        </div>
-      )}
-
-      {actionError && (
-        <div className="mb-4 text-center text-red-500 bg-red-100 p-2 rounded">
-          {actionError}
-        </div>
-      )}
-
-      {!editingPackage && (
-        <div className="mb-6 p-4 border rounded shadow-sm bg-white">
-          <h2 className="text-xl font-semibold mb-2">
-            Upload Test Package (Excel)
-          </h2>
-          <input
-            id="file-input"
-            type="file"
-            onChange={handleFileChange}
-            className="mb-2"
-            accept=".xlsx, .xls"
-          />
-          <button
-            onClick={handleUpload}
-            disabled={isUploading || !file}
-            className="bg-blue-500 text-white px-4 py-2 rounded disabled:bg-gray-400"
-          >
-            {isUploading ? "Uploading..." : "Upload"}
-          </button>
-          <button
-            onClick={handleDownloadTemplate}
-            className="bg-green-500 text-white px-4 py-2 rounded ml-2"
-          >
-            Download Template
-          </button>
-        </div>
-      )}
-
-      {editingPackage && (
-        <TestPackageForm
-          onSubmit={handleUpdateSubmit}
-          onCancel={handleCancel}
-          isSubmitting={isSubmitting}
-          initialData={editingPackage}
-        />
-      )}
-
-      <div className="p-4 rounded  ">
+      <div className="p-4 rounded">
         <h2 className="text-xl font-semibold mb-2">Available Test Packages</h2>
         {isLoading ? (
           <p>Loading packages...</p>
@@ -333,24 +189,12 @@ const TestPackage = () => {
                 <tr key={pkg.id} className="hover:bg-gray-50">
                   <td className="py-2 px-4 border-b">{pkg.name}</td>
                   <td className="py-2 px-4 border-b">{pkg.description}</td>
+                  <td className="py-2 px-4 border-b">{pkg.price}</td>
                   <td className="py-2 px-4 border-b">
-                    {new Intl.NumberFormat("id-ID", {
-                      style: "currency",
-                      currency: "IDR",
-                    }).format(pkg.price)}
-                  </td>
-                  <td className="py-2 px-4 border-b">
-                    <button
-                      onClick={() => handleEditClick(pkg)}
-                      className="bg-yellow-500 text-white px-3 py-1 rounded disabled:bg-gray-400 mr-2"
-                    >
+                    <button onClick={() => handleEditClick(pkg)} className="bg-yellow-500 text-white px-3 py-1 rounded mr-2">
                       Edit
                     </button>
-                    <button
-                      onClick={() => handleDelete(pkg.id)}
-                      disabled={deletingId === pkg.id}
-                      className="bg-red-500 text-white px-3 py-1 rounded disabled:bg-gray-400"
-                    >
+                    <button onClick={() => handleDelete(pkg.id)} disabled={deletingId === pkg.id} className="bg-red-500 text-white px-3 py-1 rounded">
                       {deletingId === pkg.id ? "Menghapus..." : "Hapus"}
                     </button>
                   </td>
@@ -362,6 +206,16 @@ const TestPackage = () => {
           <p className="text-gray-500">No test packages found.</p>
         )}
       </div>
+
+      <Dialog open={isEditModalOpen} onClose={handleCancel} className="relative z-50">
+        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+        <div className="fixed inset-0 flex items-center justify-center p-4">
+          <Dialog.Panel className="bg-white max-w-2xl w-full p-6 rounded shadow-lg">
+            <Dialog.Title className="text-xl font-bold mb-4">Edit Test Package</Dialog.Title>
+            <TestPackageForm onSubmit={handleUpdateSubmit} onCancel={handleCancel} isSubmitting={isSubmitting} initialData={editingPackage} />
+          </Dialog.Panel>
+        </div>
+      </Dialog>
     </div>
   );
 };
