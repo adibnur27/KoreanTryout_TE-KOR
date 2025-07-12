@@ -135,7 +135,7 @@ import { ScrollToTop } from "../../components/ScrollToTop";
               </div>
               <div>
                 <p className="mt-4 mb-2 font-extrabold font-montserrat">Pilih Try-out atau Game</p>
-                <p className="font-opensans">Pilih Try-out sesuai kebutuhanmu dan pilih game yang super seru</p>
+                <p className="font-opensans">Pilih Try-out sesuai kebutuhanmu dan pilih permainan yang super seru</p>
               </div>
             </div>
             <div className="h-10 mt-12 mx-5 hidden md:block lg:block">

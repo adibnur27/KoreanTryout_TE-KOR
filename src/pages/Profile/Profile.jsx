@@ -118,7 +118,7 @@ const ProfilePage = () => {
           </div>
         </div>
         <div className="mt-2 w-min mx-auto">
-          <Button onClick={handleLogout} children="Logout" width="150px" />
+          <Button onClick={handleLogout} children="Keluar" width="150px" />
         </div>
       </div>
 

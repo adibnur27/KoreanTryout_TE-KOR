@@ -32,7 +32,7 @@ const Games = () => {
         
         
         <div className="max-w-4xl mx-auto pt-20">
-          <ProductCard title="Game Balik Kartu" subtitle="Tebak kata dan balikkkan kartunya. Permainan yang seru dan membuat kamu menghafal kosa kata satu persatu" buttonText="Mulai" onButtonClick={() => navigate('/flipCard')}>
+          <ProductCard title="Permainan Balik Kartu" subtitle="Tebak kata dan balikkkan kartunya. Permainan yang seru dan membuat kamu menghafal kosa kata satu persatu" buttonText="Mulai" onButtonClick={() => navigate('/flipCard')}>
             <div className="flex gap-10">
               {items.map((item, i) => (
                 <div key={i}>
