@@ -278,7 +278,7 @@ const TestPackage = () => {
       )}
 
       {!editingPackage && (
-        <div className="mb-6 p-4 border rounded shadow-sm">
+        <div className="mb-6 p-4 border rounded shadow-sm bg-white">
           <h2 className="text-xl font-semibold mb-2">
             Upload Test Package (Excel)
           </h2>
@@ -314,7 +314,7 @@ const TestPackage = () => {
         />
       )}
 
-      <div className="p-4 border rounded shadow-sm">
+      <div className="p-4 rounded  ">
         <h2 className="text-xl font-semibold mb-2">Available Test Packages</h2>
         {isLoading ? (
           <p>Loading packages...</p>
