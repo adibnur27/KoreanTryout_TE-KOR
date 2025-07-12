@@ -1,4 +1,3 @@
-
 import axiosInstance from "../utils/axiosInstance";
 
 export const uploadVocabularies = async (file) => {
@@ -11,7 +10,6 @@ export const uploadVocabularies = async (file) => {
   });
   return response.data;
 };
-
 
 export const fetchVocabCategories = async () => {
   const response = await axiosInstance.get("/vocabularies/categories");
@@ -34,8 +32,14 @@ export const fetchVocabulariesByCategory = async (categoryName, page = 0, size =
   return res.data.data; // format: { content: [...], totalPages, number, ... }
 };
 
-
 export const deleteVocabulary = async (vocabularyId) => {
   const response = await axiosInstance.delete(`/vocabularies/${vocabularyId}`);
+  return response.data;
+};
+
+export const downloadVocabulariesTemplate = async () => {
+  const response = await axiosInstance.get('/download/vocabularies-template', {
+    responseType: 'blob',
+  });
   return response.data;
 };
