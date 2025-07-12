@@ -73,7 +73,7 @@ const UserDetails = () => {
           <p>Data tidak tersedia</p>
         )}
         <button onClick={openModal} className="mt-6 w-max px-4 py-2 bg-kr-blue text-white rounded hover:bg-blue-700">
-          Edit Profile
+          Edit Profil
         </button>
         {isModalOpen && (
           <Dialog open={isModalOpen} onClose={closeModal} className="fixed z-50 inset-0 overflow-y-auto">

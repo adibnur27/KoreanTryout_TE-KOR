@@ -88,17 +88,17 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex gap-6 items-center font-opensans">
-          <NavLink to="/" className={navItemStyle}>HOME</NavLink>
+          <NavLink to="/" className={navItemStyle}>BERANDA</NavLink>
           <span>|</span>
           <NavLink to="/tryouts" className={navItemStyle}>TRYOUT</NavLink>
           <span>|</span>
           <NavLink to="/Mytryouts" className={navItemStyle}>TRYOUT SAYA</NavLink>
           <span>|</span>
-          <NavLink to="/games" className={navItemStyle}>GAMES</NavLink>
+          <NavLink to="/games" className={navItemStyle}>PERMAINAN</NavLink>
           <span className="me-6" />
           {user ? renderProfileIcon() : (
             <NavLink to="/login">
-              <Button children={"Login"} width={"100px"} paddingBottom={"5px"} />
+              <Button children={"Masuk"} width={"100px"} paddingBottom={"5px"} />
             </NavLink>
           )}
         </div>
@@ -107,10 +107,10 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden flex flex-col items-start gap-4 bg-white  px-6 pt-4 pb-6 mt-16 absolute top-0 left-0 right-0 z-0 font-opensans">
-          <NavLink to="/" className={navItemStyle} onClick={() => setIsMenuOpen(false)}>HOME</NavLink>
+          <NavLink to="/" className={navItemStyle} onClick={() => setIsMenuOpen(false)}>BERANDA</NavLink>
           <NavLink to="/tryouts" className={navItemStyle} onClick={() => setIsMenuOpen(false)}>TRYOUT</NavLink>
           <NavLink to="/Mytryouts" className={navItemStyle} onClick={() => setIsMenuOpen(false)}>TRYOUT SAYA</NavLink>
-          <NavLink to="/games" className={navItemStyle} onClick={() => setIsMenuOpen(false)}>GAMES</NavLink>
+          <NavLink to="/games" className={navItemStyle} onClick={() => setIsMenuOpen(false)}>PERMAINAN</NavLink>
           {user ? renderProfileIcon() : (
             <NavLink to="/login" onClick={() => setIsMenuOpen(false)}>
               <Button children={"Login"} width={"100px"} paddingBottom={"5px"} />

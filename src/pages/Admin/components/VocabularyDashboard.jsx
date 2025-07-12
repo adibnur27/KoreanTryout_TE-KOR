@@ -78,8 +78,7 @@ const VocabularyDashboard = () => {
     setError(null);
     try {
       const res = await fetchVocabulariesByCategory(category.name, page);
-      console.log("API Response:", res); // 👉 debug
-      console.log("Vocabularies:", res.content);
+      
       setVocabularies(res.content);
       setTotalPages(res.totalPages);
     } catch (err) {

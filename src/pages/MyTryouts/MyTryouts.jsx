@@ -169,10 +169,23 @@ const MyTryouts = () => {
               )}
 
               {isModalVisible && selectedTryout && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-                  <div className="bg-white p-6 rounded-lg w-full max-w-md">
+                <div className="fixed top-[-100px] bottom-0 inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+                  <div className="bg-white p-6 rounded-lg w-full max-w-4xl">
                     <h2 className="text-xl font-bold mb-2">{modalType === "start" ? "Mulai Tryout" : "Lanjutkan Tryout"}</h2>
                     <p className="mb-4 text-gray-700">{modalType === "start" ? "Apakah kamu yakin ingin memulai tryout ini sekarang?" : "Kamu akan melanjutkan tryout yang sedang berlangsung."}</p>
+                    <div>
+                      <strong>Harap baca dan patuhi ketentuan Petunjuk Try Out Eps Topik dengan saksama:</strong>
+                      <ul>
+                        <li>1. Ujian ini hanya bisa dikerjakan 1 (satu) kali dan tidak dapat diulang.</li>
+                        <li>2. Format soal dalam bentuk pilihan ganda berisi 20 soal Membaca (읽기 - Ilgi) dan 20 soal Mendengarkan (듣기 - Teutgi)</li>
+                        <li>3. Waktu pengerjaan selama 50 menit, waktu tidak bisa dijeda dan waktu akan terus berjalan. </li>
+                        <li>4. Pastikan koneksi internet Anda stabil </li>
+                        <li>5. Tidak boleh berganti tab atau keluar dari aplikasi, jika terdeteksi keluar dari tab atau aplikasi sebanyak tiga kali, try out akan otomatis tersubmit.</li>
+                        <li>6. Audio di setiap soal Mendengarkan (듣기 - Teutgi) hanya dapat diputar satu kali. </li>
+                        <li>7. Perhatikan waktu yang ditampilkan. Jika waktu habis, pengerjaan try out akan otomatis tersubmit.</li>
+                        <li>8. Hasil try out dapat dilihat di profil riwayat try out. Terima Kasih, Salam Hangat TE-KOR.</li>
+                      </ul>
+                    </div>
                     <p className="mb-4 font-semibold">{selectedTryout.testPackage.name}</p>
 
                     <div className="flex justify-end gap-3">

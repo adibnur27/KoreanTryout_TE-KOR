@@ -194,9 +194,9 @@ const TestPackage = () => {
                     <button onClick={() => handleEditClick(pkg)} className="bg-yellow-500 text-white px-3 py-1 rounded mr-2">
                       Edit
                     </button>
-                    <button onClick={() => handleDelete(pkg.id)} disabled={deletingId === pkg.id} className="bg-red-500 text-white px-3 py-1 rounded">
+                    {/* <button onClick={() => handleDelete(pkg.id)} disabled={deletingId === pkg.id} className="bg-red-500 text-white px-3 py-1 rounded">
                       {deletingId === pkg.id ? "Menghapus..." : "Hapus"}
-                    </button>
+                    </button> */}
                   </td>
                 </tr>
               ))}
