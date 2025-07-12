@@ -52,11 +52,14 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
-      <div className="w-full max-w-md bg-white shadow-md rounded-xl p-8">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Admin Login</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-t from-light-blue  to-light-red px-4">
+      <div className="absolute top-8 text-8xl font-bold text-kr-red z-0 opacity-25">
+          <span className="text-kr-blue">TE</span>-KOR
+        </div>
+      <div className="w-full max-w-md  shadow-md shadow-kr-blue rounded-xl bg-white p-8 z-10">
+        <h2 className="text-2xl font-bold text-center  text-gray-800 mb-6 font-sans">Admin Login</h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 ">
           <div>
             <label className="block text-gray-700 mb-1">Username</label>
             <input type="text" name="username" value={formData.username} onChange={handleChange} className="w-full border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:border-blue-500" required />
