@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Navbar } from "../../components/Navbar";
 import { ProductCard } from "../../components/ProductCard";
 import { Footer } from "../../components/Fotter";
-import { getAllTestPackages } from "../../services/testPackageService";
+import { getAllTestPackagesAndBundle } from "../../services/testPackageService";
 import { LoadingCircle } from "../../components/ui/LoadingCircle";
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +18,7 @@ const Tryouts = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getAllTestPackages()
+    getAllTestPackagesAndBundle()
       .then((res) => {
         if (res?.data) {
           setPackages(res.data); // array of packages

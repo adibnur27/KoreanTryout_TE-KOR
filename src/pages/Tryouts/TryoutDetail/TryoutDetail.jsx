@@ -111,7 +111,7 @@ const TryoutDetail = () => {
         </p>
       </div>
 
-      <div className="max-w-6xl mx-auto mt-5 p-5 justify-between bg-white rounded shadow-md flex gap-10">
+      <div className="max-w-6xl mx-auto my-5 p-5 justify-between bg-white rounded shadow-md flex gap-10">
         <div>
           <h1 className="text-3xl font-bold mt-4">{pkg.name}</h1>
           <p className="text-gray-700 mt-2 mb-10 max-w-2xl">{pkg.description}</p>
@@ -128,9 +128,9 @@ const TryoutDetail = () => {
         <img src={pkg.imageUrl || imgDflt} alt={pkg.name} className="w-1/4 h-1/4 object-cover rounded" />
       </div>
 
-      <div className="max-w-6xl mx-auto mt-5 p-5 bg-white rounded shadow-md">
+      {/* <div className="max-w-6xl mx-auto mt-5 p-5 bg-white rounded shadow-md">
         <p className="text-gray-700 mt-2 mb-10 max-w-2xl">{pkg.description}</p>
-      </div>
+      </div> */}
       <Footer />
     </div>
   );
