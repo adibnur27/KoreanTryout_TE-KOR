@@ -140,6 +140,11 @@ const Login = () => {
               Lupa Password?
             </NavLink>
           </p>
+          <p className="mt-4 text-sm text-right">
+            <NavLink to="/admin" className="text-black hover:underline cursor-pointer">
+              Masuk Sebagai <strong>Admin</strong> 
+            </NavLink>
+          </p>
         </div>
       </div>
     </div>
