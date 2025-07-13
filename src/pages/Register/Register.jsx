@@ -113,7 +113,7 @@ const Register = () => {
                 {...register("fullName")}
                 autoComplete="off"
                 placeholder="FullName"
-                className="w-full border border-kr-blue px-4 py-3 rounded-xl focus:outline-none"
+                className="w-full border border-kr-blue px-4 py-3 rounded-md focus:outline-none"
               />
               {errors.fullName && (
                 <p className="text-red-500 text-sm">
@@ -128,7 +128,7 @@ const Register = () => {
                 {...register("username")}
                 autoComplete="off"
                 placeholder="Username"
-                className="w-full border border-kr-blue px-4 py-3 rounded-xl focus:outline-none"
+                className="w-full border border-kr-blue px-4 py-3 rounded-md focus:outline-none"
               />
               {errors.username && (
                 <p className="text-red-500 text-sm">
@@ -143,7 +143,7 @@ const Register = () => {
                 {...register("email")}
                 autoComplete="off"
                 placeholder="Email"
-                className="w-full border border-kr-blue px-4 py-3 rounded-xl focus:outline-none"
+                className="w-full border border-kr-blue px-4 py-3 rounded-md focus:outline-none"
               />
               {errors.email && (
                 <p className="text-red-500 text-sm">{errors.email.message}</p>

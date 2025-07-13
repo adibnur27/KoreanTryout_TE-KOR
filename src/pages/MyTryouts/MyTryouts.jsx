@@ -36,6 +36,10 @@ const MyTryouts = () => {
             title: "Akses Ditolak",
             text: "Silakan login terlebih dahulu untuk menampilkan tryouts yang kamu miliki.",
             confirmButtonText: "Login",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/login");
+            }
           });
         } else {
           Swal.fire({

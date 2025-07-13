@@ -84,8 +84,8 @@ const Tryouts = () => {
           {/* package trial */}
           {searchQuery === "" && filterType === "all" && (
             <div>
-              <h2 className="text-xl font-semibold mb-4">Coba Simulasi</h2>
-              <ProductCard title="Simulasi Tryout Gratis" subtitle="Tryout ini berisi 10 soal ..." price="Gratis" buttonText="Coba Sekarang" onButtonClick={() => navigate("/cbt-trial")}>
+              <h2 className="text-xl font-semibold mb-4 ">Coba Simulasi</h2>
+              <ProductCard className = "w-full max-w-screen-xl mx-auto bg-gradient-to-r from-red-300 via-white to-white text-black rounded shadow-lg lg:px-10 " title="Simulasi Tryout Gratis" subtitle="Tryout ini berisi 10 soal Membaca dan Mendengarkan" buttonText="Coba Sekarang" onButtonClick={() => navigate("/cbt-trial")}>
                 <img src={coverfreetrial} alt="dummy" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </ProductCard>
             </div>
