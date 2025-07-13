@@ -6,7 +6,6 @@ import Swal from "sweetalert2";
 import { Button } from "../../components/Button";
 import { NavLink, useNavigate } from "react-router-dom";
 import { PixelTransition } from "../../components/ui/PixelTransition";
-import imgLogin from "../../assets/BackgroundLoginAndRegister.svg";
 import { login } from "../../services/authService";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../features/auth/authSlice";
@@ -70,7 +69,7 @@ const Login = () => {
       <div className="flex w-4/5 md:w-3/4 lg:w-2/3 bg-white shadow-lg z-10 shadow-kr-blue rounded-lg overflow-hidden ">
         <div className="w-1/2 hidden md:block h-max">
           <PixelTransition
-            firstContent={<img src={imgLogin} alt="city of Korea" style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
+            firstContent={<img src="/public/BackgroundLoginAndRegister.svg" alt="city of Korea" style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
             secondContent={
               <div
                 style={{

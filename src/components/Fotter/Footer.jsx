@@ -53,7 +53,7 @@ const Footer = () => {
         </div>
         <div className="pt-5 absolute end-32">
           <p className="text-center">available on mobile</p>
-          <img src="/src/assets/mobile.svg" alt="Mobile" className="w-[55%] mx-auto mt-2"/>
+          <img src="/public/mobile.svg" alt="Mobile" className="w-[55%] mx-auto mt-2"/>
           
         </div>
       </div>

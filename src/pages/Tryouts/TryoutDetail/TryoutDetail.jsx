@@ -7,7 +7,6 @@ import { getBundlesById } from "../../../services/bundleService";
 import { Navbar } from "../../../components/Navbar";
 import { Footer } from "../../../components/Fotter";
 import { LoadingCircle } from "../../../components/ui/LoadingCircle";
-import imgDflt from "../../../assets/default-img.png";
 import { Button } from "../../../components/Button";
 import axiosInstance from "../../../utils/axiosInstance";
 
@@ -125,7 +124,7 @@ const TryoutDetail = () => {
             onClick={handleBuy}
           />
         </div>
-        <img src={pkg.imageUrl || imgDflt} alt={pkg.name} className="w-1/4 h-1/4 object-cover rounded" />
+        <img src={pkg.imageUrl || "/public/default-img.png"} alt={pkg.name} className="w-1/4 h-1/4 object-cover rounded" />
       </div>
 
       {/* <div className="max-w-6xl mx-auto mt-5 p-5 bg-white rounded shadow-md">

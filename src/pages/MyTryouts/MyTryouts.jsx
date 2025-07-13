@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { LoadingCircle } from "../../components/ui/LoadingCircle";
 import { ProductCard } from "../../components/ProductCard";
 import axiosInstance from "../../utils/axiosInstance";
-import imgDflt from "../../assets/default-img.png";
 import Swal from "sweetalert2";
 import { ScrollToTop } from "../../components/ScrollToTop";
 
@@ -143,7 +142,7 @@ const MyTryouts = () => {
                         buttonText="Mulai"
                         onButtonClick={() => openModal(item, "start")}
                       >
-                        <img src={item.testPackage.imageUrl || imgDflt} alt="paket" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                        <img src={item.testPackage.imageUrl || "/public/default-img.png"} alt="paket" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                       </ProductCard>
                     ))}
                   </div>
