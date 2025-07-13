@@ -46,7 +46,7 @@ const Login = () => {
       navigate("/tryouts");
       Swal.fire({
         icon: "success",
-        title: "Login Berhasil",
+        title: "Berhasil masuk",
         text: "Selamat datang",
         confirmButtonText: "OK",
       });
@@ -55,7 +55,7 @@ const Login = () => {
 
       Swal.fire({
         icon: "error",
-        title: "Login Gagal",
+        title: "Gagal Gagal",
         text: errorMessage.includes("not verified") || errorMessage.includes("belum terverifikasi") ? "Email kamu belum diverifikasi. Cek email kamu untuk aktivasi." : errorMessage,
         confirmButtonText: "OK",
       });
@@ -126,7 +126,7 @@ const Login = () => {
               </button>
               {errors.password && <p className="text-sm text-red-500 mt-1 text-left">{errors.password.message}</p>}
             </div>
-            <Button type="submit" children={"Login"} />
+            <Button type="submit" children={"Masuk"} />
           </form>
 
           <p className="mt-6 text-sm text-black text-center">
