@@ -55,7 +55,7 @@ const Login = () => {
 
       Swal.fire({
         icon: "error",
-        title: "Gagal Gagal",
+        title: "Gagal",
         text: errorMessage.includes("not verified") || errorMessage.includes("belum terverifikasi") ? "Email kamu belum diverifikasi. Cek email kamu untuk aktivasi." : errorMessage,
         confirmButtonText: "OK",
       });

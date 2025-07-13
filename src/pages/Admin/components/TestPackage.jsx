@@ -292,21 +292,23 @@ const TestPackage = () => {
           <table className="min-w-full bg-white text-sm">
             <thead className="bg-gray-200">
               <tr>
+                <th className="py-2 px-4 border-b text-left">No</th>
                 <th className="py-2 px-4 border-b text-left">Nama Package</th>
-                <th className="py-2 px-4 border-b text-left">Deskripsi</th>
+                <th className="py-2 px-4 border-b text-left w-1/2">Deskripsi</th>
                 <th className="py-2 px-4 border-b text-left">Harga</th>
                 <th className="py-2 px-4 border-b text-left">Harga Diskon</th>
                 <th className="py-2 px-4 border-b text-left">Aksi</th>
               </tr>
             </thead>
             <tbody>
-              {testPackages.map((pkg) => (
+              {testPackages.map((pkg,i) => (
                 <tr key={pkg.id} className="hover:bg-gray-50">
-                  <td className="py-2 px-4 border-b">{pkg.name}</td>
-                  <td className="py-2 px-4 border-b">{pkg.description}</td>
-                  <td className="py-2 px-4 border-b">{pkg.price}</td>
-                  <td className="py-2 px-4 border-b">{pkg.discountPrice}</td>
-                  <td className="py-2 px-4 border-b">
+                  <td className="py-2 px-4 border-b border-e">{++i}</td>
+                  <td className="py-2 px-4 border-b border-e">{pkg.name}</td>
+                  <td className="py-2 px-4 border-b border-e">{pkg.description}</td>
+                  <td className="py-2 px-4 border-b border-e">Rp. {pkg.price}</td>
+                  <td className="py-2 px-4 border-b border-e">Rp. {pkg.discountPrice}</td>
+                  <td className="py-2 px-4 border-b border-e">
                     <button
                       onClick={() => handleEditClick(pkg)}
                       className="bg-yellow-500 text-white px-3 py-1 rounded mr-2"

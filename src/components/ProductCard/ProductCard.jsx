@@ -9,9 +9,10 @@ const ProductCard = ({
   buttonText,
   onButtonClick,
   children,
+  className = "w-full max-w-screen-xl mx-auto bg-white text-black rounded shadow lg:px-10 mt-5",
 }) => {
   return (
-    <div className="w-full max-w-screen-xl mx-auto bg-white text-black rounded shadow lg:px-10 mt-5">
+    <div className={className}>
       <div className="flex flex-col lg:flex-row items-center justify-between lg:gap-20">
         {/* Kiri */}
         <div className="text-center lg:text-left flex-1 my-5 font-opensans">

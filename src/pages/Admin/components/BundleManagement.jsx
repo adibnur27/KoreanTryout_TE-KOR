@@ -416,6 +416,7 @@ const BundleTable = ({ bundles, onEdit, onDelete }) => {
       <table className="min-w-full table-auto  border rounded shadow-sm">
         <thead className="bg-kr-blue">
           <tr className="text-left text-white">
+            <th className="p-3 border ">No</th>
             <th className="p-3 border ">Nama</th>
             <th className="p-3 border ">Deskripsi</th>
             <th className="p-3 border ">Harga</th>
@@ -424,10 +425,11 @@ const BundleTable = ({ bundles, onEdit, onDelete }) => {
           </tr>
         </thead>
         <tbody>
-          {bundles.map((bundle) => (
+          {bundles.map((bundle,i) => (
             <tr key={bundle.id} className="bg-gray-50">
+              <td className="p-3 border ">{++i}</td>
               <td className="p-3 border ">{bundle.name}</td>
-              <td className="p-3 border ">{bundle.description}</td>
+              <td className="p-3 border w-1/2">{bundle.description}</td>
               <td className="p-3 border ">
                 Rp {Number(bundle.price).toLocaleString("id-ID")}
               </td>

@@ -128,17 +128,17 @@ const FlipCard = () => {
             disabled={currentPage === 0}
             className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300"
           >
-            Prev
+            Sebelumnya
           </button>
           <span className="font-semibold text-lg">
-            Page {currentPage + 1} of {totalPages}
+            Halaman {currentPage + 1} of {totalPages}
           </span>
           <button
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))}
             disabled={currentPage + 1 >= totalPages}
             className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300"
           >
-            Next
+            Selanjutnya
           </button>
         </div>
       )}
