@@ -132,7 +132,7 @@ const MyTryoutDetail = () => {
           />
         </div>
         <img
-          src={pkg.imageUrl || "/public/default-img.png"}
+          src={pkg.imageUrl || "/default-img.png"}
           alt={pkg.name}
           className="w-1/4 h-1/4 object-cover rounded"
         />

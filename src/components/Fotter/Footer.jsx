@@ -48,12 +48,12 @@ const Footer = () => {
           <p className="text-center mb-2 mt-3">Built with care by <span className="font-semibold">AHERA</span> Team</p>
           <div className="lg:flex md:flex gap-4 justify-center">
             <p className="h-fit text-center items-center mt-2">Supported By</p>
-            <img src="/src/assets/partner.svg" alt="partner" className="w-[35%]" />
+            <img src="/partner.svg" alt="partner" className="w-[35%]" />
           </div>
         </div>
         <div className="pt-5 absolute end-32">
           <p className="text-center">available on mobile</p>
-          <img src="/public/mobile.svg" alt="Mobile" className="w-[55%] mx-auto mt-2"/>
+          <img src="/mobile.svg" alt="Mobile" className="w-[55%] mx-auto mt-2"/>
           
         </div>
       </div>

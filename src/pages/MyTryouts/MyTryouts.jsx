@@ -142,7 +142,7 @@ const MyTryouts = () => {
                         buttonText="Mulai"
                         onButtonClick={() => openModal(item, "start")}
                       >
-                        <img src={item.testPackage.imageUrl || "/public/default-img.png"} alt="paket" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                        <img src={item.testPackage.imageUrl || "/default-img.png"} alt="paket" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                       </ProductCard>
                     ))}
                   </div>

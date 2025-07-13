@@ -124,7 +124,7 @@ const TryoutDetail = () => {
             onClick={handleBuy}
           />
         </div>
-        <img src={pkg.imageUrl || "/public/default-img.png"} alt={pkg.name} className="w-1/4 h-1/4 object-cover rounded" />
+        <img src={pkg.imageUrl || "/default-img.png"} alt={pkg.name} className="w-1/4 h-1/4 object-cover rounded" />
       </div>
 
       {/* <div className="max-w-6xl mx-auto mt-5 p-5 bg-white rounded shadow-md">

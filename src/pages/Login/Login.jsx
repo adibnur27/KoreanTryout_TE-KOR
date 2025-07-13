@@ -69,7 +69,7 @@ const Login = () => {
       <div className="flex w-4/5 md:w-3/4 lg:w-2/3 bg-white shadow-lg z-10 shadow-kr-blue rounded-lg overflow-hidden ">
         <div className="w-1/2 hidden md:block h-max">
           <PixelTransition
-            firstContent={<img src="/public/BackgroundLoginAndRegister.svg" alt="city of Korea" style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
+            firstContent={<img src="/BackgroundLoginAndRegister.svg" alt="city of Korea" style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
             secondContent={
               <div
                 style={{
@@ -139,11 +139,7 @@ const Login = () => {
               Lupa Password?
             </NavLink>
           </p>
-          <p className="mt-4 text-sm text-right">
-            <NavLink to="/admin" className="text-black hover:underline cursor-pointer">
-              Masuk Sebagai <strong>Admin</strong> 
-            </NavLink>
-          </p>
+          
         </div>
       </div>
     </div>

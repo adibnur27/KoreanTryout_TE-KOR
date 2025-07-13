@@ -257,7 +257,7 @@ const Register = () => {
           <PixelTransition
             firstContent={
               <img
-                src="/public/BackgroundLoginAndRegister.svg"
+                src="/BackgroundLoginAndRegister.svg"
                 alt="city of Korea"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
