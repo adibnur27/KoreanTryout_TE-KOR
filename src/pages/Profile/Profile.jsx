@@ -23,12 +23,12 @@ const ProfilePage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log("User from Redux:", user);
+    
     const fetchProfile = async () => {
       try {
         setLoading(true);
         const profileData = await getProfile();
-        console.log("dari profile", profileData);
+        
 
         const transformedProfile = {
           fullName: profileData.fullName,
@@ -36,7 +36,7 @@ const ProfilePage = () => {
           imageUrl: profileData.imageUrl,
         };
 
-        console.log("dari profile", transformedProfile.imageUrl);
+        
 
         dispatch(setUser(transformedProfile));
         saveUser(transformedProfile);

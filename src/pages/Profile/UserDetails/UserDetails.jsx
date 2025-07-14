@@ -30,7 +30,7 @@ const UserDetails = () => {
         setLoading(true);
         const profileData = await getProfile();
         setProfile(profileData);
-        console.log("profile:", profileData); // simpan ke state lokal
+        
         setError(null);
       } catch (err) {
         setError("Gagal memuat profil. Silakan coba lagi.");

@@ -6,7 +6,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { register as registerUser } from "../../services/authService";
 import { PixelTransition } from "../../components/ui/PixelTransition";
-import imgLogin from "../../assets/BackgroundLoginAndRegister.svg";
 import { LoadingCircle } from "../../components/ui/LoadingCircle";
 import Swal from "sweetalert2";
 
@@ -258,7 +257,7 @@ const Register = () => {
           <PixelTransition
             firstContent={
               <img
-                src={imgLogin}
+                src="/BackgroundLoginAndRegister.svg"
                 alt="city of Korea"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />

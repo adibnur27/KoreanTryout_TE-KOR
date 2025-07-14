@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Navbar } from "../../components/Navbar";
 import { Footer } from "../../components/Fotter";
 import { useNavigate } from "react-router-dom";
-import { LoadingCircle } from "../../components/ui/LoadingCircle";
 import { ProductCard } from "../../components/ProductCard";
 import axiosInstance from "../../utils/axiosInstance";
-import imgDflt from "../../assets/default-img.png";
 import Swal from "sweetalert2";
 import { ScrollToTop } from "../../components/ScrollToTop";
 
@@ -28,7 +26,7 @@ const MyTryouts = () => {
         const data = res.data.data;
         setReadyToStart(data.readyToStart || []);
         setInProgress(data.inProgress || []);
-        console.log(data);
+        
       } catch (error) {
         if (error.response?.status === 403) {
           Swal.fire({
@@ -143,7 +141,7 @@ const MyTryouts = () => {
                         buttonText="Mulai"
                         onButtonClick={() => openModal(item, "start")}
                       >
-                        <img src={item.testPackage.imageUrl || imgDflt} alt="paket" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                        <img src={item.testPackage.imageUrl || "/default-img.png"} alt="paket" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                       </ProductCard>
                     ))}
                   </div>
